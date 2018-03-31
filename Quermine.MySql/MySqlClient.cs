@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,14 +12,18 @@ namespace Quermine.MySql
 {
 	public class MySqlClient : DbClient
 	{
+		MySqlConnectionInfo connectionInfo;
 		MySqlConnection conn;
 
-		internal MySqlClient(string connectionString)
+		internal MySqlClient(MySqlConnectionInfo connectionInfo)
 		{
-			conn = new MySqlConnection(connectionString);
+			this.connectionInfo = connectionInfo;
+			conn = new MySqlConnection(connectionInfo.ConnectionString);
 		}
 
 		public override ConnectionState State => conn.State;
+
+		internal override QueryBuilder Builder => new MysqlQueryBuilder();
 
 		public override void Dispose()
 		{
@@ -114,6 +119,17 @@ namespace Quermine.MySql
 				cmd.Parameters.Add(new MySqlParameter(param.Key, param.Value));
 			}
 			return cmd;
+		}
+
+		public override async Task<List<string>> GetTableNames()
+		{
+			Query query = MySql.Select("table_name")
+								.From("information_schema.tables")
+								.Where("table_schema", connectionInfo.Database);
+
+			ResultSet tables = await Execute(query);
+
+			return tables.Select(row => row.GetString("table_name")).ToList();
 		}
 	}
 }

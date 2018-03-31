@@ -8,8 +8,8 @@ These abstractions aren't always free however, you cannot use the chain query bu
 
 The goals of this library are:
 
-- Providing a uniform plug n' play solution for dealing with your database in an object-oriented way.
-- Building your queries in a LINQ-like chaining manner, instead of with messy string injections and appendages.
+- To provide a uniform plug n' play solution for dealing with your database in an object-oriented way.
+- To build your queries in a LINQ-like chaining manner, instead of with messy string injections and appendages.
 - Query-free integration with relational databases for the everyday simple object-oriented cases.
 - Painless extension for additional DBMS connectors and syntaxes.
 
@@ -83,6 +83,22 @@ else
     foreach (NonQueryResult r in result)
     {
         // The result of each query in the order they were executed
+    }
+}
+```
+
+### Schemas
+
+```csharp
+List<string> tables = await connection.GetTableNames();
+
+foreach (string table in tables)
+{
+    TableSchema schema = await connection.GetTableSchema(table);
+
+    foreach (TableField field in schema)
+    {
+        ...
     }
 }
 ```

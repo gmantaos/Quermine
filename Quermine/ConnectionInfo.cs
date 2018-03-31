@@ -7,21 +7,21 @@ namespace Quermine
 {
     public abstract class ConnectionInfo<T> where T : DbClient
 	{
-		protected string host;
-		protected string username;
-		protected string password;
-		protected string database;
-		protected int port;
+		public readonly string Host;
+		public readonly string Username;
+		public readonly string Password;
+		public readonly string Database;
+		public readonly int Port;
 
-		protected abstract string ConnectionString { get; }
+		public abstract string ConnectionString { get; }
 
 		internal ConnectionInfo(string host, string username, string password, string database, int port)
 		{
-			this.host = host;
-			this.username = username;
-			this.password = password;
-			this.database = database;
-			this.port = port;
+			this.Host = host;
+			this.Username = username;
+			this.Password = password;
+			this.Database = database;
+			this.Port = port;
 		}
 
 		public abstract Task<bool> TestConnection();

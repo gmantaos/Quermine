@@ -11,10 +11,10 @@ namespace Quermine.MySql
 		public MySqlConnectionInfo(string host, string username, string password, string database, int port = 3306)
 			: base(host, username, password, database, port) { }
 
-		protected override string ConnectionString => string.Format(
+		public override string ConnectionString => string.Format(
 														"UID={0};password={1};Server={2};Port={3};database={4};"
 														+ "connection timeout=30;charset=utf8",
-														username, password, host, port, database
+														Username, Password, Host, Port, Database
 													);
 
 		public override async Task<MySqlClient> Connect()
