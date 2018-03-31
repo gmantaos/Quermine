@@ -41,7 +41,27 @@ namespace Quermine
 		/// <summary>
 		/// LIKE
 		/// </summary>
-		Like
+		Like,
+
+		/// <summary>
+		/// EXISTS
+		/// </summary>
+		Exists,
+
+		/// <summary>
+		/// NOT EXISTS
+		/// </summary>
+		NotExists,
+
+		/// <summary>
+		/// IN
+		/// </summary>
+		In,
+
+		/// <summary>
+		/// NOT IN
+		/// </summary>
+		NotIn
 	}
 
 	public enum ColumnCondition

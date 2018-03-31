@@ -39,6 +39,25 @@ namespace Quermine
 		}
 
 		/// <summary>
+		/// A where condition with a sub-query.
+		/// The sub-query needs to be completed and fully parametrized when this constructor is called.
+		/// </summary>
+		/// <param name="column"></param>
+		/// <param name="relation"></param>
+		/// <param name="subQuery"></param>
+		public WhereClause(string column, WhereRelation relation, Query subQuery) : this()
+		{
+			whereClauseString = string.Format("{0} {1} ({2})",
+				column, GetSymbol(relation), subQuery.QueryString
+				);
+
+			foreach (KeyValuePair<string, object> param in subQuery.Parameters())
+			{
+				parameters.Add(param.Key, param.Value);
+			}
+		}
+
+		/// <summary>
 		/// Shortcut to Equals WhereClause
 		/// </summary>
 		/// <param name="column"></param>
@@ -124,6 +143,18 @@ namespace Quermine
 
 				case WhereRelation.Like:
 					return "LIKE";
+
+				case WhereRelation.Exists:
+					return "EXISTS";
+
+				case WhereRelation.NotExists:
+					return "NOT EXISTS";
+
+				case WhereRelation.In:
+					return "IN";
+
+				case WhereRelation.NotIn:
+					return "NOT IN";
 
 				default:
 					throw new ArgumentException("Unknown WHERE operator: " + relation);
