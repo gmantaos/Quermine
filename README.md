@@ -4,7 +4,7 @@
 
 This library offers a significant abstraction over integrating with a relational database in your **.NET** application. What started out as a personal wrapper for convenient async operations and MySql type conversions later became an intuitive query builder and object serializer. With this library you easily connect your classes with your database tables in minutes and without writing a single query.
 
-These abstractions aren't always free however, you cannot use the chain query building and serialization features of this library to create highly efficient queries, with complex join operations. For these cases you are still better off compiling your own. But in every other case, where you simply want to deal database tables as if they were nothing more than classes, fetching, updating and storing them again as you please, then Quermine has you covered.
+These abstractions aren't always free however, you cannot use the chain query building and serialization features of this library to create highly efficient queries, with complex join operations. For these cases you are still better off compiling your own. But in every other case, where you simply want to deal database tables as if they were nothing more than classes, fetching, updating and storing them again as you please, then Quermine has you covered. The goal is to provide you with a uniform plug n' play solution for dealing with your database in an object-oriented way.
 
 ## Usage
 
