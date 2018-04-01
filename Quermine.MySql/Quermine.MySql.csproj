@@ -13,7 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Queerie\Queerie.csproj" />
     <ProjectReference Include="..\Quermine\Quermine.csproj" />
   </ItemGroup>
 

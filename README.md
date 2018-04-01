@@ -33,7 +33,7 @@ You can of course write your own queries, like you normally would. In this case 
 
 ```csharp
 
-Query q = MySql.Query("SELECT * FROM cats WHERE color=@color");
+Query q = Sql.Query("SELECT * FROM cats WHERE color=@color");
 
 q.AddParameter("@color", "orange");
 
@@ -58,7 +58,7 @@ foreach (ResultRow Row in result)
 ### NonQueries
 
 ```csharp
-Query q = MySql.Query("DELETE FROM cats WHERE color='organge'");
+Query q = Sql.Query("DELETE FROM cats WHERE color='organge'");
 
 NonQueryResult result = await connection.ExecuteNonQuery(q);
 
@@ -109,7 +109,7 @@ foreach (string table in tables)
 ### Select
 
 ```csharp
-SelectQuery q = MySql.Select();
+SelectQuery q = Sql.Select();
 
 q.Select("name", "age")
     .From("tableName")
@@ -125,7 +125,7 @@ await connection.Execute(q);
 ### Insert
 
 ```csharp
-InsertQuery q = MySql.Insert("table_name");
+InsertQuery q = Sql.Insert("table_name");
 
 q.Value("user_id", 4)
  .Value("age", 10)
@@ -137,7 +137,7 @@ await connection.ExecuteNonQuery(q);
 ### Delete
 
 ```csharp
-DeleteQuery q = MySql.Delete("table_name");
+DeleteQuery q = Sql.Delete("table_name");
 
 q.Where("id", 2); // Shortcut to Where("id", WhereRelation.Equal, 2)
 
@@ -229,7 +229,7 @@ List<Person> = await connection.Select<Person>();
 
 Or if you want to add parameters...
 ```csharp
-SelectQuery<Person> q = MySql.Select<Person>();
+SelectQuery<Person> q = Sql.Select<Person>();
 
 q.Where("name", Comparison.Equals, "John");
 

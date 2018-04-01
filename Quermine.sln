@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quermine", "Quermine\Quermi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quermine.MySql", "Quermine.MySql\Quermine.MySql.csproj", "{0E68FA49-D560-4C8C-9922-9521841527DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quermine.Tests", "Quermine.Tests\Quermine.Tests.csproj", "{949435D9-D81B-4E06-8D98-C09EDE50A167}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0E68FA49-D560-4C8C-9922-9521841527DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E68FA49-D560-4C8C-9922-9521841527DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E68FA49-D560-4C8C-9922-9521841527DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{949435D9-D81B-4E06-8D98-C09EDE50A167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{949435D9-D81B-4E06-8D98-C09EDE50A167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{949435D9-D81B-4E06-8D98-C09EDE50A167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{949435D9-D81B-4E06-8D98-C09EDE50A167}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

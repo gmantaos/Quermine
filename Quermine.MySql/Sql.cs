@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Quermine.MySql
 {
-    public static class MySql
+    public static class Sql
     {
 		static MysqlQueryBuilder builder = new MysqlQueryBuilder();
 

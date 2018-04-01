@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Quermine
 {
+	/// <summary>
+	/// Represents a CREATE TABLE query.
+	/// </summary>
 	public class CreateTableQuery : Query
 	{
 		internal string tableName;

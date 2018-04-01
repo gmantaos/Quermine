@@ -19,14 +19,14 @@ namespace Quermine.MySql
 
 		public override async Task<MySqlClient> Connect()
 		{
-			MySqlClient client = new MySqlClient(ConnectionString);
+			MySqlClient client = new MySqlClient(this);
 			await client.OpenAsync();
 			return client;
 		}
 
 		public override async Task<bool> TestConnection()
 		{
-			using (MySqlClient client = new MySqlClient(ConnectionString))
+			using (MySqlClient client = new MySqlClient(this))
 			{
 				await client.OpenAsync();
 				return client.State == ConnectionState.Open;
