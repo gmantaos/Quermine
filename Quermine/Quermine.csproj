@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46;net47;netcoreapp2.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>G. Mantaos</Authors>
+    <Company />
+    <Version>1.0</Version>
+    <PackageIconUrl>https://raw.githubusercontent.com/gmantaos/Quermine/master/Assets/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/gmantaos/Quermine</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gmantaos/Quermine</RepositoryUrl>
+    <Description>A significant abstraction over integrating any relational database into your .NET application, to the point of query-free interactions where your tables are merely classes in your code.</Description>
+    <PackageTags>sql db abstract serialization query mysql</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">

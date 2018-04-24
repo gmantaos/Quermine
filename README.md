@@ -1,6 +1,7 @@
 
 ![logo](Assets/logo.png)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ahda4q6d648ahq99?svg=true)](https://ci.appveyor.com/project/gmantaos/quermine)
 
 This library offers a significant abstraction over integrating with a relational database in your **.NET** application. What started out as a personal wrapper for convenient async operations and MySql type conversions later became an intuitive query builder and object serializer. With this library you easily connect your classes with your database tables in minutes and without writing a single query.
 

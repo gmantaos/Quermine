@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46;net47;netcoreapp2.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0</Version>
+    <Authors>G. Mantaos</Authors>
+    <PackageIconUrl>https://raw.githubusercontent.com/gmantaos/Quermine/master/Assets/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/gmantaos/Quermine</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gmantaos/Quermine</RepositoryUrl>
+    <Description>The MySql adapter of the Quermine library.</Description>
+    <PackageTags>sql db abstract serialization query mysql</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
