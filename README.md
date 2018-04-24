@@ -1,6 +1,8 @@
 
 ![logo](Assets/logo.png)
 
+[![Nuget](https://img.shields.io/nuget/v/Quermine.svg)](https://www.nuget.org/packages/Quermine)
+[![Nuget](https://img.shields.io/nuget/dt/Quermine.svg)](https://www.nuget.org/packages/Quermine)
 [![Build status](https://ci.appveyor.com/api/projects/status/ahda4q6d648ahq99?svg=true)](https://ci.appveyor.com/project/gmantaos/quermine)
 
 This library offers a significant abstraction over integrating with a relational database in your **.NET** application. What started out as a personal wrapper for convenient async operations and MySql type conversions later became an intuitive query builder and object serializer. With this library you easily connect your classes with your database tables in minutes and without writing a single query.
@@ -13,6 +15,16 @@ The goals of this library are:
 - To build your queries in a LINQ-like chaining manner, instead of with messy string injections and appendages.
 - Query-free integration with relational databases for the everyday simple object-oriented cases.
 - Painless extension for additional DBMS connectors and syntaxes.
+
+## Installation
+
+Get the appropriate package from NuGet
+
+- [Quermine.MySql](https://www.nuget.org/packages/Quermine.MySql)
+
+A fair warning though, that during the prerelease phase CI builds of the packages are 
+published without running any tests. That being said though, I've used this code quite extensively 
+on a couple of apps in production - before it were a nuget package - with no significant problems.
 
 ## Usage
 
