@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFrameworks>netstandard2.0;net46;net47;netcoreapp2.0</TargetFrameworks>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Version>1.0</Version>
+	<Authors>G. Mantaos</Authors>
+	<Company>G. Mantaos</Company>
+	<Description>The Sqlite adapter of the Quermine library.</Description>
+	<PackageProjectUrl>https://github.com/gmantaos/Quermine</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/gmantaos/Quermine</RepositoryUrl>
+	<PackageIconUrl>https://raw.githubusercontent.com/gmantaos/Quermine/master/Assets/icon.png</PackageIconUrl>
+	<PackageTags>sql db abstract serialization query sqlite</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Quermine\Quermine.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -24,6 +24,8 @@ artifacts:
   name: NuGet
 - path: Quermine.MySql\**\.nupkg
   name: NuGet
+- path: Quermine.Sqlite\**\.nupkg
+  name: NuGet
 deploy:
 - provider: NuGet
   on:
