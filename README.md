@@ -36,7 +36,7 @@ on a couple of apps in production - before it were a nuget package - with no sig
 
 ## Usage
 
-Simply instantiate the appropriate client for your database type. The following examples will be using MySql, but the usage will be identical to that of the other supported types.
+### MySql
 
 ```csharp
 using Quermine;
@@ -44,13 +44,29 @@ using Quermine.MySql;
 
 MysqlConnectionInfo info = new MysqlConnectionInfo("127.0.0.1", "root", "password", "database");
 
-using (DbClient connection = await info.Connect())
+using (MySqlClient connection = await info.Connect())
 {
     ...
 }
 ```
 
-You can of course write your own queries, like you normally would. In this case you would be taking advantage of the library's wrappers.
+### Sqlite
+
+```csharp
+using Quermine;
+using Quermine.Sqlite;
+
+SqliteConnectionInfo info = new SqliteConnectionInfo("/var/www/mydb.sqlite");
+
+using (SqliteClient connection = await info.Connect())
+{
+    ...
+}
+```
+
+## Queries
+
+The following examples will be using MySql, but the usage will be identical to that of the other supported types. You can of course write your own queries, like you normally would. In this case you would be taking advantage of the library's wrappers.
 
 ```csharp
 
