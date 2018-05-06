@@ -16,13 +16,21 @@ The goals of this library are:
 - Query-free integration with relational databases for the everyday simple object-oriented cases.
 - Painless extension for additional DBMS connectors and syntaxes.
 
+#### Progress
+
+- [x] MySql
+- [x] Sqlite
+- [ ] SQL Server
+- [ ] PostgreSql
+
 ## Installation
 
 Get the appropriate package from NuGet
 
 - [Quermine.MySql](https://www.nuget.org/packages/Quermine.MySql)
+- [Quermine.Sqlite](https://www.nuget.org/packages/Quermine.Sqlite)
 
-A fair warning though, that during the prerelease phase CI builds of the packages are 
+A fair warning though, that during the prerelease phase, CI builds of the packages are 
 published without running any tests. That being said though, I've used this code quite extensively 
 on a couple of apps in production - before it were a nuget package - with no significant problems.
 
@@ -279,4 +287,5 @@ Now john.Age is 10 and john's age in the databse is also 10
 
 ### // TODO
 
-- Support "ON DUPLICATE KEY UPDATE"
+- [ ] Support "ON DUPLICATE KEY UPDATE"
+- [ ] Support for indexes on table schemas

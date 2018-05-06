@@ -96,21 +96,6 @@ namespace Quermine.MySql
 			return new TableSchema(new MysqlResultsetParser(), await Execute(query));
 		}
 
-		public override async Task<List<T>> Execute<T>(SelectQuery<T> query)
-		{
-			ResultSet result = await Execute(query as Query);
-			conn.Dispose();
-
-			List<T> resultObjects = new List<T>();
-
-			foreach (ResultRow row in result)
-			{
-				resultObjects.Add(await query.Deserialize(this, row));
-			}
-
-			return resultObjects;
-		}
-
 		MySqlCommand GetCommand(Query query)
 		{
 			MySqlCommand cmd = new MySqlCommand(query.QueryString);

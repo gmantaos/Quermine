@@ -23,7 +23,19 @@ namespace Quermine
 
 		public abstract Task<NonQueryResult> ExecuteNonQuery(Query query);
 
-		public abstract Task<List<T>> Execute<T>(SelectQuery<T> query) where T : new();
+		public virtual async Task<List<T>> Execute<T>(SelectQuery<T> query) where T : new()
+		{
+			ResultSet result = await Execute(query as Query);
+
+			List<T> resultObjects = new List<T>();
+
+			foreach (ResultRow row in result)
+			{
+				resultObjects.Add(await query.Deserialize(this, row));
+			}
+
+			return resultObjects;
+		}
 
 		public abstract Task<List<NonQueryResult>> ExecuteTransaction(IsolationLevel isolationLevel, params Query[] queries);
 
