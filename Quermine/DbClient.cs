@@ -21,7 +21,38 @@ namespace Quermine
 
 		public abstract Task<ResultSet> Execute(Query query);
 
+		public async Task<ResultSet> Execute(string commandString)
+		{
+			Query query = new Query(Builder, commandString);
+			return await Execute(query);
+		}
+
 		public abstract Task<NonQueryResult> ExecuteNonQuery(Query query);
+
+		public async Task<NonQueryResult> ExecuteNonQuery(string commandString)
+		{
+			Query query = new Query(Builder, commandString);
+			return await ExecuteNonQuery(query);
+		}
+
+		public abstract Task<object> ExecuteScalar(Query query);
+
+		public async Task<object> ExecuteScalar(string commandString)
+		{
+			Query query = new Query(Builder, commandString);
+			return await ExecuteScalar(query);
+		}
+
+		public async Task<T> ExecuteScalar<T>(Query query)
+		{
+			return (T)(await ExecuteScalar(query));
+		}
+
+		public async Task<T> ExecuteScalar<T>(string commandString)
+		{
+			Query query = new Query(Builder, commandString);
+			return (T)(await ExecuteScalar(query));
+		}
 
 		public virtual async Task<List<T>> Execute<T>(SelectQuery<T> query) where T : new()
 		{

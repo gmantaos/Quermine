@@ -116,5 +116,14 @@ namespace Quermine.MySql
 
 			return tables.Select(row => row.GetString("table_name")).ToList();
 		}
+
+		public override async Task<object> ExecuteScalar(Query query)
+		{
+			using (MySqlCommand cmd = GetCommand(query))
+			{
+				cmd.Connection = conn;
+				return await cmd.ExecuteScalarAsync();
+			}
+		}
 	}
 }

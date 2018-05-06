@@ -122,5 +122,14 @@ namespace Quermine.Sqlite
 			}
 			return cmd;
 		}
+
+		public override async Task<object> ExecuteScalar(Query query)
+		{
+			using (SQLiteCommand cmd = GetCommand(query))
+			{
+				cmd.Connection = conn;
+				return await cmd.ExecuteScalarAsync();
+			}
+		}
 	}
 }
