@@ -92,7 +92,11 @@ namespace Quermine.SqlServer
 
 		public override async Task<TableSchema> GetTableSchema(string table)
 		{
-			Query query = Sql.Query(string.Format("describe {0};", table));
+			Query query = Sql.Select("*")
+							 .From("INFORMATION_SCHEMA.COLUMNS")
+							 .Where("TABLE_NAME", table)
+							 .OrderBy("ORDINAL_POSITION");
+
 			return new TableSchema(new SqlServerResultsetParser(), await Execute(query));
 		}
 
@@ -108,9 +112,9 @@ namespace Quermine.SqlServer
 
 		public override async Task<List<string>> GetTableNames()
 		{
-			Query query = Sql.Select("table_name")
-								.From("information_schema.tables")
-								.Where("table_schema", connectionInfo.Database);
+			Query query = Sql.Select("TABLE_NAME")
+			                 .From("INFORMATION_SCHEMA.TABLES")
+							 .Where("TABLE_TYPE", "BASE TABLE");
 
 			ResultSet tables = await Execute(query);
 
