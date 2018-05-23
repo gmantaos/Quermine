@@ -152,7 +152,7 @@ namespace Quermine
 			return query.ToString();
 		}
 
-		string ModifiersQueryPart(Query query, bool lowPriority, bool ignore)
+		protected string ModifiersQueryPart(Query query, bool lowPriority, bool ignore)
 		{
 			StringBuilder str = new StringBuilder();
 
