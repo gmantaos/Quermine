@@ -57,6 +57,12 @@ namespace Quermine
 			return this;
 		}
 
+		public Query Ignore()
+		{
+			ignore = true;
+			return this;
+		}
+
 		public Query Ignore(bool enabled)
 		{
 			ignore = enabled;
@@ -71,6 +77,23 @@ namespace Quermine
 		internal void Row(ResultRow row)
 		{
 			OnRow?.Invoke(this, row);
+		}
+
+		/// <summary>
+		/// This method is for testing purposes only.
+		/// Stay far, far away from it.
+		/// </summary>
+		/// <returns></returns>
+		internal string ParametrizedQueryString()
+		{
+			string str = QueryString;
+
+			foreach (KeyValuePair<string, object> parameter in parameters)
+			{
+				str = str.Replace(parameter.Key, "'" + parameter.Value + "'");
+			}
+
+			return str;
 		}
 	}
 }

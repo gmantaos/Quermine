@@ -29,6 +29,7 @@ Get the appropriate package from NuGet
 
 - [Quermine.MySql](https://www.nuget.org/packages/Quermine.MySql)
 - [Quermine.Sqlite](https://www.nuget.org/packages/Quermine.Sqlite)
+- [Quermine.SqlServer](https://www.nuget.org/packages/Quermine.SqlServer)
 
 A fair warning though, that during the prerelease phase, CI builds of the packages are 
 published without running any tests. That being said though, I've used this code quite extensively 
@@ -95,7 +96,7 @@ foreach (ResultRow row in result)
 ### NonQueries
 
 ```csharp
-Query q = Sql.Query("DELETE FROM cats WHERE color='organge'");
+Query q = Sql.Query("DELETE FROM cats WHERE color='orange'");
 
 NonQueryResult result = await connection.ExecuteNonQuery(q);
 

@@ -10,6 +10,8 @@ namespace Quermine
 	{
 		Sequence columns;
 
+		internal string ColumnSequence => columns.ToString();
+
 		public SelectClause(params string[] columns)
 		{
 			this.columns = new Sequence(columns);

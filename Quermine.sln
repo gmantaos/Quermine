@@ -15,7 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quermine.Sqlite", "Quermine.Sqlite\Quermine.Sqlite.csproj", "{7938E6E9-EF3C-45FC-84D9-A99403AEDA64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quermine.Sqlite", "Quermine.Sqlite\Quermine.Sqlite.csproj", "{7938E6E9-EF3C-45FC-84D9-A99403AEDA64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quermine.SqlServer", "Quermine.SqlServer\Quermine.SqlServer.csproj", "{B2520683-1637-4CFD-AF43-178181433FAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{7938E6E9-EF3C-45FC-84D9-A99403AEDA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7938E6E9-EF3C-45FC-84D9-A99403AEDA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7938E6E9-EF3C-45FC-84D9-A99403AEDA64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2520683-1637-4CFD-AF43-178181433FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2520683-1637-4CFD-AF43-178181433FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2520683-1637-4CFD-AF43-178181433FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2520683-1637-4CFD-AF43-178181433FAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-version: 1.1.{build}
+version: 1.2.{build}
 skip_non_tags: false
 image: Visual Studio 2017
 configuration: Release
@@ -33,13 +33,14 @@ before_build:
     nuget restore
 build:
   verbosity: minimal
-test: off
 artifacts:
 - path: Quermine\**\.nupkg
   name: NuGet
 - path: Quermine.MySql\**\.nupkg
   name: NuGet
 - path: Quermine.Sqlite\**\.nupkg
+  name: NuGet
+- path: Quermine.SqlServer\**\.nupkg
   name: NuGet
 deploy:
 - provider: NuGet
