@@ -39,7 +39,13 @@ namespace Quermine
 			replace = true;
 			return this;
 		}
-		
+
+		public InsertQuery Replace(bool enabled)
+		{
+			replace = enabled;
+			return this;
+		}
+
 		public override string QueryString
 		{
 			get

@@ -53,8 +53,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Syntax.cs" />
+    <Compile Include="MySqlTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerTests.cs" />
+    <Compile Include="TestExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -63,6 +65,14 @@
     <ProjectReference Include="..\Quermine.MySql\Quermine.MySql.csproj">
       <Project>{0e68fa49-d560-4c8c-9922-9521841527dc}</Project>
       <Name>Quermine.MySql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quermine.Sqlite\Quermine.Sqlite.csproj">
+      <Project>{7938e6e9-ef3c-45fc-84d9-a99403aeda64}</Project>
+      <Name>Quermine.Sqlite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quermine.SqlServer\Quermine.SqlServer.csproj">
+      <Project>{b2520683-1637-4cfd-af43-178181433fab}</Project>
+      <Name>Quermine.SqlServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Quermine\Quermine.csproj">
       <Project>{26d72a19-a05d-49d4-a302-8ccd7037b6a8}</Project>

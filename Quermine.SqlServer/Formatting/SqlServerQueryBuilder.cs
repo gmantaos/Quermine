@@ -89,7 +89,8 @@ namespace Quermine.SqlServer
 			}
 
 			// OFFSET
-			if (cond is SelectQuery)
+			if (cond is SelectQuery
+				&& (cond.limit > 0 || (cond as SelectQuery).offset > 0))
 			{
 				/*
 				 * An offset requires SQL Server 2012+
