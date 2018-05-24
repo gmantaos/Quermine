@@ -19,8 +19,6 @@ namespace Quermine.Tests
 				.Where("T1.length", WhereRelation.NotEqual, 4)
 				.OrderBy("T2.name DESC")
 				.Limit(10);
-
-			Console.WriteLine(q.ParametrizedQueryString());
 		}
 	}
 }

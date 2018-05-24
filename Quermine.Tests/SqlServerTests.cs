@@ -106,31 +106,31 @@ namespace Quermine.Tests
 				new object[]
 				{
 					Sql.Update("tname T", "tname T2").Set("T.col1", 123),
-					"UPDATE tname T, tname T2 SET col1 = '123'"
+					"UPDATE tname T, tname T2 SET T.col1 = '123'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Update("tname").Set("col1", 123).Set("col1", "enlo"),
-					"UPDATE tname SET col1 = '123',col2 = 'enlo'"
+					Sql.Update("tname").Set("col1", 123).Set("col2", "enlo"),
+					"UPDATE tname SET col1 = '123', col2 = 'enlo'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Update("tname").Set("col1", 123).Set("col1", "enlo").Limit(12),
-					"UPDATE tname SET col1 = '123',col2 = 'enlo' LIMIT 12"
+					Sql.Update("tname").Set("col1", 123).Set("col2", "enlo").Limit(12),
+					"UPDATE TOP 12 tname SET col1 = '123', col2 = 'enlo'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Update("tname").Set("col1", 123).Set("col1", "enlo").Ignore(),
-					"UPDATE IGNORE tname SET col1 = '123',col2 = 'enlo'"
+					Sql.Update("tname").Set("col1", 123).Set("col2", "enlo").Ignore(),
+					"UPDATE IGNORE tname SET col1 = '123', col2 = 'enlo'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Update("tname").Set("col1", 123).Set("col1", "enlo").Limit(12).Ignore(),
-					"UPDATE IGNORE tname SET col1 = '123',col2 = 'enlo' LIMIT 12"
+					Sql.Update("tname").Set("col1", 123).Set("col2", "enlo").Limit(12).Ignore(),
+					"UPDATE TOP 12 IGNORE tname SET col1 = '123', col2 = 'enlo'"
 				};
 		}
 
