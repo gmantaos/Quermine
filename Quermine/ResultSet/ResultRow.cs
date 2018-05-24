@@ -32,7 +32,10 @@ namespace Quermine
             }
         }
 
-		public List<string> keys
+		/// <summary>
+		/// Get a list of the column keys in the current ResultSet.
+		/// </summary>
+		public List<string> Fields
 		{
 			get { return fields.Keys.ToList(); }
 		}
@@ -50,9 +53,23 @@ namespace Quermine
 			}
         }
 
+		/// <summary>
+		/// Checks whether the result of the query contains a column matching the specified key.
+		/// Returns true if the key is present, even if its value is NULL.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public bool HasField(string key)
+		{
+			return fields.ContainsKey(key);
+		}
+
         public string GetString(string key)
-        {
-            return this[key]?.ToString();
+		{
+			if (this[key] == null)
+				throw new KeyNotFoundException(key);
+			else
+				return this[key]?.ToString();
         }
         public string GetString(string key, string defaultValue)
         {
@@ -140,6 +157,24 @@ namespace Quermine
             } catch (Exception) { }
             return defaultValue;
         }
+
+		public DateTime GetDateTime(string key)
+		{
+			if (this[key] == null)
+				throw new KeyNotFoundException(key);
+			else
+				return Convert.ToDateTime(this[key]);
+		}
+
+		public DateTime GetDateTime(string key, DateTime defaultValue)
+		{
+			try
+			{
+				defaultValue = GetDateTime(key);
+			}
+			catch (Exception) { }
+			return defaultValue;
+		}
 
 		public Dictionary<string, object> ToDictionary()
 		{

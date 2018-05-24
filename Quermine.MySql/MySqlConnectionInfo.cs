@@ -13,6 +13,8 @@ namespace Quermine.MySql
 		public readonly string Password;
 		public readonly string Database;
 		public readonly int Port;
+
+		Dictionary<string, string> parameters = new Dictionary<string, string>();
 		
 		public MySqlConnectionInfo(string host, string username, string password, string database, int port = 3306)
 		{
@@ -23,11 +25,24 @@ namespace Quermine.MySql
 			Port = port;
 		}
 
-		public override string ConnectionString => string.Format(
-														"UID={0};password={1};Server={2};Port={3};database={4};"
-														+ "connection timeout=30;charset=utf8",
-														Username, Password, Host, Port, Database
-													);
+		public override string ConnectionString
+		{
+			get
+			{
+				StringBuilder str = new StringBuilder(string.Format("UID={0};password={1};Server={2};Port={3};database={4};"
+							+ "connection timeout=30;charset=utf8;",
+							Username, Password, Host, Port, Database
+					)
+				);
+
+				foreach (KeyValuePair<string, string> param in parameters)
+				{
+
+				}
+
+				return str.ToString();
+			}
+		}
 
 		public override async Task<MySqlClient> Connect()
 		{
@@ -43,6 +58,11 @@ namespace Quermine.MySql
 				await client.OpenAsync();
 				return client.State == ConnectionState.Open;
 			}
+		}
+
+		public MySqlConnectionInfo AddParameter(string key, string value)
+		{
+
 		}
 	}
 }

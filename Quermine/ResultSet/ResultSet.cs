@@ -18,6 +18,9 @@ namespace Quermine
         Dictionary<string, Type> schema;
         List<ResultRow> rows;
         
+		/// <summary>
+		/// Get the number of rows returned by the query.
+		/// </summary>
         public int RowCount
         {
             get { return rows.Count; }
@@ -56,6 +59,16 @@ namespace Quermine
 			}
 
 			return rs;
+		}
+
+		/// <summary>
+		/// Checks whether the result of the query contains a column matching the specified key.
+		/// Returns true if the key is present, even if its value is NULL.
+		/// </summary>
+		/// <param name="key"></param>
+		public bool HasField(string key)
+		{
+			return schema.ContainsKey(key);
 		}
 
         public IEnumerator<ResultRow> GetEnumerator()
