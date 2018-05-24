@@ -118,7 +118,7 @@ namespace Quermine.SqlServer
 
 			ResultSet tables = await Execute(query);
 
-			return tables.Select(row => row.GetString("table_name")).ToList();
+			return tables.Select(row => row.GetString("TABLE_NAME")).ToList();
 		}
 
 		public override async Task<object> ExecuteScalar(Query query)

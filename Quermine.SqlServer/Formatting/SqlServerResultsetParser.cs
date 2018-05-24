@@ -20,7 +20,7 @@ namespace Quermine.SqlServer
 				//Unsigned = field.GetString("Type").Split(' ').Contains("unsigned"),
 				//Zerofill = field.GetString("Type").Split(' ').Contains("zerofill"),
 				//AutoIncrement = field.GetString("Extra").Split(' ').Contains("auto_increment"),
-				Length = field.GetInteger("CHARACTER_MAXIMUM_LENGTH")
+				Length = field.GetInteger("CHARACTER_MAXIMUM_LENGTH", 0)
 			};
 
 			return tableField;

@@ -24,7 +24,7 @@ namespace Quermine.SqlServer
 		}
 
 		public override string ConnectionString => string.Format(
-														"User ID={0};Password={1};Data Source=={2},{3};Initial Catalog={4};",
+														"UID={0};Password={1};Server={2},{3};Database={4};",
 														Username, Password, Host, Port, Database
 													);
 
