@@ -86,7 +86,7 @@ q.OnRow += (s, row) => {
 // Or get the whole result set once the query is completed.
 ResultSet result = await connection.Execute(q);
 
-foreach (ResultRow Row in result)
+foreach (ResultRow row in result)
 {
     ...
 }
