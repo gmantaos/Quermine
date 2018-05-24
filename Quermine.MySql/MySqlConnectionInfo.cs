@@ -30,8 +30,7 @@ namespace Quermine.MySql
 			get
 			{
 				StringBuilder str = new StringBuilder(
-					string.Format("UID={0};password={1};Server={2};Port={3};database={4};"
-						+ "connection timeout=30;charset=utf8;",
+					string.Format("UID={0};password={1};Server={2};Port={3};database={4};",
 						Username, Password, Host, Port, Database
 					)
 				);

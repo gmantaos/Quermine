@@ -45,6 +45,10 @@ using Quermine.MySql;
 
 MySqlConnectionInfo info = new MySqlConnectionInfo("127.0.0.1", "root", "password", "database");
 
+// You can also add additional values to the connection string
+info.AddParameter("charset", "utf8")
+    .AddParameter("Allow Zero Datetime", "True");
+
 using (MySqlClient connection = await info.Connect())
 {
     ...
@@ -73,6 +77,9 @@ using Quermine;
 using Quermine.SqlServer;
 
 SqlServerConnectionInfo info = new SqlServerConnectionInfo("127.0.0.1", "root", "password", "database");
+
+// You can also add additional values to the connection string
+info.AddParameter("Integrated Security", "True");
 
 using (SqlServerClient connection = await info.Connect())
 {
