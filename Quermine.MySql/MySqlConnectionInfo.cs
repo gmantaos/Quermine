@@ -14,7 +14,7 @@ namespace Quermine.MySql
 		public readonly string Database;
 		public readonly int Port;
 		
-		public MySqlConnectionInfo(string host, string username, string password, string database, int port)
+		public MySqlConnectionInfo(string host, string username, string password, string database, int port = 3306)
 		{
 			Host = host;
 			Username = username;

@@ -42,7 +42,7 @@ on a couple of apps in production - before it were a nuget package - with no sig
 using Quermine;
 using Quermine.MySql;
 
-MysqlConnectionInfo info = new MysqlConnectionInfo("127.0.0.1", "root", "password", "database");
+MySqlConnectionInfo info = new MySqlConnectionInfo("127.0.0.1", "root", "password", "database");
 
 using (MySqlClient connection = await info.Connect())
 {
