@@ -20,7 +20,7 @@ The goals of this library are:
 
 - [x] MySql
 - [x] Sqlite
-- [ ] SQL Server
+- [x] SQL Server
 - [ ] PostgreSql
 
 ## Installation
@@ -60,6 +60,21 @@ using Quermine.Sqlite;
 SqliteConnectionInfo info = new SqliteConnectionInfo("/var/www/mydb.sqlite");
 
 using (SqliteClient connection = await info.Connect())
+{
+    ...
+}
+```
+
+
+### SQL Server
+
+```csharp
+using Quermine;
+using Quermine.SqlServer;
+
+SqlServerConnectionInfo info = new SqlServerConnectionInfo("127.0.0.1", "root", "password", "database");
+
+using (SqlServerClient connection = await info.Connect())
 {
     ...
 }
