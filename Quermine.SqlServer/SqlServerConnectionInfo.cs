@@ -13,7 +13,9 @@ namespace Quermine.SqlServer
 		public readonly string Password;
 		public readonly string Database;
 		public readonly int Port;
-		
+
+		Dictionary<string, string> parameters = new Dictionary<string, string>();
+
 		public SqlServerConnectionInfo(string host, string username, string password, string database, int port = 1433)
 		{
 			Host = host;
@@ -23,10 +25,25 @@ namespace Quermine.SqlServer
 			Port = port;
 		}
 
-		public override string ConnectionString => string.Format(
-														"UID={0};Password={1};Server={2},{3};Database={4};",
-														Username, Password, Host, Port, Database
-													);
+		public override string ConnectionString
+		{
+			get
+			{
+				StringBuilder str = new StringBuilder(
+					string.Format(
+						"UID={0};Password={1};Server={2},{3};Database={4};",
+						Username, Password, Host, Port, Database
+					)
+				);
+
+				foreach (KeyValuePair<string, string> param in parameters)
+				{
+					str.AppendFormat("{0}={1};", param.Key, param.Value);
+				}
+
+				return str.ToString();
+			}
+		}
 
 		public override async Task<SqlServerClient> Connect()
 		{
@@ -42,6 +59,19 @@ namespace Quermine.SqlServer
 				await client.OpenAsync();
 				return client.State == ConnectionState.Open;
 			}
+		}
+
+		/// <summary>
+		/// Add an additional parameter to the connection string, which will be appended
+		/// in the form of KEY=VALUE;
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public SqlServerConnectionInfo AddParameter(string key, string value)
+		{
+			parameters.Add(key, value);
+			return this;
 		}
 	}
 }

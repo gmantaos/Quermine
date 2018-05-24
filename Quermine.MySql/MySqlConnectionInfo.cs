@@ -29,15 +29,16 @@ namespace Quermine.MySql
 		{
 			get
 			{
-				StringBuilder str = new StringBuilder(string.Format("UID={0};password={1};Server={2};Port={3};database={4};"
-							+ "connection timeout=30;charset=utf8;",
-							Username, Password, Host, Port, Database
+				StringBuilder str = new StringBuilder(
+					string.Format("UID={0};password={1};Server={2};Port={3};database={4};"
+						+ "connection timeout=30;charset=utf8;",
+						Username, Password, Host, Port, Database
 					)
 				);
 
 				foreach (KeyValuePair<string, string> param in parameters)
 				{
-
+					str.AppendFormat("{0}={1};", param.Key, param.Value);
 				}
 
 				return str.ToString();
@@ -60,9 +61,17 @@ namespace Quermine.MySql
 			}
 		}
 
+		/// <summary>
+		/// Add an additional parameter to the connection string, which will be appended
+		/// in the form of KEY=VALUE;
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public MySqlConnectionInfo AddParameter(string key, string value)
 		{
-
+			parameters.Add(key, value);
+			return this;
 		}
 	}
 }

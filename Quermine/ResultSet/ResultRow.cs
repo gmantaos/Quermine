@@ -64,40 +64,67 @@ namespace Quermine
 			return fields.ContainsKey(key);
 		}
 
-        public string GetString(string key)
+		/// <summary>
+		/// Get the value of a column converted to a string.
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public string GetString(string key)
 		{
 			if (this[key] == null)
 				throw new KeyNotFoundException(key);
 			else
 				return this[key]?.ToString();
         }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
         public string GetString(string key, string defaultValue)
         {
             return GetString(key) ?? defaultValue;
         }
-
-        public double GetDouble(string key)
+		
+		/// <summary>
+		/// Get the value of a column converted to a double.
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public double GetDouble(string key)
         {
-            if (this[key] == null)
-                throw new KeyNotFoundException(key);
-            else
-                return Convert.ToDouble(this[key]);
-        }
-        public double GetDouble(string key, double defaultValue)
-        {
-            try
-            {
-                defaultValue = GetDouble(key);
-            } catch(Exception) { }
-            return defaultValue;
+            return Convert.ToDouble(this[key]);
         }
 
-        public int GetInteger(string key)
+
+		/// <summary>
+		/// Get the value of a column converted to a double, returning a default value instead if the original value is NULL.
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public double GetDouble(string key, double defaultValue)
         {
-            if (this[key] == null)
-                throw new KeyNotFoundException(key);
-            else
-                return Convert.ToInt32(this[key]);
+			if (this[key] == null)
+				return defaultValue;
+
+			return GetDouble(key);
+		}
+
+		/// <summary>
+		/// Get the value of a column converted to an integer.
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public int GetInteger(string key)
+        {
+            return Convert.ToInt32(this[key]);
         }
         public int GetInteger(string key, int defaultValue)
         {
@@ -109,7 +136,16 @@ namespace Quermine
             return defaultValue;
         }
 
-        public bool GetBoolean(string key)
+
+		/// <summary>
+		/// Get the value of a column converted to a boolean.
+		/// <para>A numeric database value can be treated as a boolean, with a zero value to be considered false and a positive value to be considered true.</para>
+		/// <para>Throws an ArgumentOutOfRangeException if the value is negative.</para>
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public bool GetBoolean(string key)
         {
             if (this[key] == null)
                 throw new KeyNotFoundException(key);
@@ -158,12 +194,15 @@ namespace Quermine
             return defaultValue;
         }
 
+		/// <summary>
+		/// Get the value of a column converted to a DateTime.
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
 		public DateTime GetDateTime(string key)
 		{
-			if (this[key] == null)
-				throw new KeyNotFoundException(key);
-			else
-				return Convert.ToDateTime(this[key]);
+			return Convert.ToDateTime(this[key]);
 		}
 
 		public DateTime GetDateTime(string key, DateTime defaultValue)
