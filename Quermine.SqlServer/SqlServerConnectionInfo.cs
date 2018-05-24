@@ -14,7 +14,7 @@ namespace Quermine.SqlServer
 		public readonly string Database;
 		public readonly int Port;
 		
-		public SqlServerConnectionInfo(string host, string username, string password, string database, int port)
+		public SqlServerConnectionInfo(string host, string username, string password, string database, int port = 1433)
 		{
 			Host = host;
 			Username = username;

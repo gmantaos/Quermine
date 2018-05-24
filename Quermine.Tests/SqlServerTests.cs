@@ -91,6 +91,49 @@ namespace Quermine.Tests
 				};
 		}
 
+		/*
+		 * UPDATE queries
+		 */
+		public static IEnumerable<object[]> UpdateQueryTestCases()
+		{
+			yield return
+				new object[]
+				{
+					Sql.Update("tname").Set("col1", 123),
+					"UPDATE tname SET col1 = '123'"
+				};
+			yield return
+				new object[]
+				{
+					Sql.Update("tname T", "tname T2").Set("T.col1", 123),
+					"UPDATE tname T, tname T2 SET col1 = '123'"
+				};
+			yield return
+				new object[]
+				{
+					Sql.Update("tname").Set("col1", 123).Set("col1", "enlo"),
+					"UPDATE tname SET col1 = '123',col2 = 'enlo'"
+				};
+			yield return
+				new object[]
+				{
+					Sql.Update("tname").Set("col1", 123).Set("col1", "enlo").Limit(12),
+					"UPDATE tname SET col1 = '123',col2 = 'enlo' LIMIT 12"
+				};
+			yield return
+				new object[]
+				{
+					Sql.Update("tname").Set("col1", 123).Set("col1", "enlo").Ignore(),
+					"UPDATE IGNORE tname SET col1 = '123',col2 = 'enlo'"
+				};
+			yield return
+				new object[]
+				{
+					Sql.Update("tname").Set("col1", 123).Set("col1", "enlo").Limit(12).Ignore(),
+					"UPDATE IGNORE tname SET col1 = '123',col2 = 'enlo' LIMIT 12"
+				};
+		}
+
 		[Test, TestCaseSource("SelectQueryTestCases")]
 		public void SelectQueries(Query query, string expected)
 		{
@@ -99,6 +142,12 @@ namespace Quermine.Tests
 
 		[Test, TestCaseSource("InsertQueryTestCases")]
 		public void InsertQueries(Query query, string expected)
+		{
+			query.AssertEqual(expected);
+		}
+
+		[Test, TestCaseSource("UpdateQueryTestCases")]
+		public void UpdateQueries(Query query, string expected)
 		{
 			query.AssertEqual(expected);
 		}
