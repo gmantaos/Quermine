@@ -14,7 +14,7 @@ namespace Quermine.MySql
 		public readonly string Database;
 		public readonly int Port;
 
-		Dictionary<string, string> parameters = new Dictionary<string, string>();
+		Dictionary<string, object> parameters = new Dictionary<string, object>();
 		
 		public MySqlConnectionInfo(string host, string username, string password, string database, int port = 3306)
 		{
@@ -35,7 +35,7 @@ namespace Quermine.MySql
 					)
 				);
 
-				foreach (KeyValuePair<string, string> param in parameters)
+				foreach (KeyValuePair<string, object> param in parameters)
 				{
 					str.AppendFormat("{0}={1};", param.Key, param.Value);
 				}
@@ -67,7 +67,7 @@ namespace Quermine.MySql
 		/// <param name="key"></param>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		public MySqlConnectionInfo AddParameter(string key, string value)
+		public MySqlConnectionInfo AddParameter(string key, object value)
 		{
 			parameters.Add(key, value);
 			return this;

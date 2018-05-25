@@ -14,7 +14,7 @@ namespace Quermine.SqlServer
 		public readonly string Database;
 		public readonly int Port;
 
-		Dictionary<string, string> parameters = new Dictionary<string, string>();
+		Dictionary<string, object> parameters = new Dictionary<string, object>();
 
 		public SqlServerConnectionInfo(string host, string username, string password, string database, int port = 1433)
 		{
@@ -36,7 +36,7 @@ namespace Quermine.SqlServer
 					)
 				);
 
-				foreach (KeyValuePair<string, string> param in parameters)
+				foreach (KeyValuePair<string, object> param in parameters)
 				{
 					str.AppendFormat("{0}={1};", param.Key, param.Value);
 				}
@@ -68,7 +68,7 @@ namespace Quermine.SqlServer
 		/// <param name="key"></param>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		public SqlServerConnectionInfo AddParameter(string key, string value)
+		public SqlServerConnectionInfo AddParameter(string key, object value)
 		{
 			parameters.Add(key, value);
 			return this;

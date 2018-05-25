@@ -79,12 +79,13 @@ namespace Quermine
         }
 
 		/// <summary>
-		/// 
+		/// Get the value of a column converted to a string, returning a default value instead if the original value is NULL.
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
-        public string GetString(string key, string defaultValue)
+		public string GetString(string key, string defaultValue)
         {
             return GetString(key) ?? defaultValue;
         }
@@ -125,16 +126,21 @@ namespace Quermine
 		public int GetInteger(string key)
         {
             return Convert.ToInt32(this[key]);
-        }
-        public int GetInteger(string key, int defaultValue)
-        {
-            try
-            {
-                defaultValue = GetInteger(key);
-            }
-            catch (Exception) { }
-            return defaultValue;
-        }
+		}
+
+		/// <summary>
+		/// Get the value of a column converted to an integer, returning a default value instead if the original value is NULL.
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="defaultValue"></param>
+		public int GetInteger(string key, int defaultValue)
+		{
+			if (this[key] == null)
+				return defaultValue;
+
+			return GetInteger(key);
+		}
 
 
 		/// <summary>
@@ -185,14 +191,20 @@ namespace Quermine
             throw new ArgumentException("Field is not a boolean type: " + key);
         }
 
-        public bool GetBoolean(string key, bool defaultValue)
-        {
-            try
-            {
-                defaultValue = GetBoolean(key);
-            } catch (Exception) { }
-            return defaultValue;
-        }
+
+		/// <summary>
+		/// Get the value of a column converted to a boolean, returning a default value instead if the original value is NULL.
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="defaultValue"></param>
+		public bool GetBoolean(string key, bool defaultValue)
+		{
+			if (this[key] == null)
+				return defaultValue;
+
+			return GetBoolean(key);
+		}
 
 		/// <summary>
 		/// Get the value of a column converted to a DateTime.
@@ -205,14 +217,18 @@ namespace Quermine
 			return Convert.ToDateTime(this[key]);
 		}
 
+		/// <summary>
+		/// Get the value of a column converted to a DateTime, returning a default value instead if the original value is NULL.
+		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="defaultValue"></param>
 		public DateTime GetDateTime(string key, DateTime defaultValue)
 		{
-			try
-			{
-				defaultValue = GetDateTime(key);
-			}
-			catch (Exception) { }
-			return defaultValue;
+			if (this[key] == null)
+				return defaultValue;
+
+			return GetDateTime(key);
 		}
 
 		public Dictionary<string, object> ToDictionary()
