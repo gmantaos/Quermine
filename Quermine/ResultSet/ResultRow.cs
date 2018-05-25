@@ -72,10 +72,7 @@ namespace Quermine
 		/// <returns></returns>
 		public string GetString(string key)
 		{
-			if (this[key] == null)
-				throw new KeyNotFoundException(key);
-			else
-				return this[key]?.ToString();
+			return this[key]?.ToString();
         }
 
 		/// <summary>
