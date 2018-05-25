@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46;net47;netcoreapp2.0</TargetFrameworks>
@@ -10,14 +10,6 @@
     <RepositoryUrl>https://github.com/gmantaos/Quermine</RepositoryUrl>
     <Description>The MySql adapter of the Quermine library.</Description>
     <PackageTags>sql db abstract serialization query mysql</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Queerie.MySql.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Queerie.MySql.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,5 +39,9 @@
       <Version>6.10.6</Version>
     </PackageReference>
   </ItemGroup>
+
+  <PropertyGroup>
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Quermine.MySql.xml</DocumentationFile>
+  </PropertyGroup>
 
 </Project>

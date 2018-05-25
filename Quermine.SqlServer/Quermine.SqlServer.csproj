@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	<TargetFrameworks>netstandard2.0;net46;net47;netcoreapp2.0</TargetFrameworks>
@@ -13,14 +13,6 @@
 	<PackageTags>sql db abstract serialization query server microsoft</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Quermine.SqlServer.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Quermine.SqlServer.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
   </ItemGroup>
@@ -28,5 +20,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Quermine\Quermine.csproj" />
   </ItemGroup>
+
+  <PropertyGroup>
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Quermine.SqlServer.xml</DocumentationFile>
+  </PropertyGroup>
 
 </Project>
