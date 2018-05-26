@@ -61,12 +61,17 @@ namespace Quermine
 
 		async Task<object> GetMemberValue(MemberInfo member, DbClient conn, ResultRow row)
 		{
+			Type memberType = (member is PropertyInfo) ? (member as PropertyInfo).PropertyType : (member as FieldInfo).FieldType;
+
 			DbField columnAttribute = member.GetCustomAttribute<DbField>(true);
 			DbReference referenceAttribute = member.GetCustomAttribute<DbReference>(true);
 
 			if (columnAttribute != null)
 			{
 				object value = row[columnAttribute.Name ?? member.Name];
+
+				if (memberType == typeof(DateTime))
+					value = row.GetDateTime(columnAttribute.Name ?? member.Name, default(DateTime));
 
 				if (!(value is DBNull))
 				{
@@ -78,20 +83,19 @@ namespace Quermine
 				object value = row[referenceAttribute.Column];
 
 				ReferenceType refType = ReferenceType.Singular;
-				Type type = (member is PropertyInfo) ? (member as PropertyInfo).PropertyType : (member as FieldInfo).FieldType;
 				
-				if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+				if (memberType.IsGenericType && memberType.GetGenericTypeDefinition() == typeof(List<>))
 				{
-					type = type.GetGenericArguments()[0];
+					memberType = memberType.GetGenericArguments()[0];
 					refType = ReferenceType.List;
 				}
-				else if (type.IsArray)
+				else if (memberType.IsArray)
 				{
-					type = type.GetElementType();
+					memberType = memberType.GetElementType();
 					refType = ReferenceType.Array;
 				}
 
-				object result = await (Task<object>)GetNestedMethod().MakeGenericMethod(type).Invoke(
+				object result = await (Task<object>)GetNestedMethod().MakeGenericMethod(memberType).Invoke(
 					this,
 					new object[]
 					{

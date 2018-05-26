@@ -9,7 +9,7 @@ using Quermine.SqlServer;
 namespace Quermine.Tests
 {
 	[TestFixture]
-	public class SqlServerTests
+	public class SqlServerQueryTests
 	{
 		/*
 		 * SELECT queries

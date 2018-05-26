@@ -63,6 +63,9 @@ using Quermine.Sqlite;
 
 SqliteConnectionInfo info = new SqliteConnectionInfo("/var/www/mydb.sqlite");
 
+// Create a new database
+info.Create();
+
 using (SqliteClient connection = await info.Connect())
 {
     ...

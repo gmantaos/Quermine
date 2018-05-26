@@ -204,13 +204,17 @@ namespace Quermine
 		}
 
 		/// <summary>
-		/// Get the value of a column converted to a DateTime.
+		/// Get the value of a column converted to a DateTime. 
+		/// If the field is a string then this method will attempt to parse it.
 		/// <para>Throws a KeyNotFoundException if they key is not found in the result.</para>
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
 		public DateTime GetDateTime(string key)
 		{
+			if (this[key].GetType() == typeof(string))
+				return DateTime.Parse(this[key].ToString());
+
 			return Convert.ToDateTime(this[key]);
 		}
 

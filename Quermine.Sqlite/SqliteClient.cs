@@ -20,6 +20,12 @@ namespace Quermine.Sqlite
 			conn = new SQLiteConnection(connectionInfo.ConnectionString);
 		}
 
+		internal SqliteClient(SqliteConnectionInfo connectionInfo, SQLiteConnection conn)
+		{
+			this.connectionInfo = connectionInfo;
+			this.conn = conn;
+		}
+
 		public override ConnectionState State => conn.State;
 
 		internal override QueryBuilder Builder => new SqliteQueryBuilder();

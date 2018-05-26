@@ -35,5 +35,11 @@ namespace Quermine.Sqlite
 				return client.State == ConnectionState.Open;
 			}
 		}
+
+		public SqliteConnectionInfo Create()
+		{
+			SQLiteConnection.CreateFile(DataSource);
+			return this;
+		}
 	}
 }

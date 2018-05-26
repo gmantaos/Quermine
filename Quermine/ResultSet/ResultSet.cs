@@ -26,6 +26,16 @@ namespace Quermine
             get { return rows.Count; }
         }        
 
+		/// <summary>
+		/// Get a specific row of this result set by its index.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public ResultRow this[int index]
+		{
+			get { return rows[index]; }
+		}
+
         internal ResultSet(DbDataReader reader)
         {
             schema = new Dictionary<string, Type>();
