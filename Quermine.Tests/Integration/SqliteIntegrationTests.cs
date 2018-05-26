@@ -49,7 +49,7 @@ namespace Quermine.Tests
 			Assert.AreEqual(true, await info.TestConnection());
 		}
 
-		[Test]
+		[Test, Order(1)]
 		public async Task SelectAll()
 		{
 			Query query = Sql.Query("SELECT * FROM people");
@@ -71,7 +71,7 @@ namespace Quermine.Tests
 			Assert.AreEqual(DateTime.Parse("2018-05-26 16:23:07"), rs[2].GetDateTime("birthday"));
 		}
 
-		[Test]
+		[Test, Order(2)]
 		public async Task InsertOne()
 		{
 			Query query = Sql.Query("INSERT INTO people (name) VALUES ('Steve')");
@@ -80,6 +80,36 @@ namespace Quermine.Tests
 
 			Assert.AreEqual(4, result.LastInsertedId);
 			Assert.AreEqual(1, result.RowsAffected);
+		}
+
+		[Test, Order(3)]
+		public async Task SelectFour()
+		{
+			Query query = Sql.Query("SELECT * FROM people");
+
+			ResultSet rs = await client.Execute(query);
+
+			Assert.AreEqual(4, rs.RowCount);
+		}
+
+		[Test, Order(4)]
+		public async Task DeleteOne()
+		{
+			Query query = Sql.Delete("people").Where("id", 4);
+
+			NonQueryResult result = await client.ExecuteNonQuery(query);
+			
+			Assert.AreEqual(1, result.RowsAffected);
+		}
+
+		[Test, Order(5)]
+		public async Task SelectThree()
+		{
+			Query query = Sql.Query("SELECT * FROM people");
+
+			ResultSet rs = await client.Execute(query);
+
+			Assert.AreEqual(3, rs.RowCount);
 		}
 	}
 }
