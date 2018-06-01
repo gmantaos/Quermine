@@ -8,72 +8,156 @@ namespace Quermine
 {
     public abstract class DbClient : IDisposable
 	{
+		#region Internal
+
 		internal abstract Task OpenAsync();
 
 		internal abstract QueryBuilder Builder { get; }
+
+		#endregion
+
+		#region Abstract
 
 		/// <summary>
 		/// The current state of the underlying connection of this client.
 		/// </summary>
 		public abstract ConnectionState State { get; }
 
+		/// <summary>
+		/// Close the connection and dispose of the connection object.
+		/// </summary>
 		public abstract void Dispose();
 
+		/// <summary>
+		/// Execute a query asynchronously and get the result.
+		/// </summary>
+		/// <param name="query"></param>
+		/// <returns></returns>
 		public abstract Task<ResultSet> Execute(Query query);
 
+		/// <summary>
+		/// Execute a non-query asynchronously.
+		/// </summary>
+		/// <param name="query"></param>
+		/// <returns></returns>
+		public abstract Task<NonQueryResult> ExecuteNonQuery(Query query);
+
+		/// <summary>
+		/// Execute a scalar query asynchronously and get the returned value.
+		/// </summary>
+		/// <param name="query"></param>
+		/// <returns></returns>
+		public abstract Task<object> ExecuteScalar(Query query);
+
+		/// <summary>
+		/// Execute a transaction asynchronously, one query at a time, in the order that they are passed
+		/// to this method.
+		/// </summary>
+		/// <param name="isolationLevel"></param>
+		/// <param name="queries"></param>
+		/// <returns></returns>
+		public abstract Task<List<NonQueryResult>> ExecuteTransaction(IsolationLevel isolationLevel, params Query[] queries);
+
+		/// <summary>
+		/// Get the schema of a table asynchonously.
+		/// </summary>
+		/// <param name="table"></param>
+		/// <returns></returns>
+		public abstract Task<TableSchema> GetTableSchema(string table);
+
+		/// <summary>
+		/// Asynchronously get a list of the names of all tables in 
+		/// the currently selected database.
+		/// </summary>
+		/// <returns></returns>
+		public abstract Task<List<string>> GetTableNames();
+
+		#endregion
+
+		#region Wrappers
+
+		/// <summary>
+		/// Execute a query asynchronously and get the result.
+		/// </summary>
+		/// <param name="commandString"></param>
+		/// <returns></returns>
 		public async Task<ResultSet> Execute(string commandString)
 		{
 			Query query = new Query(Builder, commandString);
 			return await Execute(query);
 		}
 
-		public abstract Task<NonQueryResult> ExecuteNonQuery(Query query);
-
+		/// <summary>
+		/// Execute a non-query asynchronously.
+		/// </summary>
+		/// <param name="commandString"></param>
+		/// <returns></returns>
 		public async Task<NonQueryResult> ExecuteNonQuery(string commandString)
 		{
 			Query query = new Query(Builder, commandString);
 			return await ExecuteNonQuery(query);
 		}
 
-		public abstract Task<object> ExecuteScalar(Query query);
-
+		/// <summary>
+		/// Execute a scalar query asynchronously and get the returned value.
+		/// </summary>
+		/// <param name="commandString"></param>
+		/// <returns></returns>
 		public async Task<object> ExecuteScalar(string commandString)
 		{
 			Query query = new Query(Builder, commandString);
 			return await ExecuteScalar(query);
 		}
 
+		/// <summary>
+		/// Execute a scalar query asynchronously and get the returned value after casting it to the type T.
+		/// </summary>
+		/// <param name="query"></param>
+		/// <returns></returns>
 		public async Task<T> ExecuteScalar<T>(Query query)
 		{
 			return (T)(await ExecuteScalar(query));
 		}
 
+		/// <summary>
+		/// Execute a scalar query asynchronously and get the returned value after casting it to the type T.
+		/// </summary>
+		/// <param name="commandString"></param>
+		/// <returns></returns>
 		public async Task<T> ExecuteScalar<T>(string commandString)
 		{
 			Query query = new Query(Builder, commandString);
 			return (T)(await ExecuteScalar(query));
 		}
 
-		public virtual async Task<List<T>> Execute<T>(SelectQuery<T> query) where T : new()
+		/// <summary>
+		/// Execute a query asynchronously and deserialize each row of the result set
+		/// into an object of type T.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="query"></param>
+		/// <returns></returns>
+		public virtual async Task<List<T>> Execute<T>(Query query) where T : new()
 		{
-			ResultSet result = await Execute(query as Query);
+			ResultSet result = await Execute(query);
 
+			ResultSerializer<T> serializer = new ResultSerializer<T>(Builder);
 			List<T> resultObjects = new List<T>();
 
 			foreach (ResultRow row in result)
 			{
-				resultObjects.Add(await query.Deserialize(this, row));
+				resultObjects.Add(await serializer.Deserialize(this, row));
 			}
 
 			return resultObjects;
 		}
 
-		public abstract Task<List<NonQueryResult>> ExecuteTransaction(IsolationLevel isolationLevel, params Query[] queries);
-
-		public abstract Task<TableSchema> GetTableSchema(string table);
-
-		public abstract Task<List<string>> GetTableNames();
-
+		/// <summary>
+		/// Execute a transaction asynchronously, one query at a time, in the order that they are passed
+		/// to this method.
+		/// </summary>
+		/// <param name="queries"></param>
+		/// <returns></returns>
 		public Task ExecuteTransaction(params Query[] queries)
 		{
 			return ExecuteTransaction(IsolationLevel.Unspecified, queries);
@@ -91,10 +175,16 @@ namespace Quermine
 			return ExecuteNonQuery(query);
 		}
 
+		/// <summary>
+		/// Asynchronously select all of the rows in the table that T specifies
+		/// and serialize the result into a list of T objects.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
 		public Task<List<T>> Select<T>() where T : new()
 		{
 			SelectQuery<T> query = new SelectQuery<T>(Builder);
-			return Execute(query);
+			return Execute<T>(query);
 		}
 
 		/// <summary>
@@ -144,5 +234,7 @@ namespace Quermine
 				return o;
 			});
 		}
+
+		#endregion
 	}
 }
