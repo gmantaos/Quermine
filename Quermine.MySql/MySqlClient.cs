@@ -14,7 +14,7 @@ namespace Quermine.MySql
 	{
 		MySqlConnectionInfo connectionInfo;
 		MySqlConnection conn;
-
+		
 		internal MySqlClient(MySqlConnectionInfo connectionInfo)
 		{
 			this.connectionInfo = connectionInfo;

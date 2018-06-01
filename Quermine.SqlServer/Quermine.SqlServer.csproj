@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;net46;net47;netcoreapp2.0</TargetFrameworks>
+	<TargetFrameworks>netstandard2.0;net45;net46;net47;netcoreapp2.0</TargetFrameworks>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<Version>1.0</Version>
 	<Authors>G. Mantaos</Authors>
@@ -13,7 +13,7 @@
 	<PackageTags>sql db abstract serialization query server microsoft</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0' Or '$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
   </ItemGroup>
 
