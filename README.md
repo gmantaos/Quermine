@@ -4,6 +4,7 @@
 [![Nuget](https://img.shields.io/nuget/v/Quermine.svg)](https://www.nuget.org/packages/Quermine)
 [![Nuget](https://img.shields.io/nuget/dt/Quermine.svg)](https://www.nuget.org/packages/Quermine)
 [![Build status](https://ci.appveyor.com/api/projects/status/ahda4q6d648ahq99/branch/master?svg=true)](https://ci.appveyor.com/project/gmantaos/quermine)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 This library offers a significant abstraction over integrating with a relational database in your **.NET** application. What started out as a personal wrapper for convenient async operations and MySql type conversions later became an intuitive query builder and object serializer. With this library you easily connect your classes with your database tables in minutes and without writing a single query.
 
