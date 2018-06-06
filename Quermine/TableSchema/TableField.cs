@@ -40,6 +40,11 @@ namespace Quermine
 			{
 				Length = 255;
 			}
+
+			if (fieldTypes.HasFlag(FieldTypes.PrimaryKey))
+			{
+				Null = false;
+			}
 		}
 
 		protected virtual string ParseType(Type type)
