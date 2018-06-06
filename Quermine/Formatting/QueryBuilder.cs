@@ -157,7 +157,7 @@ namespace Quermine
 			StringBuilder str = new StringBuilder();
 			str.AppendFormat("`{0}`", field.Name);
 			str.Append(' ');
-			str.Append(field.Type);
+			str.Append(FieldType(field.Type));
 			if (field.Length != null)
 				str.AppendFormat("({0})", field.Length);
 			if (field.Unsigned)
@@ -175,6 +175,34 @@ namespace Quermine
 			if (includeKey && field.Key.HasFlag(KeyType.Primary))
 				str.Append(" PRIMARY KEY");
 			return str.ToString();
+		}
+
+		protected virtual string FieldType(Type type)
+		{
+			if (type == typeof(byte))
+				return "TINYINT";
+			else if (type == typeof(short))
+				return "SMALLINT";
+			else if (type == typeof(int))
+				return "INT";
+			else if (type == typeof(uint))
+				return "INT";
+			else if (type == typeof(double))
+				return "DOUBLE";
+			else if (type == typeof(float))
+				return "FLOAT";
+			else if (type == typeof(decimal))
+				return "DECIMAL";
+			else if (type == typeof(DateTime))
+				return "DATETIME";
+			else if (type == typeof(char))
+				return "CHAR";
+			else if (type == typeof(string))
+				return "VARCHAR";
+			else if (type == typeof(byte[]))
+				return "BLOB";
+			else
+				throw new ArgumentException("Cannot convert to Sql type: " + type.ToString());
 		}
 
 		protected string ModifiersQueryPart(Query query, bool lowPriority, bool ignore)
