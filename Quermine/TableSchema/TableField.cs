@@ -35,6 +35,11 @@ namespace Quermine
 			Unsigned = fieldTypes.HasFlag(FieldTypes.Unsigned);
 			Zerofill = fieldTypes.HasFlag(FieldTypes.Zerofill);
 			AutoIncrement = fieldTypes.HasFlag(FieldTypes.AutoIncrement);
+
+			if (length == null && type == typeof(string))
+			{
+				Length = 255;
+			}
 		}
 
 		protected virtual string ParseType(Type type)
@@ -63,29 +68,6 @@ namespace Quermine
 				return "BLOB";
 			else
 				throw new ArgumentException("Cannot convert to Sql type: " + type.ToString());
-		}
-
-		public virtual string ToString(bool includeKey = true)
-		{
-			StringBuilder field = new StringBuilder();
-			field.AppendFormat("`{0}`", Name);
-			field.Append(' ');
-			field.Append(Type);
-			if (Length != null)
-				field.AppendFormat("({0})", Length);
-			if (Unsigned)
-				field.Append(" UNSIGNED");
-			if (Zerofill)
-				field.Append(" ZEROFILL");
-			if (!Null)
-				field.Append(" NOT NULL");
-			if (AutoIncrement)
-				field.Append(" AUTO_INCREMENT");
-			if (Default != null)
-				field.AppendFormat(" DEFAULT {0}", Default);
-			if (includeKey && Key.HasFlag(KeyType.Primary))
-				field.Append(" PRIMARY KEY");
-			return field.ToString();
 		}
 	}
 }

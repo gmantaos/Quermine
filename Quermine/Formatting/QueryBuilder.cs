@@ -41,7 +41,7 @@ namespace Quermine
 
 			foreach (TableField field in query.fields)
 			{
-				str.AppendFormat("\t{0},\n", field.ToString(false));
+				str.AppendFormat("\t{0},\n", TableField(field, false));
 			}
 
 			StringBuilder keys = new StringBuilder();
@@ -150,6 +150,31 @@ namespace Quermine
 			}
 
 			return query.ToString();
+		}
+
+		public virtual string TableField(TableField field, bool includeKey = true)
+		{
+			StringBuilder str = new StringBuilder();
+			str.AppendFormat("`{0}`", field.Name);
+			str.Append(' ');
+			str.Append(field.Type);
+			if (field.Length != null)
+				str.AppendFormat("({0})", field.Length);
+			if (field.Unsigned)
+				str.Append(" UNSIGNED");
+			if (field.Zerofill)
+				str.Append(" ZEROFILL");
+			if (!field.Null)
+				str.Append(" NOT NULL");
+			else
+				str.Append(" NULL");
+			if (field.AutoIncrement)
+				str.Append(" AUTO_INCREMENT");
+			if (field.Default != null)
+				str.AppendFormat(" DEFAULT {0}", field.Default);
+			if (includeKey && field.Key.HasFlag(KeyType.Primary))
+				str.Append(" PRIMARY KEY");
+			return str.ToString();
 		}
 
 		protected string ModifiersQueryPart(Query query, bool lowPriority, bool ignore)

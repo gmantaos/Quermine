@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
+using Quermine;
+
 namespace Quermine.Tests
 {
 	public static class TestExtensions
@@ -20,6 +22,22 @@ namespace Quermine.Tests
 		static string Normalize(string str)
 		{
 			return Regex.Replace(str, @"\s+", " ").Trim();
+		}
+
+		public static QueryProvider GetQueryProvider(this DbClient client)
+		{
+			if (client is MySql.MySqlClient)
+			{
+				return new MySqlQueryProvider();
+			}
+			else if (client is Sqlite.SqliteClient)
+			{
+				return new SqliteQueryProvider();
+			}
+			else
+			{
+				throw new NotImplementedException();
+			}
 		}
 	}
 }
