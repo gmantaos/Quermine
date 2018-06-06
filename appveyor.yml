@@ -20,7 +20,9 @@ init:
     }
 
     $env:MYSQL_PWD="Password12!"
+
     $cmd = '"C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql" -e "create database quermine;" --user=root'
+    
     iex "& $cmd"
 dotnet_csproj:
   patch: true
