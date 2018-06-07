@@ -13,12 +13,19 @@ namespace Quermine.Sqlite
 
 			str.AppendFormat("CREATE TABLE \"{0}\" (\n", query.tableName);
 
+			StringBuilder fields = new StringBuilder();
+
 			foreach (TableField field in query.fields)
 			{
-				str.AppendFormat("\t{0},\n", TableField(field, true));
+				if (fields.Length > 0)
+					fields.AppendLine(",");
+
+				fields.AppendFormat("\t{0}", TableField(field, true));
 			}
 
-			str.Append("\n);");
+			str.Append(fields)
+			   .Append("\n);");
+
 			return str.ToString();
 		}
 
@@ -47,7 +54,7 @@ namespace Quermine.Sqlite
 			return str.ToString();
 		}
 
-		protected virtual string FieldType(Type type)
+		protected override string FieldType(Type type)
 		{
 			if (type == typeof(int))
 				return "INTEGER";

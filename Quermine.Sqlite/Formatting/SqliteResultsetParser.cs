@@ -12,7 +12,7 @@ namespace Quermine.Sqlite
 			TableField tableField = new TableField()
 			{
 				Name = field.GetString("name"),
-				Type = field.GetString("type").Split('(')[0],
+				Type = ParseType(field.GetString("type")),
 				Null = field.GetInteger("notnull") == 0,
 				Key = field.GetInteger("pk") == 1 ? KeyType.Primary : KeyType.None,
 				Default = field["dflt_value"],

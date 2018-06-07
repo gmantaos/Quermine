@@ -25,10 +25,17 @@ namespace Quermine.Tests
 
 		public static SqliteConnectionInfo Sqlite()
 		{
-			File.AppendText("sqlite.db").Close();
-			return new SqliteConnectionInfo(
-				Path.Combine(TestContext.CurrentContext.TestDirectory, "sqlite.db")
-			);
+			string dbFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "sqlite.db");
+			SqliteConnectionInfo info = new SqliteConnectionInfo(dbFile);
+
+			if (!File.Exists(dbFile))
+			{
+				info.Create();
+				GC.Collect();
+				GC.WaitForPendingFinalizers();
+			}
+
+			return info;
 		}
 	}
 }
