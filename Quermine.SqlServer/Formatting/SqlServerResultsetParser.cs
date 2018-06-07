@@ -13,7 +13,7 @@ namespace Quermine.SqlServer
 			TableField tableField = new TableField()
 			{
 				Name = field.GetString("TABLE_NAME"),
-				Type = field.GetString("DATA_TYPE"),
+				Type = ParseType(field.GetString("DATA_TYPE")),
 				Null = field.GetString("IS_NULLABLE").Equals("YES"),
 				//Key = ParseKey(field.GetString("Key")),  ???
 				Default = field["COLUMN_DEFAULT"],

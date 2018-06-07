@@ -9,7 +9,7 @@ namespace Quermine
 	public class TableField
 	{
 		public string Name;
-		public string Type;
+		public Type Type;
 		public int? Length;
 		public bool Null;
 		public KeyType Key;
@@ -25,7 +25,7 @@ namespace Quermine
 		{
 			Name = fieldName;
 			Length = length;
-			Type = ParseType(type);
+			Type = type;
 			Default = defaultVal;
 			Null = !fieldTypes.HasFlag(FieldTypes.NotNull);
 			if (fieldTypes.HasFlag(FieldTypes.PrimaryKey))
@@ -41,38 +41,15 @@ namespace Quermine
 				Length = 255;
 			}
 
+			if (fieldTypes.HasFlag(FieldTypes.AutoIncrement))
+			{
+				Key = KeyType.Primary;
+			}
+
 			if (fieldTypes.HasFlag(FieldTypes.PrimaryKey))
 			{
 				Null = false;
 			}
-		}
-
-		protected virtual string ParseType(Type type)
-		{
-			if (type == typeof(byte))
-				return "TINYINT";
-			else if (type == typeof(short))
-				return "SMALLINT";
-			else if (type == typeof(int))
-				return "INT";
-			else if (type == typeof(uint))
-				return "INT";
-			else if (type == typeof(double))
-				return "DOUBLE";
-			else if (type == typeof(float))
-				return "FLOAT";
-			else if (type == typeof(decimal))
-				return "DECIMAL";
-			else if (type == typeof(DateTime))
-				return "DATETIME";
-			else if (type == typeof(char))
-				return "CHAR";
-			else if (type == typeof(string))
-				return "VARCHAR";
-			else if (type == typeof(byte[]))
-				return "BLOB";
-			else
-				throw new ArgumentException("Cannot convert to Sql type: " + type.ToString());
 		}
 	}
 }

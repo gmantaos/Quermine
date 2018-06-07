@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace Quermine
 {
-    internal class ResultsetParser
-    {
+	internal class ResultsetParser
+	{
 		public virtual TableField TableField(ResultRow field)
 		{
 
 			TableField tableField = new TableField()
 			{
 				Name = field.GetString("Field"),
-				Type = field.GetString("Type").Split('(')[0],
+				Type = ParseType(field.GetString("Type")),
 				Null = field.GetString("Null").Equals("YES"),
 				Key = ParseKey(field.GetString("Key")),
 				Default = field["Default"],
@@ -29,6 +29,41 @@ namespace Quermine
 			}
 
 			return tableField;
+		}
+
+		protected virtual Type ParseType(string type)
+		{
+			type = type.ToLower();
+			bool unsigned = type.Contains("unsigned");
+
+			if (type.Contains("tinyint"))
+				return typeof(byte);
+			else if (type.Contains("smallint"))
+				return unsigned ? typeof(ushort) : typeof(short);
+			else if (type.Contains("bigint"))
+				return unsigned ? typeof(ulong) : typeof(long);
+			else if (type.Contains("int"))
+				return unsigned ? typeof(uint) : typeof(int);
+			else if (type.Contains("text")
+				|| type.Contains("varchar"))
+				return typeof(string);
+			else if (type.Contains("double"))
+				return typeof(double);
+			else if (type.Contains("float")
+				|| type.Contains("real"))
+				return typeof(float);
+			else if (type.Contains("decimal"))
+				return typeof(decimal);
+			else if (type.Contains("date")
+				|| type.Contains("time"))
+				return typeof(DateTime);
+			else if (type.Contains("char"))
+				return typeof(char);
+			else if (type.Contains("blob")
+				|| type.Contains("binary"))
+				return typeof(byte[]);
+			else
+				return null; // TODO: probably do something about this
 		}
 
 		protected virtual KeyType ParseKey(string key)
