@@ -327,6 +327,16 @@ Now john.Age is 10 and john's age in the databse is also 10
 
 ## Known issues
 
+#### General
+
+- **Transactions**
+    - Transactions do not currently work as intended.
+    - There is currently no way to consume the exception raised by a query in a transaction.
+
 #### SQL Server
 
 - The `LastInsertedId` field on non-query results will always return `-1`, since implementing it would require injecting things into queries. If and and how this should happen needs to be carefully looked into beforehand.
+
+
+
+
