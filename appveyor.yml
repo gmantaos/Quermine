@@ -56,9 +56,9 @@ dotnet_csproj:
   informational_version: '{version}'
 before_build:
 - cmd: >-
-    dotnet restore
+    dotnet restore -v minimal
 
-    nuget restore
+    nuget restore -Verbosity quiet
 build:
   verbosity: minimal
 artifacts:
