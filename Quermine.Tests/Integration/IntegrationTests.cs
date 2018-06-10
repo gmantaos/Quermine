@@ -20,9 +20,14 @@ namespace Quermine.Tests
 
 		public static IEnumerable<DbClient> DbClientTestCases()
 		{
-			yield return Credentials.Sqlite().Connect().Result;
-			yield return Credentials.MySql().Connect().Result;
-			yield return Credentials.SqlServer().Connect().Result;
+			if (Credentials.Sqlite().TestConnection().Result)
+				yield return Credentials.Sqlite().Connect().Result;
+
+			if (Credentials.MySql().TestConnection().Result)
+				yield return Credentials.MySql().Connect().Result;
+
+			if (Credentials.SqlServer().TestConnection().Result)
+				yield return Credentials.SqlServer().Connect().Result;
 		}
 
 		[Test, TestCaseSource("DbClientTestCases")]

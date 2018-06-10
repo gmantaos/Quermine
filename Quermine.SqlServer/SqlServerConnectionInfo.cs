@@ -56,8 +56,15 @@ namespace Quermine.SqlServer
 		{
 			using (SqlServerClient client = new SqlServerClient(this))
 			{
-				await client.OpenAsync();
-				return client.State == ConnectionState.Open;
+				try
+				{
+					await client.OpenAsync();
+					return client.State == ConnectionState.Open;
+				}
+				catch
+				{
+					return false;
+				}
 			}
 		}
 
