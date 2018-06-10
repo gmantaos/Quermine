@@ -1,9 +1,9 @@
 
-<p align="center">
+<h1 align="center">
 <img src="Assets/logo.png">
-</p>
+</h1>
 
-<hr>
+---
 
 <p align="center">
 <a href="https://www.nuget.org/packages/Quermine">
