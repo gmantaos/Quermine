@@ -22,6 +22,7 @@ namespace Quermine.Tests
 		{
 			yield return Credentials.Sqlite().Connect().Result;
 			yield return Credentials.MySql().Connect().Result;
+			yield return Credentials.SqlServer().Connect().Result;
 		}
 
 		[Test, TestCaseSource("DbClientTestCases")]
