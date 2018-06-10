@@ -8,6 +8,7 @@ configuration: Release
 
 services:
 - mysql
+- mssql2012sp1
 
 before_test:
 - ps: >-
@@ -21,8 +22,12 @@ before_test:
       sqlcmd -S "(local)" -U "sa" -P "Password12!" -Q "CREATE DATABASE quermine;" -d "master"
     }
 
-    createMySqlDb
-    createSqlServerDb
+    function setup() {
+      createMySqlDb
+      createSqlServerDb
+    }
+    
+    setup
     
 init:
 - ps: >-
