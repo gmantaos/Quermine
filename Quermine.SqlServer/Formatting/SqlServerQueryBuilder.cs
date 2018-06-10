@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Quermine.SqlServer
@@ -111,6 +112,53 @@ namespace Quermine.SqlServer
 			}
 
 			return query.ToString();
+		}
+
+		public override string CreateTableQuery(CreateTableQuery query)
+		{
+			StringBuilder str = new StringBuilder();
+
+			str.AppendFormat("CREATE TABLE {0} (\n", query.tableName);
+
+			StringBuilder fields = new StringBuilder();
+
+			foreach (TableField field in query.fields)
+			{
+				if (fields.Length > 0)
+					fields.AppendLine(",");
+
+				fields.AppendFormat("\t{0}", TableField(field, true));
+			}
+
+			str.Append(fields)
+			   .Append("\n);");
+
+			return str.ToString();
+		}
+
+		public override string TableField(TableField field, bool includeKey = true)
+		{
+			StringBuilder str = new StringBuilder();
+			str.AppendFormat("{0}", field.Name);
+			str.Append(' ');
+			str.Append(FieldType(field.Type));
+			if (field.Length != null)
+				str.AppendFormat("({0})", field.Length);
+
+			if (field.AutoIncrement)
+				str.Append(" IDENTITY(1,1)");
+			else if (!field.Null)
+				str.Append(" NOT NULL");
+			else
+				str.Append(" NULL");
+
+			if (includeKey && field.Key.HasFlag(KeyType.Primary))
+				str.Append(" PRIMARY KEY");
+
+			if (field.Default != null)
+				str.AppendFormat(" DEFAULT {0}", field.Default);
+
+			return str.ToString();
 		}
 	}
 }
