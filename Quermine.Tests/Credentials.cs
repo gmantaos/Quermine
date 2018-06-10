@@ -37,5 +37,15 @@ namespace Quermine.Tests
 
 			return info;
 		}
+
+		public static SqlServerConnectionInfo SqlServer()
+		{
+			return new SqlServerConnectionInfo(
+				Environment.GetEnvironmentVariable("MSSQL_HOST") ?? "(local)",
+				Environment.GetEnvironmentVariable("MSSQL_USER") ?? "sa",
+				Environment.GetEnvironmentVariable("MSSQL_PASS") ?? "Password12!",
+				"quermine"
+			);
+		}
 	}
 }
