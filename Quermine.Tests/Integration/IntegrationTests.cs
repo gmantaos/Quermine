@@ -160,5 +160,72 @@ namespace Quermine.Tests
 
 			client.Dispose();
 		}
+
+		[Test, Order(8), TestCaseSource("DbClientTestCases")]
+		public async Task SelectTwoChain(DbClient client)
+		{
+			Query query = client.GetQueryProvider()
+								.Select("id", "name", "birthday")
+								.From("people")
+								.Where("id", WhereRelation.AtLeast, 2);
+
+
+			ResultSet rs = await client.Execute(query);
+
+			Assert.AreEqual(2, rs.RowCount);
+
+			Assert.AreEqual(2, rs[0].GetInteger("id"));
+			Assert.AreEqual("Mary", rs[0].GetString("name"));
+
+			Assert.AreEqual(3, rs[1].GetInteger("id"));
+			Assert.AreEqual("Pete", rs[1].GetString("name"));
+
+			client.Dispose();
+		}
+
+		[Test, Order(9), TestCaseSource("DbClientTestCases")]
+		public async Task UpdateOne(DbClient client)
+		{
+			UpdateQuery query = client.GetQueryProvider().Update("people");
+
+			query.Where("id", 2);
+			query.Set("name", "Pepe");
+
+			NonQueryResult res = await client.ExecuteNonQuery(query);
+			Assert.AreEqual(1, res.RowsAffected);
+
+			client.Dispose();
+		}
+
+		[Test, Order(10), TestCaseSource("DbClientTestCases")]
+		public async Task Scalar(DbClient client)
+		{
+			Query query = client.GetQueryProvider()
+								.Select("name")
+								.From("people")
+								.Where("id", 2);
+
+			string actual = await client.ExecuteScalar<string>(query);
+
+			Assert.AreEqual("Pepe", actual);
+
+			client.Dispose();
+		}
+
+		[Test, Order(11), TestCaseSource("DbClientTestCases")]
+		public async Task ScalarDateTime(DbClient client)
+		{
+			Query query = client.GetQueryProvider()
+								.Select("birthday")
+								.From("people")
+								.Where("id", 1);
+
+			DateTime expected = DateTime.Parse("2018-05-26 16:22:54");
+			DateTime actual = await client.ExecuteScalar<DateTime>(query);
+
+			Assert.AreEqual(expected, actual);
+
+			client.Dispose();
+		}
 	}
 }
