@@ -36,7 +36,7 @@ namespace Quermine.Tests
 		[Test, Order(1), TestCaseSource("DbClientTestCases")]
 		public async Task CreateTable (DbClient client)
 		{
-			await client.ExecuteNonQuery("DROP TABLE IF EXISTS `people`");
+			await client.DropTableIfExists("people");
 
 			CreateTableQuery query = client.GetQueryProvider().CreateTable("people");
 			query.Field<int>("id", fieldTypes: FieldTypes.PrimaryKey | FieldTypes.AutoIncrement)

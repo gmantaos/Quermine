@@ -10,9 +10,10 @@ using System.Data.SqlClient;
 
 namespace Quermine.SqlServer
 {
+	/// <inheritdoc />
 	public class SqlServerClient : DbClient
 	{
-		SqlServerConnectionInfo connectionInfo;
+		readonly SqlServerConnectionInfo connectionInfo;
 		SqlConnection conn;
 
 		internal SqlServerClient(SqlServerConnectionInfo connectionInfo)
@@ -21,10 +22,12 @@ namespace Quermine.SqlServer
 			conn = new SqlConnection(connectionInfo.ConnectionString);
 		}
 
+		/// <inheritdoc />
 		public override ConnectionState State => conn.State;
 
 		internal override QueryBuilder Builder => new SqlServerQueryBuilder();
 
+		/// <inheritdoc />
 		public override void Dispose()
 		{
 			conn.Dispose();
@@ -35,6 +38,7 @@ namespace Quermine.SqlServer
 			return conn.OpenAsync();
 		}
 
+		/// <inheritdoc />
 		public override async Task<ResultSet> Execute(Query query)
 		{
 			using (SqlCommand cmd = GetCommand(query))
@@ -52,6 +56,7 @@ namespace Quermine.SqlServer
 			}
 		}
 
+		/// <inheritdoc />
 		public override async Task<NonQueryResult> ExecuteNonQuery(Query query)
 		{
 			using (SqlCommand cmd = GetCommand(query))
@@ -62,6 +67,7 @@ namespace Quermine.SqlServer
 			}
 		}
 
+		/// <inheritdoc />
 		public override async Task<List<NonQueryResult>> ExecuteTransaction(IsolationLevel isolationLevel, params Query[] queries)
 		{
 			List<NonQueryResult> results = new List<NonQueryResult>();
@@ -79,7 +85,7 @@ namespace Quermine.SqlServer
 
 					results.Add(res);
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					transaction.Rollback();
 					return null;
@@ -90,6 +96,7 @@ namespace Quermine.SqlServer
 			return results;
 		}
 
+		/// <inheritdoc />
 		public override async Task<TableSchema> GetTableSchema(string table)
 		{
 			Query query = Sql.Select("*")
@@ -110,6 +117,7 @@ namespace Quermine.SqlServer
 			return cmd;
 		}
 
+		/// <inheritdoc />
 		public override async Task<List<string>> GetTableNames()
 		{
 			Query query = Sql.Select("TABLE_NAME")
@@ -121,6 +129,7 @@ namespace Quermine.SqlServer
 			return tables.Select(row => row.GetString("TABLE_NAME")).ToList();
 		}
 
+		/// <inheritdoc />
 		public override async Task<object> ExecuteScalar(Query query)
 		{
 			using (SqlCommand cmd = GetCommand(query))
@@ -128,6 +137,12 @@ namespace Quermine.SqlServer
 				cmd.Connection = conn;
 				return await cmd.ExecuteScalarAsync();
 			}
+		}
+
+		/// <inheritdoc />
+		public override Task DropTableIfExists(string tableName)
+		{
+			return ExecuteNonQuery(string.Format("IF OBJECT_ID('{0}', 'U') IS NOT NULL DROP TABLE {0}", tableName));
 		}
 	}
 }
