@@ -325,7 +325,8 @@ Now john.Age is 10 and john's age in the databse is also 10
 */
 ```
 
-### // TODO
+## Known issues
 
-- [ ] Support "ON DUPLICATE KEY UPDATE"
-- [ ] Support for indexes on table schemas
+#### SQL Server
+
+- The `LastInsertedId` field on non-query results will always return `-1`, since implementing it would require injecting things into queries. If and and how this should happen needs to be carefully looked into beforehand.
