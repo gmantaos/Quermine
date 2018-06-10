@@ -3,8 +3,6 @@
 <img src="Assets/logo.png">
 </h1>
 
----
-
 <p align="center">
 <a href="https://www.nuget.org/packages/Quermine">
   <img src="https://img.shields.io/nuget/v/Quermine.svg">
