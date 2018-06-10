@@ -20,8 +20,14 @@ namespace Quermine.Tests
 
 		public static IEnumerable<DbClient> DbClientTestCases()
 		{
-			yield return Credentials.Sqlite().Connect().Result;
-			yield return Credentials.MySql().Connect().Result;
+			if (Credentials.Sqlite().TestConnection().Result)
+				yield return Credentials.Sqlite().Connect().Result;
+
+			if (Credentials.MySql().TestConnection().Result)
+				yield return Credentials.MySql().Connect().Result;
+
+			if (Credentials.SqlServer().TestConnection().Result)
+				yield return Credentials.SqlServer().Connect().Result;
 		}
 
 		[Test, TestCaseSource("DbClientTestCases")]
@@ -35,7 +41,7 @@ namespace Quermine.Tests
 		[Test, Order(1), TestCaseSource("DbClientTestCases")]
 		public async Task CreateTable (DbClient client)
 		{
-			await client.ExecuteNonQuery("DROP TABLE IF EXISTS `people`");
+			await client.DropTableIfExists("people");
 
 			CreateTableQuery query = client.GetQueryProvider().CreateTable("people");
 			query.Field<int>("id", fieldTypes: FieldTypes.PrimaryKey | FieldTypes.AutoIncrement)
@@ -61,15 +67,21 @@ namespace Quermine.Tests
 
 			NonQueryResult r1 = await client.ExecuteNonQuery(q1);
 			Assert.AreEqual(1, r1.RowsAffected);
-			Assert.AreEqual(1, r1.LastInsertedId);
+
+			if (!(client is SqlServer.SqlServerClient))
+				Assert.AreEqual(1, r1.LastInsertedId);
 
 			NonQueryResult r2 = await client.ExecuteNonQuery(q2);
 			Assert.AreEqual(1, r2.RowsAffected);
-			Assert.AreEqual(2, r2.LastInsertedId);
+
+			if (!(client is SqlServer.SqlServerClient))
+				Assert.AreEqual(2, r2.LastInsertedId);
 
 			NonQueryResult r3 = await client.ExecuteNonQuery(q3);
 			Assert.AreEqual(1, r3.RowsAffected);
-			Assert.AreEqual(3, r3.LastInsertedId);
+
+			if (!(client is SqlServer.SqlServerClient))
+				Assert.AreEqual(3, r3.LastInsertedId);
 
 			client.Dispose();
 		}
@@ -105,8 +117,10 @@ namespace Quermine.Tests
 
 			NonQueryResult result = await client.ExecuteNonQuery(query);
 
-			Assert.AreEqual(4, result.LastInsertedId);
 			Assert.AreEqual(1, result.RowsAffected);
+
+			if (!(client is SqlServer.SqlServerClient))
+				Assert.AreEqual(4, result.LastInsertedId);
 
 			client.Dispose();
 		}

@@ -69,25 +69,25 @@ namespace Quermine.Tests
 				new object[]
 				{
 					Sql.Insert("tname").Value("col1", 123).Value("col2", "enlo"),
-					"INSERT INTO tname (`col1`, `col2`) VALUES ('123', 'enlo')"
+					"INSERT INTO tname (col1, col2) VALUES ('123', 'enlo')"
 				};
 			yield return
 				new object[]
 				{
 					Sql.Insert("tname").Value("col1", 123).Value("col2", "enlo").Replace(false),
-					"INSERT INTO tname (`col1`, `col2`) VALUES ('123', 'enlo')"
+					"INSERT INTO tname (col1, col2) VALUES ('123', 'enlo')"
 				};
 			yield return
 				new object[]
 				{
 					Sql.Insert("tname").Value("col1", 123).Value("col2", "enlo").Replace(),
-					"REPLACE INTO tname (`col1`, `col2`) VALUES ('123', 'enlo')"
+					"REPLACE INTO tname (col1, col2) VALUES ('123', 'enlo')"
 				};
 			yield return
 				new object[]
 				{
 					Sql.Insert("tname").Value("col1", 123).Value("col2", "enlo").Ignore(true),
-					"INSERT IGNORE INTO tname (`col1`, `col2`) VALUES ('123', 'enlo')"
+					"INSERT IGNORE INTO tname (col1, col2) VALUES ('123', 'enlo')"
 				};
 		}
 

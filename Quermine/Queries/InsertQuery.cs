@@ -27,7 +27,7 @@ namespace Quermine
 		{
 			string pName = Utils.GetParameterName("set_" + column);
 
-			columns += new Sequence("`" + column + "`");
+			columns += new Sequence(column);
 			values += new Sequence(pName);
 			AddParameter(pName, value);
 

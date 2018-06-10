@@ -235,6 +235,16 @@ namespace Quermine
 			});
 		}
 
+		/// <summary>
+		/// Execute a DROP TABLE IF EXISTS query.
+		/// </summary>
+		/// <param name="tableName"></param>
+		/// <returns></returns>
+		public virtual async Task DropTableIfExists(string tableName)
+		{
+			await ExecuteNonQuery("DROP TABLE IF EXISTS " + tableName);
+		}
+
 		#endregion
 	}
 }

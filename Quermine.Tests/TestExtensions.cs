@@ -34,6 +34,10 @@ namespace Quermine.Tests
 			{
 				return new SqliteQueryProvider();
 			}
+			else if (client is SqlServer.SqlServerClient)
+			{
+				return new SqlServerQueryProvider();
+			}
 			else
 			{
 				throw new NotImplementedException();
