@@ -39,6 +39,12 @@ namespace Quermine.Sqlite
 		public SqliteConnectionInfo Create()
 		{
 			SQLiteConnection.CreateFile(DataSource);
+			
+			// Apparently a GC run is needed. 
+			// Without it the managed resource doesn't get released properly.
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			
 			return this;
 		}
 	}
