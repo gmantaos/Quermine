@@ -82,6 +82,13 @@ using (SqliteClient connection = await info.Connect())
 }
 ```
 
+Or if the database file doesn't exist yet.
+
+```csharp
+SqliteConnectionInfo info = new SqliteConnectionInfo("/var/www/mydb.sqlite");
+
+info.Create();
+```
 
 ### SQL Server
 
