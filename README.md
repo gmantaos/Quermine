@@ -5,9 +5,7 @@
 
 <p align="center">
 <a href="https://www.nuget.org/packages/Quermine">
-  <object src="https://img.shields.io/nuget/v/Quermine.svg" type="image/svg">
-    <img src="https://img.shields.io/badge/nuget--yellow.svg">
-  </object>
+  <img src="https://img.shields.io/nuget/v/Quermine.svg">
 </a>
 <a href="https://www.nuget.org/packages/Quermine">
   <img src="https://img.shields.io/nuget/dt/Quermine.svg">
