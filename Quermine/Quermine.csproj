@@ -9,7 +9,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/gmantaos/Quermine/master/Assets/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/gmantaos/Quermine</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gmantaos/Quermine</RepositoryUrl>
-    <Description>A significant abstraction over integrating any relational database into your .NET application, to the point of query-free interactions where your tables are merely classes in your code.</Description>
+    <Description>A significant abstraction over integrating any relational database into a .NET application, to the point of query-free interactions where tables are merely classes.</Description>
     <PackageTags>sql db abstract serialization query mysql</PackageTags>
   </PropertyGroup>
 
