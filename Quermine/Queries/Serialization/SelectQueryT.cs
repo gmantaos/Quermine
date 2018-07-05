@@ -13,8 +13,8 @@ namespace Quermine
 		internal SelectQuery(QueryBuilder builder) : base(builder)
 		{
 			// Get table name
-			DbTable tableAttribute = typeof(T)
-				.GetCustomAttributes<DbTable>(true)
+			DbTableAttribute tableAttribute = typeof(T)
+				.GetCustomAttributes<DbTableAttribute>(true)
 				.FirstOrDefault();
 
 			if (tableAttribute != null)

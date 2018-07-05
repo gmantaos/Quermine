@@ -13,8 +13,8 @@ namespace Quermine
 		internal InsertQuery(QueryBuilder builder, T obj) : base(builder)
 		{
 			// Get table name
-			DbTable tableAttribute = obj.GetType()
-				.GetCustomAttributes<DbTable>(true)
+			DbTableAttribute tableAttribute = obj.GetType()
+				.GetCustomAttributes<DbTableAttribute>(true)
 				.FirstOrDefault();
 			
 			if (tableAttribute != null)
@@ -30,9 +30,10 @@ namespace Quermine
 			FieldInfo[] fields = obj.GetType().GetFields();
 			foreach (FieldInfo field in fields)
 			{
-				DbField columnAttribute = field.GetCustomAttribute<DbField>(true);
+				DbFieldAttribute columnAttribute = field.GetCustomAttribute<DbFieldAttribute>(true);
+				InsertIgnoreAttribute insertIgnore = field.GetCustomAttribute<InsertIgnoreAttribute>(true);
 
-				if (columnAttribute != null)
+				if (columnAttribute != null && insertIgnore == null)
 				{
 					object value = field.GetValue(obj);
 
@@ -44,9 +45,10 @@ namespace Quermine
 			PropertyInfo[] properties = obj.GetType().GetProperties();
 			foreach (PropertyInfo property in properties)
 			{
-				DbField columnAttribute = property.GetCustomAttribute<DbField>(true);
+				DbFieldAttribute columnAttribute = property.GetCustomAttribute<DbFieldAttribute>(true);
+				InsertIgnoreAttribute insertIgnore = property.GetCustomAttribute<InsertIgnoreAttribute>(true);
 
-				if (columnAttribute != null)
+				if (columnAttribute != null && insertIgnore == null)
 				{
 					object value = property.GetValue(obj);
 

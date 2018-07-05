@@ -51,8 +51,8 @@ namespace Quermine
 		{
 			Type memberType = (member is PropertyInfo) ? (member as PropertyInfo).PropertyType : (member as FieldInfo).FieldType;
 
-			DbField columnAttribute = member.GetCustomAttribute<DbField>(true);
-			DbReference referenceAttribute = member.GetCustomAttribute<DbReference>(true);
+			DbFieldAttribute columnAttribute = member.GetCustomAttribute<DbFieldAttribute>(true);
+			DbReferenceAttribute referenceAttribute = member.GetCustomAttribute<DbReferenceAttribute>(true);
 
 			if (columnAttribute != null)
 			{

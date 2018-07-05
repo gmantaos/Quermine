@@ -10,7 +10,7 @@ namespace Quermine
 	/// 
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-	public class DbTable : Attribute
+	public class DbTableAttribute : Attribute
 	{
 		/// <summary>
 		/// The name of the table.
@@ -21,7 +21,7 @@ namespace Quermine
 		/// The name of the table.
 		/// </summary>
 		/// <param name="name"></param>
-		public DbTable(string name)
+		public DbTableAttribute(string name)
 		{
 			Name = name;
 		}

@@ -10,7 +10,7 @@ namespace Quermine
 	/// This attribute indicates that this field should be serialized from another DB table
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class DbReference : Attribute
+	public class DbReferenceAttribute : Attribute
 	{
 		/// <summary>
 		/// The column of this table whose value is pointing to row(s) of the other table.
@@ -27,7 +27,7 @@ namespace Quermine
 		/// </summary>
 		/// <param name="column">The column of this table whose value is pointing to row(s) of the other table.</param>
 		/// <param name="foreignColumn">The column of the other table.</param>
-		public DbReference(string column, string foreignColumn)
+		public DbReferenceAttribute(string column, string foreignColumn)
 		{
 			Column = column;
 			ForeignColumn = foreignColumn;

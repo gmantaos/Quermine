@@ -235,7 +235,6 @@ namespace Quermine.Tests
 		{
 			Person p = new Person()
 			{
-				ID = 5,
 				Name = "Mark",
 				Birthday = DateTime.Now.Date
 			};

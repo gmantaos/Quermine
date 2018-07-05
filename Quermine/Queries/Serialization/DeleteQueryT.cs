@@ -13,8 +13,8 @@ namespace Quermine
 		internal DeleteQuery(QueryBuilder builder, T obj) : base(builder)
 		{
 			// Get table name
-			DbTable tableAttribute = obj.GetType()
-				.GetCustomAttributes<DbTable>(true)
+			DbTableAttribute tableAttribute = obj.GetType()
+				.GetCustomAttributes<DbTableAttribute>(true)
 				.FirstOrDefault();
 
 			if (tableAttribute != null)
@@ -30,9 +30,10 @@ namespace Quermine
 			FieldInfo[] fields = obj.GetType().GetFields();
 			foreach (FieldInfo field in fields)
 			{
-				DbField columnAttribute = field.GetCustomAttribute<DbField>(true);
+				DbFieldAttribute columnAttribute = field.GetCustomAttribute<DbFieldAttribute>(true);
+				WhereIgnoreAttribute whereIgnore = field.GetCustomAttribute<WhereIgnoreAttribute>(true);
 
-				if (columnAttribute != null && columnAttribute.IsWhereCondition)
+				if (columnAttribute != null && whereIgnore == null)
 				{
 					object value = field.GetValue(obj);
 
@@ -44,9 +45,10 @@ namespace Quermine
 			PropertyInfo[] properties = obj.GetType().GetProperties();
 			foreach (PropertyInfo property in properties)
 			{
-				DbField columnAttribute = property.GetCustomAttribute<DbField>(true);
+				DbFieldAttribute columnAttribute = property.GetCustomAttribute<DbFieldAttribute>(true);
+				WhereIgnoreAttribute whereIgnore = property.GetCustomAttribute<WhereIgnoreAttribute>(true);
 
-				if (columnAttribute != null && columnAttribute.IsWhereCondition)
+				if (columnAttribute != null && whereIgnore == null)
 				{
 					object value = property.GetValue(obj);
 
