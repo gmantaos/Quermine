@@ -57,9 +57,16 @@ namespace Quermine
 			if (columnAttribute != null)
 			{
 				object value = row[columnAttribute.Name ?? member.Name];
+				string columnName = columnAttribute.Name ?? member.Name;
 
 				if (memberType == typeof(DateTime))
-					value = row.GetDateTime(columnAttribute.Name ?? member.Name, default(DateTime));
+				{
+					value = row.GetDateTime(columnName, default(DateTime));
+				}
+				else if (memberType == typeof(bool))
+				{
+					value = row.GetBoolean(columnName);
+				}
 
 				if (!(value is DBNull))
 				{

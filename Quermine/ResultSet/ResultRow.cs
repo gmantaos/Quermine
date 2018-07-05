@@ -150,43 +150,40 @@ namespace Quermine
 		/// <returns></returns>
 		public bool GetBoolean(string key)
         {
-            if (this[key] == null)
-                throw new KeyNotFoundException(key);
+			if (this[key].GetType() == typeof(int)
+			|| this[key].GetType() == typeof(short)
+			|| this[key].GetType() == typeof(byte)
+			|| this[key].GetType() == typeof(sbyte)
+			|| this[key].GetType() == typeof(long))
+			{
+				int val;
+				try
+				{
+					if (this[key].GetType() == typeof(sbyte))
+						val = Convert.ToInt16(this[key]);
+					else
+						val = (int)this[key];
+				}
+				catch (InvalidCastException)
+				{
+					throw new InvalidCastException("Cannot cast to int: " + this[key].GetType());
+				}
 
-            if (this[key].GetType() == typeof(int)
-                || this[key].GetType() == typeof(short)
-                || this[key].GetType() == typeof(byte)
-                || this[key].GetType() == typeof(sbyte)
-                || this[key].GetType() == typeof(long))
-            {
-                int val;
-                try
-                {
-                    if (this[key].GetType() == typeof(sbyte))
-                        val = Convert.ToInt16(this[key]);
-                    else
-                        val = (int)this[key];
-                }
-                catch (InvalidCastException)
-                {
-                    throw new InvalidCastException("Cannot cast to int: " + this[key].GetType());
-                }
+				if (val < 0)
+					throw new ArgumentOutOfRangeException("Cannot convert to bool: " + val);
 
-                if (val < 0)
-                    throw new ArgumentOutOfRangeException("Cannot convert to bool: " + val);
+				return val != 0;
+			}
 
-                return val != 0;
-            }
+			if (this[key].GetType() == typeof(uint)
+				|| this[key].GetType() == typeof(ushort)
+				|| this[key].GetType() == typeof(ulong))
+			{
+				return (uint)this[key] != 0;
+			}
 
-            if (this[key].GetType() == typeof(uint)
-                || this[key].GetType() == typeof(ushort)
-                || this[key].GetType() == typeof(ulong))
-            {
-                return (uint)this[key] != 0;
-            }
-
-            throw new ArgumentException("Field is not a boolean type: " + key);
-        }
+			throw new ArgumentException("Field is not a boolean type: " + key);
+		}
 
 
 		/// <summary>
