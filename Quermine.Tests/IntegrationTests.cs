@@ -239,6 +239,9 @@ namespace Quermine.Tests
 				Birthday = DateTime.Now.Date
 			};
 
+			InsertQuery<Person> q = client.GetQueryProvider().Insert<Person>(p);
+			Console.WriteLine(q.ParametrizedQueryString());
+
 			NonQueryResult res = await client.Insert(p);
 
 			Assert.AreEqual(1, res.RowsAffected);

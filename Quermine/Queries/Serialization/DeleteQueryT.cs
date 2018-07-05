@@ -26,31 +26,15 @@ namespace Quermine
 				From(obj.GetType().Name);
 			}
 
-			// Get custom fields
-			FieldInfo[] fields = obj.GetType().GetFields();
-			foreach (FieldInfo field in fields)
+			List<MemberInfo> members = obj.GetType().GetValueMembers();
+			foreach (MemberInfo member in members)
 			{
-				DbFieldAttribute columnAttribute = field.GetCustomAttribute<DbFieldAttribute>(true);
-				WhereIgnoreAttribute whereIgnore = field.GetCustomAttribute<WhereIgnoreAttribute>(true);
+				DbFieldAttribute columnAttribute = member.GetCustomAttribute<DbFieldAttribute>(true);
+				WhereIgnoreAttribute whereIgnore = member.GetCustomAttribute<WhereIgnoreAttribute>(true);
 
 				if (columnAttribute != null && whereIgnore == null)
 				{
-					object value = field.GetValue(obj);
-
-					Where(columnAttribute.Name, value);
-				}
-			}
-
-			// Get custom properties
-			PropertyInfo[] properties = obj.GetType().GetProperties();
-			foreach (PropertyInfo property in properties)
-			{
-				DbFieldAttribute columnAttribute = property.GetCustomAttribute<DbFieldAttribute>(true);
-				WhereIgnoreAttribute whereIgnore = property.GetCustomAttribute<WhereIgnoreAttribute>(true);
-
-				if (columnAttribute != null && whereIgnore == null)
-				{
-					object value = property.GetValue(obj);
+					object value = member.GetValue(obj);
 
 					Where(columnAttribute.Name, value);
 				}
