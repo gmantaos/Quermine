@@ -2,6 +2,8 @@
 using System.IO;
 using System.Text;
 using System.Data;
+using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -224,6 +226,41 @@ namespace Quermine.Tests
 			DateTime actual = await client.ExecuteScalar<DateTime>(query);
 
 			Assert.AreEqual(expected, actual);
+
+			client.Dispose();
+		}
+
+		[Test, Order(12), TestCaseSource("DbClientTestCases")]
+		public async Task SerializeInsert(DbClient client)
+		{
+			Person p = new Person()
+			{
+				ID = 5,
+				Name = "Mark",
+				Birthday = DateTime.Now.Date
+			};
+
+			NonQueryResult res = await client.Insert(p);
+
+			Assert.AreEqual(1, res.RowsAffected);
+
+			if (!(client is SqlServer.SqlServerClient))
+				Assert.AreEqual(5, res.LastInsertedId);
+
+			client.Dispose();
+		}
+
+		[Test, Order(13), TestCaseSource("DbClientTestCases")]
+		public async Task SerializeSelect(DbClient client)
+		{
+			SelectQuery<Person> query = client.GetQueryProvider().Select<Person>();
+			query.Where("id", 5);
+
+			Person p = (await client.Execute<Person>(query)).FirstOrDefault();
+
+			Assert.AreEqual(5, p.ID);
+			Assert.AreEqual("Mark", p.Name);
+			Assert.AreEqual(DateTime.Now.Date, p.Birthday);
 
 			client.Dispose();
 		}
