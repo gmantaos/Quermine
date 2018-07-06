@@ -50,8 +50,6 @@ namespace Quermine.Tests
 				 .Field<string>("name")
 				 .Field<DateTime>("birthday");
 
-			Console.WriteLine(query.QueryString);
-
 			NonQueryResult res = await client.ExecuteNonQuery(query);
 
 			client.Dispose();
@@ -263,6 +261,62 @@ namespace Quermine.Tests
 			Assert.AreEqual(5, p.ID);
 			Assert.AreEqual("Mark", p.Name);
 			Assert.AreEqual(DateTime.Now.Date, p.Birthday);
+
+			client.Dispose();
+		}
+
+		[Test, Order(14), TestCaseSource("DbClientTestCases")]
+		public async Task SerializeUpdate(DbClient client)
+		{
+			Person p = new Person()
+			{
+				ID = 5,
+				Name = "Mark",
+				Birthday = DateTime.Now.Date
+			};
+
+			DateTime newBd = DateTime.Now.Date.AddDays(1);
+
+			await client.Update(p, mark =>
+			{
+				mark.Birthday = newBd;
+			});
+
+			DateTime bd = await client.ExecuteScalar<DateTime>("SELECT birthday FROM people WHERE id=5");
+
+			Assert.AreEqual(newBd, bd);
+
+			client.Dispose();
+		}
+
+		[Test, Order(15), TestCaseSource("DbClientTestCases")]
+		public async Task Transaction(DbClient client)
+		{
+			Person p = new Person()
+			{
+				Name = "Jimothy",
+				Birthday = DateTime.Now.Date
+			};
+
+			Query q1 = client.GetQueryProvider().Insert(p);
+			Query q2 = client.GetQueryProvider().Update("people")
+			                                    .Set("name", "Lance")
+												.Where("id", 6);
+
+			List<NonQueryResult> res = await client.ExecuteTransaction(q1, q2);
+
+			Assert.AreEqual(2, res.Count);
+			Assert.AreEqual(1, res[0].RowsAffected);
+			Assert.AreEqual(1, res[1].RowsAffected);
+
+			if (!(client is SqlServer.SqlServerClient))
+			{
+				Assert.AreEqual(6, res[0].LastInsertedId);
+			}
+
+			string name = await client.ExecuteScalar<string>("SELECT name FROM people WHERE id=6");
+
+			Assert.AreEqual("Lance", name);
 
 			client.Dispose();
 		}
