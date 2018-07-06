@@ -77,7 +77,12 @@ namespace Quermine.SqlServer
 			{
 				try
 				{
-					NonQueryResult res = await ExecuteNonQuery(query);
+					SqlCommand cmd = GetCommand(query);
+					cmd.Connection = conn;
+					cmd.Transaction = transaction;
+
+					int rowsAffected = await cmd.ExecuteNonQueryAsync();
+					NonQueryResult res = new NonQueryResult(rowsAffected, cmd.LastInsertedId);
 
 					results.Add(res);
 				}
