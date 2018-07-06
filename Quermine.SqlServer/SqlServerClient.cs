@@ -82,7 +82,7 @@ namespace Quermine.SqlServer
 					cmd.Transaction = transaction;
 
 					int rowsAffected = await cmd.ExecuteNonQueryAsync();
-					NonQueryResult res = new NonQueryResult(rowsAffected, cmd.LastInsertedId);
+					NonQueryResult res = new NonQueryResult(rowsAffected, -1);
 
 					results.Add(res);
 				}
