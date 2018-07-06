@@ -9,7 +9,7 @@ namespace Quermine.Tests
 	[DbTable("people")]
 	public class Person
 	{
-		[DbField("id"), InsertIgnore]
+		[DbField("id"), InsertIgnore, UpdateIgnore]
 		public long ID;
 
 		[DbField("name")]
