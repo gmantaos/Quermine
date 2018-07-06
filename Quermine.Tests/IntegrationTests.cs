@@ -238,7 +238,6 @@ namespace Quermine.Tests
 			};
 
 			InsertQuery<Person> q = client.GetQueryProvider().Insert<Person>(p);
-			Console.WriteLine(q.ParametrizedQueryString());
 
 			NonQueryResult res = await client.Insert(p);
 

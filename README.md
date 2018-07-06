@@ -285,6 +285,16 @@ class Person
 }
 ```
 
+You can deserialize any query into your object.
+
+```csharp
+Query q = Sql.Query("SELECT name, age FROM other_table");
+
+List<Person> people = await connection.Execute<Person>(q);
+```
+
+Or you can let the library construct the queries, as shown in the sections below.
+
 ### Inserting
 
 ```csharp

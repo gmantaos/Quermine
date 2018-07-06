@@ -67,7 +67,7 @@ namespace Quermine
 
 		}
 
-		public WhereClause(string column, ColumnCondition condition) : this()
+		public WhereClause(string column, ValueCondition condition) : this()
 		{
 			whereClauseString = string.Format("{0} {1}",
 				column, GetSymbol(condition)
@@ -161,14 +161,14 @@ namespace Quermine
 			}
 		}
 
-		static string GetSymbol(ColumnCondition condition)
+		static string GetSymbol(ValueCondition condition)
 		{
 			switch (condition)
 			{
-				case ColumnCondition.IsNull:
+				case ValueCondition.IsNull:
 					return "IS NULL";
 
-				case ColumnCondition.NotNull:
+				case ValueCondition.NotNull:
 					return "IS NOT NULL";
 
 				default:
