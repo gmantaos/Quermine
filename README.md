@@ -44,10 +44,6 @@ Get the appropriate package from NuGet
 - [Quermine.Sqlite](https://www.nuget.org/packages/Quermine.Sqlite)
 - [Quermine.SqlServer](https://www.nuget.org/packages/Quermine.SqlServer)
 
-A fair warning though, that during the prerelease phase, CI builds of the packages are 
-published without running any tests. That being said though, I've used this code quite extensively 
-on a couple of apps in production - before it were a nuget package - with no significant problems.
-
 ## Usage
 
 ### MySql
@@ -373,14 +369,14 @@ but not in other kinds of queries. Such cases for example are the following:
 [DbTable("people")]
 class Person
 {
-	[DbField("id"), InsertIgnore, UpdateIgnore]
-	int ID;
+    [DbField("id"), InsertIgnore, UpdateIgnore]
+    int ID;
 
     [DbField("name")]
     string Name;
 	
     [DbField("savings"), WhereIgnore]
-	double Savings;
+    double Savings;
 }
 ```
 
