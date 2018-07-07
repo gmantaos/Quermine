@@ -153,17 +153,24 @@ Query q1, q2, q3;
 
 List<NonQueryResult> result = await connection.ExecuteTransaction(q1, q2, q3);
 
-if (result == null)
+// The transaction was committed 
+foreach (NonQueryResult r in result)
 {
-    // The transsaction failed and a rollback was issued
+    // The result of each query in the order they were executed
 }
-else
+```
+
+A failing transaction will throw the exception that was raised.
+
+```csharp
+try
 {
-    // The transaction was committed 
-    foreach (NonQueryResult r in result)
-    {
-        // The result of each query in the order they were executed
-    }
+	await connection.ExecuteTransaction(q1, q2, q3);
+}
+catch(Exception ex)
+{
+	// Transaction was rolled-back automatically
+	Console.WriteLine(ex);
 }
 ```
 
@@ -270,13 +277,23 @@ q.Where(
 [DbTable("people")]
 class Person
 {
-    [DbColumn("name")]
+    [DbField("name")]
     string Name;
 
-    [DbColumn("age")]
+    [DbField("age")]
     int Age;
 }
 ```
+
+You can deserialize any query into your object.
+
+```csharp
+Query q = Sql.Query("SELECT name, age FROM other_table");
+
+List<Person> people = await connection.Execute<Person>(q);
+```
+
+Or you can let the library construct the queries, as shown in the sections below.
 
 ### Inserting
 
@@ -344,13 +361,30 @@ Now john.Age is 10 and john's age in the databse is also 10
 */
 ```
 
+### Ignoring fields
+
+There are cases when certain fields should participate in `SELECT` queries, for retrieving objects, 
+but not in other kinds of queries. Such cases for example are the following:
+
+- **Auto-Increment IDs**: A field mapped to such a column in a table should generally not be specified manually when inserting an object, or attempted to be updated. To achieve this you can use the `InsertIgnore` and `UpdateIgnore` attributes.
+- **Non-Distinctive Types:** Queries like `DELETE`, `UPDATE` and `SELECT` should use distinctive fields of an object in their `WHERE` clauses, like an ID or a name. Searching by values that don't define the object or values that are hard to compare - like floating point numbers for example - can lead to unintended side effects. To exclude such fields from `WHERE` clauses use the `WhereIgnore` attribute.
+
+```csharp
+[DbTable("people")]
+class Person
+{
+	[DbField("id"), InsertIgnore, UpdateIgnore]
+	int ID;
+
+    [DbField("name")]
+    string Name;
+	
+    [DbField("savings"), WhereIgnore]
+	double Savings;
+}
+```
+
 ## Known issues
-
-#### General
-
-- **Transactions**
-    - Transactions do not currently work as intended.
-    - There is currently no way to consume the exception raised by a query in a transaction.
 
 #### SQL Server
 

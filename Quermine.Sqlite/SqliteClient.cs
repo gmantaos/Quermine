@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Quermine.Sqlite
 {
+	/// <inheritdoc />
 	public class SqliteClient : DbClient
 	{
 		SqliteConnectionInfo connectionInfo;
@@ -26,15 +27,18 @@ namespace Quermine.Sqlite
 			this.conn = conn;
 		}
 
+		/// <inheritdoc />
 		public override ConnectionState State => conn.State;
 
 		internal override QueryBuilder Builder => new SqliteQueryBuilder();
 
+		/// <inheritdoc />
 		public override void Dispose()
 		{
 			conn.Dispose();
 		}
 
+		/// <inheritdoc />
 		public override async Task<ResultSet> Execute(Query query)
 		{
 			using (SQLiteCommand cmd = GetCommand(query))
@@ -52,6 +56,7 @@ namespace Quermine.Sqlite
 			}
 		}
 
+		/// <inheritdoc />
 		public override async Task<NonQueryResult> ExecuteNonQuery(Query query)
 		{
 			using (SQLiteCommand cmd = GetCommand(query))
@@ -63,6 +68,7 @@ namespace Quermine.Sqlite
 			}
 		}
 
+		/// <inheritdoc />
 		public async Task<long> GetLastInsertedId()
 		{
 			using (SQLiteCommand cmd = new SQLiteCommand(@"SELECT last_insert_rowid()"))
@@ -72,6 +78,7 @@ namespace Quermine.Sqlite
 			}
 		}
 
+		/// <inheritdoc />
 		public override async Task<List<NonQueryResult>> ExecuteTransaction(IsolationLevel isolationLevel, params Query[] queries)
 		{
 			List<NonQueryResult> results = new List<NonQueryResult>();
@@ -86,10 +93,11 @@ namespace Quermine.Sqlite
 
 					results.Add(res);
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
 					transaction.Rollback();
-					return null;
+
+					throw ex;
 				}
 			}
 
@@ -97,6 +105,7 @@ namespace Quermine.Sqlite
 			return results;
 		}
 
+		/// <inheritdoc />
 		public override async Task<List<string>> GetTableNames()
 		{
 			Query query = Sql.Select("name")
@@ -108,6 +117,7 @@ namespace Quermine.Sqlite
 			return tables.Select(row => row.GetString("name")).ToList();
 		}
 
+		/// <inheritdoc />
 		public override async Task<TableSchema> GetTableSchema(string table)
 		{
 			Query query = Sql.Query(string.Format("PRAGMA table_info({0});", table));
@@ -129,6 +139,7 @@ namespace Quermine.Sqlite
 			return cmd;
 		}
 
+		/// <inheritdoc />
 		public override async Task<object> ExecuteScalar(Query query)
 		{
 			using (SQLiteCommand cmd = GetCommand(query))

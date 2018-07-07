@@ -20,27 +20,14 @@ namespace Quermine
 		{
 			T obj = new T();
 
-			// Get custom fields
-			FieldInfo[] fields = obj.GetType().GetFields();
-			foreach (FieldInfo field in fields)
+			List<MemberInfo> members = obj.GetType().GetValueMembers();
+			foreach (MemberInfo member in members)
 			{
-				object value = await GetMemberValue(field, conn, row);
+				object value = await GetMemberValue(member, conn, row);
 
 				if (value != null)
 				{
-					field.SetValue(obj, value);
-				}
-			}
-
-			// Get custom properties
-			PropertyInfo[] properties = obj.GetType().GetProperties();
-			foreach (PropertyInfo property in properties)
-			{
-				object value = await GetMemberValue(property, conn, row);
-
-				if (value != null && property.GetSetMethod() != null)
-				{
-					property.SetValue(obj, value);
+					member.SetValue(obj, value);
 				}
 			}
 
@@ -51,8 +38,8 @@ namespace Quermine
 		{
 			Type memberType = (member is PropertyInfo) ? (member as PropertyInfo).PropertyType : (member as FieldInfo).FieldType;
 
-			DbField columnAttribute = member.GetCustomAttribute<DbField>(true);
-			DbReference referenceAttribute = member.GetCustomAttribute<DbReference>(true);
+			DbFieldAttribute columnAttribute = member.GetCustomAttribute<DbFieldAttribute>(true);
+			DbReferenceAttribute referenceAttribute = member.GetCustomAttribute<DbReferenceAttribute>(true);
 
 			if (columnAttribute != null)
 			{

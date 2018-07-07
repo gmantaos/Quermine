@@ -144,7 +144,7 @@ namespace Quermine
 		/// <param name="column"></param>
 		/// <param name="condition"></param>
 		/// <returns></returns>
-		public ConditionalQuery Where(string column, ColumnCondition condition)
+		public ConditionalQuery Where(string column, ValueCondition condition)
 		{
 			return Where(new WhereClause(column, condition));
 		}
@@ -156,7 +156,7 @@ namespace Quermine
 		/// <param name="column"></param>
 		/// <param name="condition"></param>
 		/// <returns></returns>
-		public Q Where<Q>(string column, ColumnCondition condition) where Q : ConditionalQuery
+		public Q Where<Q>(string column, ValueCondition condition) where Q : ConditionalQuery
 		{
 			return (Q)Where(new WhereClause(column, condition));
 		}

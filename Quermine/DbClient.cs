@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Quermine
 {
+	/// <summary>
+	/// The primary connection object.
+	/// </summary>
     public abstract class DbClient : IDisposable
 	{
 		#region Internal
@@ -51,7 +54,8 @@ namespace Quermine
 
 		/// <summary>
 		/// Execute a transaction asynchronously, one query at a time, in the order that they are passed
-		/// to this method.
+		/// to this method. If any query raises an exception, the transaction will be rolled back as you would
+		/// manually do and the exception will be thrown again.
 		/// </summary>
 		/// <param name="isolationLevel"></param>
 		/// <param name="queries"></param>
@@ -158,7 +162,7 @@ namespace Quermine
 		/// </summary>
 		/// <param name="queries"></param>
 		/// <returns></returns>
-		public Task ExecuteTransaction(params Query[] queries)
+		public Task<List<NonQueryResult>> ExecuteTransaction(params Query[] queries)
 		{
 			return ExecuteTransaction(IsolationLevel.Unspecified, queries);
 		}

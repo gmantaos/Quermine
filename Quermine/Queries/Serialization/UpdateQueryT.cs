@@ -12,8 +12,8 @@ namespace Quermine
 		internal UpdateQuery(QueryBuilder builder) : base(builder)
 		{
 			// Get table name
-			DbTable tableAttribute = typeof(T)
-				.GetCustomAttributes<DbTable>(true)
+			DbTableAttribute tableAttribute = typeof(T)
+				.GetCustomAttributes<DbTableAttribute>(true)
 				.FirstOrDefault();
 
 			if (tableAttribute != null)
@@ -28,29 +28,15 @@ namespace Quermine
 
 		public UpdateQuery<T> Where(T obj)
 		{
-			// Get custom fields
-			FieldInfo[] fields = obj.GetType().GetFields();
-			foreach (FieldInfo field in fields)
+			List<MemberInfo> members = obj.GetType().GetValueMembers();
+			foreach (MemberInfo member in members)
 			{
-				DbField columnAttribute = field.GetCustomAttribute<DbField>(true);
-				
-				if (columnAttribute != null && columnAttribute.IsWhereCondition)
+				DbFieldAttribute columnAttribute = member.GetCustomAttribute<DbFieldAttribute>(true);
+				WhereIgnoreAttribute whereIgnore = member.GetCustomAttribute<WhereIgnoreAttribute>(true);
+
+				if (columnAttribute != null && whereIgnore == null)
 				{
-					object value = field.GetValue(obj);
-
-					Where(columnAttribute.Name, value);
-				}
-			}
-
-			// Get custom properties
-			PropertyInfo[] properties = obj.GetType().GetProperties();
-			foreach (PropertyInfo property in properties)
-			{
-				DbField columnAttribute = property.GetCustomAttribute<DbField>(true);
-
-				if (columnAttribute != null && columnAttribute.IsWhereCondition)
-				{
-					object value = property.GetValue(obj);
+					object value = member.GetValue(obj);
 
 					Where(columnAttribute.Name, value);
 				}
@@ -61,29 +47,15 @@ namespace Quermine
 
 		public UpdateQuery<T> Set(T obj)
 		{
-			// Get custom fields
-			FieldInfo[] fields = obj.GetType().GetFields();
-			foreach (FieldInfo field in fields)
+			List<MemberInfo> members = obj.GetType().GetValueMembers();
+			foreach (MemberInfo member in members)
 			{
-				DbField columnAttribute = field.GetCustomAttribute<DbField>(true);
+				DbFieldAttribute columnAttribute = member.GetCustomAttribute<DbFieldAttribute>(true);
+				UpdateIgnoreAttribute updateIgnore = member.GetCustomAttribute<UpdateIgnoreAttribute>(true);
 
-				if (columnAttribute != null)
+				if (columnAttribute != null && updateIgnore == null)
 				{
-					object value = field.GetValue(obj);
-
-					Set(columnAttribute.Name, value);
-				}
-			}
-
-			// Get custom properties
-			PropertyInfo[] properties = obj.GetType().GetProperties();
-			foreach (PropertyInfo property in properties)
-			{
-				DbField columnAttribute = property.GetCustomAttribute<DbField>(true);
-
-				if (columnAttribute != null)
-				{
-					object value = property.GetValue(obj);
+					object value = member.GetValue(obj);
 
 					Set(columnAttribute.Name, value);
 				}

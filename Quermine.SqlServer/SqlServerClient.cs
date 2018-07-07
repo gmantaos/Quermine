@@ -79,16 +79,18 @@ namespace Quermine.SqlServer
 				{
 					SqlCommand cmd = GetCommand(query);
 					cmd.Connection = conn;
+					cmd.Transaction = transaction;
 
 					int rowsAffected = await cmd.ExecuteNonQueryAsync();
 					NonQueryResult res = new NonQueryResult(rowsAffected, -1);
 
 					results.Add(res);
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
 					transaction.Rollback();
-					return null;
+
+					throw ex;
 				}
 			}
 

@@ -10,6 +10,7 @@ using System.Data.Common;
 
 namespace Quermine.MySql
 {
+	/// <inheritdoc />
 	public class MySqlClient : DbClient
 	{
 		MySqlConnectionInfo connectionInfo;
@@ -21,10 +22,12 @@ namespace Quermine.MySql
 			conn = new MySqlConnection(connectionInfo.ConnectionString);
 		}
 
+		/// <inheritdoc />
 		public override ConnectionState State => conn.State;
 
 		internal override QueryBuilder Builder => new MysqlQueryBuilder();
 
+		/// <inheritdoc />
 		public override void Dispose()
 		{
 			conn.Dispose();
@@ -35,6 +38,7 @@ namespace Quermine.MySql
 			return conn.OpenAsync();
 		}
 
+		/// <inheritdoc />
 		public override async Task<ResultSet> Execute(Query query)
 		{
 			using (MySqlCommand cmd = GetCommand(query))
@@ -52,6 +56,7 @@ namespace Quermine.MySql
 			}
 		}
 
+		/// <inheritdoc />
 		public override async Task<NonQueryResult> ExecuteNonQuery(Query query)
 		{
 			using (MySqlCommand cmd = GetCommand(query))
@@ -62,6 +67,7 @@ namespace Quermine.MySql
 			}
 		}
 
+		/// <inheritdoc />
 		public override async Task<List<NonQueryResult>> ExecuteTransaction(IsolationLevel isolationLevel, params Query[] queries)
 		{
 			List<NonQueryResult> results = new List<NonQueryResult>();
@@ -73,6 +79,7 @@ namespace Quermine.MySql
 				{
 					MySqlCommand cmd = GetCommand(query);
 					cmd.Connection = conn;
+					cmd.Transaction = transaction;
 
 					int rowsAffected = await cmd.ExecuteNonQueryAsync();
 					NonQueryResult res = new NonQueryResult(rowsAffected, cmd.LastInsertedId);
@@ -81,15 +88,18 @@ namespace Quermine.MySql
 				}
 				catch (Exception ex)
 				{
-					transaction.Rollback();
-					return null;
+					await transaction.RollbackAsync();
+
+					throw ex;
 				}
 			}
 
-			transaction.Commit();
+			await transaction.CommitAsync();
+
 			return results;
 		}
 
+		/// <inheritdoc />
 		public override async Task<TableSchema> GetTableSchema(string table)
 		{
 			Query query = Sql.Query(string.Format("describe {0};", table));
@@ -106,6 +116,7 @@ namespace Quermine.MySql
 			return cmd;
 		}
 
+		/// <inheritdoc />
 		public override async Task<List<string>> GetTableNames()
 		{
 			Query query = Sql.Select("table_name")
@@ -117,6 +128,7 @@ namespace Quermine.MySql
 			return tables.Select(row => row.GetString("table_name")).ToList();
 		}
 
+		/// <inheritdoc />
 		public override async Task<object> ExecuteScalar(Query query)
 		{
 			using (MySqlCommand cmd = GetCommand(query))
