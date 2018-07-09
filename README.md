@@ -195,12 +195,12 @@ foreach (string table in tables)
 SelectQuery q = Sql.Select();
 
 q.Select("name", "age")
-    .From("tableName")
-    .Where("age", WhereRelation.LesserThan, 10)
-    .Where("name", WhereRelation.Like, "John%")
-    .Where("email", ColumnCondition.IsNull)
-    .Limit(5)
-    .Offset(10);
+ .From("tableName")
+ .Where("age", WhereRelation.LesserThan, 10)
+ .Where("name", WhereRelation.Like, "John%")
+ .Where("email", ColumnCondition.IsNull)
+ .Limit(5)
+ .Offset(10);
 
 await connection.Execute(q);
 ```
