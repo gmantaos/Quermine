@@ -13,9 +13,9 @@ namespace Quermine.Sqlite
 			{
 				Name = field.GetString("name"),
 				Type = ParseType(field.GetString("type")),
-				Null = field.GetInteger("notnull") == 0,
+				NotNull = field.GetInteger("notnull") != 0,
 				Key = field.GetInteger("pk") == 1 ? KeyType.Primary : KeyType.None,
-				Default = field["dflt_value"],
+				DefaultValue = field["dflt_value"],
 				Unsigned = field.GetString("type").Split(' ').Contains("unsigned"),
 				Zerofill = field.GetString("type").Split(' ').Contains("zerofill"),
 				AutoIncrement = false

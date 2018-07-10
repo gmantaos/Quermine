@@ -14,9 +14,9 @@ namespace Quermine
 			{
 				Name = field.GetString("Field"),
 				Type = ParseType(field.GetString("Type")),
-				Null = field.GetString("Null").Equals("YES"),
+				NotNull = !field.GetString("Null").Equals("YES"),
 				Key = ParseKey(field.GetString("Key")),
-				Default = field["Default"],
+				DefaultValue = field["Default"],
 				Unsigned = field.GetString("Type").Split(' ').Contains("unsigned"),
 				Zerofill = field.GetString("Type").Split(' ').Contains("zerofill"),
 				AutoIncrement = field.GetString("Extra").Split(' ').Contains("auto_increment"),

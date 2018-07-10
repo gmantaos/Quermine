@@ -147,7 +147,7 @@ namespace Quermine.SqlServer
 
 			if (field.AutoIncrement)
 				str.Append(" IDENTITY(1,1)");
-			else if (!field.Null)
+			else if (field.NotNull)
 				str.Append(" NOT NULL");
 			else
 				str.Append(" NULL");
@@ -155,8 +155,8 @@ namespace Quermine.SqlServer
 			if (includeKey && field.Key.HasFlag(KeyType.Primary))
 				str.Append(" PRIMARY KEY");
 
-			if (field.Default != null)
-				str.AppendFormat(" DEFAULT {0}", field.Default);
+			if (field.DefaultValue != null)
+				str.AppendFormat(" DEFAULT {0}", field.DefaultValue);
 
 			return str.ToString();
 		}

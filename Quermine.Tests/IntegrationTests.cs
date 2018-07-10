@@ -319,5 +319,34 @@ namespace Quermine.Tests
 
 			client.Dispose();
 		}
+
+		[Test, Order(16), TestCaseSource("DbClientTestCases")]
+		public async Task TableNames(DbClient client)
+		{
+			List<string> tables = await client.GetTableNames();
+
+			Assert.IsTrue(tables.Contains("people"));
+		}
+
+		[Test, Order(17), TestCaseSource("DbClientTestCases")]
+		public async Task TableSchema(DbClient client)
+		{
+			TableSchema schema = await client.GetTableSchema("people");
+
+			Assert.AreEqual(3, schema.Count());
+
+			TableField id = schema["id"];
+			Assert.AreEqual("id", id.Name);
+			Assert.AreEqual(KeyType.Primary, id.Key);
+
+			if (!(client is Sqlite.SqliteClient))
+			{
+				Assert.AreEqual(true, id.AutoIncrement);
+				Assert.AreEqual(true, id.NotNull);
+			}
+
+			TableField name = schema["name"];
+			TableField bd = schema["birthday"];
+		}
 	}
 }

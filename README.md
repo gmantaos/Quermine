@@ -179,6 +179,10 @@ foreach (string table in tables)
 {
     TableSchema schema = await connection.GetTableSchema(table);
 
+    // Get specific fields by name
+    TableField nameField = schema["name"];
+
+    // ... or iterate over them
     foreach (TableField field in schema)
     {
         ...
@@ -380,12 +384,15 @@ class Person
 }
 ```
 
-## Known issues
+## Known issues and limitations
 
 #### SQL Server
 
 - The `LastInsertedId` field on non-query results will always return `-1`, since implementing it would require injecting things into queries. If and and how this should happen needs to be carefully looked into beforehand.
 
+#### SQLite
+
+- The `AutoIncrement` and `NotNull` fields of a `TableField` will always be false.
 
 
 

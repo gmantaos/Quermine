@@ -11,9 +11,9 @@ namespace Quermine
 		public string Name;
 		public Type Type;
 		public int? Length;
-		public bool Null;
+		public bool NotNull { get; set; }
 		public KeyType Key;
-		public object Default;
+		public object DefaultValue;
 
 		public bool Unsigned;
 		public bool Zerofill;
@@ -21,13 +21,13 @@ namespace Quermine
 
 		public TableField() { }
 
-		internal TableField(string fieldName, Type type, int? length = null, FieldTypes fieldTypes = 0, object defaultVal = null)
+		internal TableField(string fieldName, Type type, int? length = null, FieldTypes fieldTypes = 0, object defaultValue = null)
 		{
 			Name = fieldName;
 			Length = length;
 			Type = type;
-			Default = defaultVal;
-			Null = !fieldTypes.HasFlag(FieldTypes.NotNull);
+			DefaultValue = defaultValue;
+			NotNull = fieldTypes.HasFlag(FieldTypes.NotNull);
 			if (fieldTypes.HasFlag(FieldTypes.PrimaryKey))
 			{
 				Key = KeyType.Primary;
@@ -48,7 +48,7 @@ namespace Quermine
 
 			if (fieldTypes.HasFlag(FieldTypes.PrimaryKey))
 			{
-				Null = false;
+				NotNull = true;
 			}
 		}
 	}

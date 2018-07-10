@@ -164,14 +164,14 @@ namespace Quermine
 				str.Append(" UNSIGNED");
 			if (field.Zerofill)
 				str.Append(" ZEROFILL");
-			if (!field.Null)
+			if (field.NotNull)
 				str.Append(" NOT NULL");
 			else
 				str.Append(" NULL");
 			if (field.AutoIncrement)
 				str.Append(" AUTO_INCREMENT");
-			if (field.Default != null)
-				str.AppendFormat(" DEFAULT {0}", field.Default);
+			if (field.DefaultValue != null)
+				str.AppendFormat(" DEFAULT {0}", field.DefaultValue);
 			if (includeKey && field.Key.HasFlag(KeyType.Primary))
 				str.Append(" PRIMARY KEY");
 			return str.ToString();

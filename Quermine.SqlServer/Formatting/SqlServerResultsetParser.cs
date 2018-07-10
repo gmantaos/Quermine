@@ -14,9 +14,9 @@ namespace Quermine.SqlServer
 			{
 				Name = field.GetString("TABLE_NAME"),
 				Type = ParseType(field.GetString("DATA_TYPE")),
-				Null = field.GetString("IS_NULLABLE").Equals("YES"),
+				NotNull = !field.GetString("IS_NULLABLE").Equals("YES"),
 				//Key = ParseKey(field.GetString("Key")),  ???
-				Default = field["COLUMN_DEFAULT"],
+				DefaultValue = field["COLUMN_DEFAULT"],
 				//Unsigned = field.GetString("Type").Split(' ').Contains("unsigned"),
 				//Zerofill = field.GetString("Type").Split(' ').Contains("zerofill"),
 				//AutoIncrement = field.GetString("Extra").Split(' ').Contains("auto_increment"),

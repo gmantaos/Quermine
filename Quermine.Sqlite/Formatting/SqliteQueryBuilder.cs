@@ -43,13 +43,13 @@ namespace Quermine.Sqlite
 
 			if (field.AutoIncrement)
 				str.Append(" AUTOINCREMENT");
-			else if (!field.Null)
+			else if (field.NotNull)
 				str.Append(" NOT NULL");
 			else
 				str.Append(" NULL");
 
-			if (field.Default != null)
-				str.AppendFormat(" DEFAULT {0}", field.Default);
+			if (field.DefaultValue != null)
+				str.AppendFormat(" DEFAULT {0}", field.DefaultValue);
 			
 			return str.ToString();
 		}
