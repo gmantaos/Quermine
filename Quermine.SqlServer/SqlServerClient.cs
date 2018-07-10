@@ -106,7 +106,11 @@ namespace Quermine.SqlServer
 							 .Where("TABLE_NAME", table)
 							 .OrderBy("ORDINAL_POSITION");
 
-			return new TableSchema(new SqlServerResultsetParser(), await Execute(query));
+			ResultSet rs = await Execute(query);
+
+			TableSchema schema = new TableSchema(new SqlServerResultsetParser(), rs);
+
+			return schema;
 		}
 
 		SqlCommand GetCommand(Query query)
