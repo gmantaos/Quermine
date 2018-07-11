@@ -12,7 +12,7 @@ namespace Quermine
 	/// </summary>
 	public class TableSchema : IEnumerable<TableField>
 	{
-		IEnumerable<TableField> fields;
+		List<TableField> fields;
 
 		/// <summary>
 		/// Get a field of the table's schema by its name, returning null if the field
@@ -29,9 +29,14 @@ namespace Quermine
 			}
 		}
 
-		internal TableSchema(ResultsetParser parser, ResultSet table)
+		public TableSchema()
 		{
-			fields = table.Select(field => parser.TableField(field));
+			fields = new List<TableField>();
+		}
+
+		internal TableSchema(ResultsetParser parser, ResultSet table) : this()
+		{
+			fields = table.Select(field => parser.TableField(field)).ToList();
 		}
 
 		/// <summary>

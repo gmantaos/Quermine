@@ -333,6 +333,8 @@ namespace Quermine.Tests
 		{
 			TableSchema schema = await client.GetTableSchema("people");
 
+			Assert.IsFalse(schema == null);
+
 			Assert.AreEqual(3, schema.Count());
 
 			TableField id = schema["id"];
