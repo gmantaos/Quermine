@@ -384,6 +384,54 @@ class Person
 }
 ```
 
+### Custom value formatting
+
+Another common use case is having to convert or transform values, between serializable members and the database. Such instances may require a simple type cast, or even custom parsing of the given values to generate entirely new objects. To achieve this, you can create custom formatters that implement the `IValueFormatter<T>` interface, like in the following examples.
+
+```csharp
+// Treating an integer in the database as a double in the object
+class RoundFormatter : IValueFormatter<double>
+{
+    public object GetValue(double val)
+    {
+        return (int)Math.Round(val);
+    }
+
+    public double SetValue(object val)
+    {
+        return (double)val;
+    }
+}
+
+// Treating a string field in the database as a byte array in the object
+class AsciiFormatter : IValueFormatter<byte[]>
+{
+    public object GetValue(byte[] val)
+    {
+        return Encoding.ASCII.GetString(val);
+    }
+
+    public byte[] SetValue(object val)
+    {
+        return Encoding.ASCII.GetBytes(val.ToString());
+    }
+}
+```
+
+`GetValue` is used when *reading* the value of a member, in order to place the converted value in a query, and `SetValue` is used to convert values fetched from the database before *writing* them on the member.
+
+```csharp
+[DbTable("books")]
+class Book
+{
+    [DbField("description", Formatter = typeof(AsciiFormatter))]
+    byte[] AsciiDescription;    // a string in the database
+    
+    [DbField("savings", Formatter = typeof(RoundFormatter))]
+    double Savings;             // an integer in the database
+}
+```
+
 ## Known issues and limitations
 
 #### SQL Server
