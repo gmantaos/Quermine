@@ -35,9 +35,6 @@ namespace Quermine.Tests
 		[Test, TestCaseSource("DbClientTestCases")]
 		public void Connection(DbClient client)
 		{
-
-			Console.WriteLine(Credentials.SqlServer().ConnectionString);
-
 			Assert.AreEqual(ConnectionState.Open, client.State);
 
 			client.Dispose();
