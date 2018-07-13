@@ -17,5 +17,8 @@ namespace Quermine.Tests
 
 		[DbField("birthday")]
 		public DateTime Birthday;
+
+		[DbField("name", Formatter = typeof(AsciiFormatter)), InsertIgnore, WhereIgnore, UpdateIgnore]
+		public byte[] NameAscii;
 	}
 }

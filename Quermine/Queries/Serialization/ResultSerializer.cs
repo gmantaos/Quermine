@@ -36,7 +36,7 @@ namespace Quermine
 
 		async Task<object> GetMemberValue(MemberInfo member, DbClient conn, ResultRow row)
 		{
-			Type memberType = (member is PropertyInfo) ? (member as PropertyInfo).PropertyType : (member as FieldInfo).FieldType;
+			Type memberType = member.GetUnderlyingType();
 
 			DbFieldAttribute columnAttribute = member.GetCustomAttribute<DbFieldAttribute>(true);
 			DbReferenceAttribute referenceAttribute = member.GetCustomAttribute<DbReferenceAttribute>(true);
@@ -45,8 +45,12 @@ namespace Quermine
 			{
 				object value = row[columnAttribute.Name ?? member.Name];
 				string columnName = columnAttribute.Name ?? member.Name;
-
-				if (memberType == typeof(DateTime))
+				
+				if (columnAttribute.ValidFormatter(memberType))
+				{
+					value = columnAttribute.FormatSetValue(memberType, value);
+				}
+				else if (memberType == typeof(DateTime))
 				{
 					value = row.GetDateTime(columnName, default(DateTime));
 				}

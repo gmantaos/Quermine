@@ -31,6 +31,11 @@ namespace Quermine
 			return members;
 		}
 
+		public static Type GetUnderlyingType(this MemberInfo member)
+		{
+			return (member is PropertyInfo) ? (member as PropertyInfo).PropertyType : (member as FieldInfo).FieldType;
+		}
+
 		public static object GetValue(this MemberInfo member, object obj)
 		{
 			if (member is FieldInfo)

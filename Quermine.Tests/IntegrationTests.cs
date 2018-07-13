@@ -365,5 +365,20 @@ namespace Quermine.Tests
 
 			client.Dispose();
 		}
+
+		[Test, Order(18), TestCaseSource("DbClientTestCases")]
+		public async Task SetValueFormatting(DbClient client)
+		{
+			List<Person> people = await client.Select<Person>();
+
+			foreach (Person p in people)
+			{
+				string ascii = Encoding.ASCII.GetString(p.NameAscii);
+
+				Assert.AreEqual(p.Name, ascii);
+			}
+
+			client.Dispose();
+		}
 	}
 }

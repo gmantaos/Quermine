@@ -30,12 +30,19 @@ namespace Quermine
 			List<MemberInfo> members = obj.GetType().GetValueMembers();
 			foreach (MemberInfo member in members)
 			{
+				Type memberType = member.GetUnderlyingType();
+
 				DbFieldAttribute columnAttribute = member.GetCustomAttribute<DbFieldAttribute>(true);
 				InsertIgnoreAttribute insertIgnore = member.GetCustomAttribute<InsertIgnoreAttribute>(true);
 
 				if (columnAttribute != null && insertIgnore == null)
 				{
 					object value = member.GetValue(obj);
+
+					if (columnAttribute.ValidFormatter(memberType))
+					{
+						value = columnAttribute.FormatGetValue(memberType, value);
+					}
 
 					Value(columnAttribute.Name, value);
 				}

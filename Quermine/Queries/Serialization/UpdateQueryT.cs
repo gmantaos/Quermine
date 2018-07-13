@@ -31,12 +31,18 @@ namespace Quermine
 			List<MemberInfo> members = obj.GetType().GetValueMembers();
 			foreach (MemberInfo member in members)
 			{
+				Type memberType = member.GetUnderlyingType();
 				DbFieldAttribute columnAttribute = member.GetCustomAttribute<DbFieldAttribute>(true);
 				WhereIgnoreAttribute whereIgnore = member.GetCustomAttribute<WhereIgnoreAttribute>(true);
 
 				if (columnAttribute != null && whereIgnore == null)
 				{
 					object value = member.GetValue(obj);
+
+					if (columnAttribute.ValidFormatter(memberType))
+					{
+						value = columnAttribute.FormatGetValue(memberType, value);
+					}
 
 					Where(columnAttribute.Name, value);
 				}

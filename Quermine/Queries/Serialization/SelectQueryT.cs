@@ -26,6 +26,7 @@ namespace Quermine
 				From(typeof(T).Name);
 			}
 			
+			// TODO: Find a proper way to add columns to the query
 		}
 	}
 }
