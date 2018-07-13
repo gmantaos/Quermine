@@ -35,6 +35,9 @@ namespace Quermine.Tests
 		[Test, TestCaseSource("DbClientTestCases")]
 		public void Connection(DbClient client)
 		{
+
+			Console.WriteLine(Credentials.SqlServer().ConnectionString);
+
 			Assert.AreEqual(ConnectionState.Open, client.State);
 
 			client.Dispose();
@@ -326,6 +329,8 @@ namespace Quermine.Tests
 			List<string> tables = await client.GetTableNames();
 
 			Assert.IsTrue(tables.Contains("people"));
+
+			client.Dispose();
 		}
 
 		[Test, Order(17), TestCaseSource("DbClientTestCases")]
@@ -334,21 +339,31 @@ namespace Quermine.Tests
 			TableSchema schema = await client.GetTableSchema("people");
 
 			Assert.IsFalse(schema == null);
+			Assert.IsFalse(schema.fields == null);
 
 			Assert.AreEqual(3, schema.Count());
 
-			TableField id = schema["id"];
-			Assert.AreEqual("id", id.Name);
-			Assert.AreEqual(KeyType.Primary, id.Key);
-
-			if (!(client is Sqlite.SqliteClient))
+			try
 			{
-				Assert.AreEqual(true, id.AutoIncrement);
-				Assert.AreEqual(true, id.NotNull);
+				TableField id = schema["id"];
+				Assert.AreEqual("id", id.Name);
+				Assert.AreEqual(KeyType.Primary, id.Key);
+
+				if (!(client is Sqlite.SqliteClient))
+				{
+					Assert.AreEqual(true, id.AutoIncrement);
+					Assert.AreEqual(true, id.NotNull);
+				}
+
+				TableField name = schema["name"];
+				TableField bd = schema["birthday"];
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
 			}
 
-			TableField name = schema["name"];
-			TableField bd = schema["birthday"];
+			client.Dispose();
 		}
 	}
 }

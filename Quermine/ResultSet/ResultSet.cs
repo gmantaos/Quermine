@@ -24,7 +24,15 @@ namespace Quermine
         public int RowCount
         {
             get { return rows.Count; }
-        }        
+        }
+
+		/// <summary>
+		/// Get a list of the column keys in the current ResultSet.
+		/// </summary>
+		public List<string> Fields
+		{
+			get { return schema.Keys.ToList(); }
+		}
 
 		/// <summary>
 		/// Get a specific row of this result set by its index.

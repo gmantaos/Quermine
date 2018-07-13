@@ -8,6 +8,9 @@ using System.Collections;
 
 namespace Quermine
 {
+	/// <summary>
+	/// Holds a single row of the result set of a query.
+	/// </summary>
     public class ResultRow : IEnumerable<KeyValuePair<string, object>>
     {
         Dictionary<string, object> fields;

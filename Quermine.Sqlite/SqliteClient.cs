@@ -52,6 +52,9 @@ namespace Quermine.Sqlite
 					ResultRow row = result.AddRow(reader);
 					query.Row(row);
 				}
+
+				reader.Close();
+
 				return result;
 			}
 		}

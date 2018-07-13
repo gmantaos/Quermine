@@ -12,7 +12,7 @@ namespace Quermine
 	/// </summary>
 	public class TableSchema : IEnumerable<TableField>
 	{
-		List<TableField> fields;
+		internal List<TableField> fields;
 
 		/// <summary>
 		/// Get a field of the table's schema by its name, returning null if the field
@@ -29,6 +29,9 @@ namespace Quermine
 			}
 		}
 
+		/// <summary>
+		/// Initialize an empty table schema.
+		/// </summary>
 		public TableSchema()
 		{
 			fields = new List<TableField>();
