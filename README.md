@@ -389,10 +389,11 @@ class Person
 #### SQL Server
 
 - The `LastInsertedId` field on non-query results will always return `-1`, since implementing it would require injecting things into queries. If and and how this should happen needs to be carefully looked into beforehand.
+- The `AutoIncrement`, `Unsigned`, `Zerofill` and `Key` fields of a `TableField` will be non-indicative of the real value.
 
 #### SQLite
 
-- The `AutoIncrement` and `NotNull` fields of a `TableField` will always be false.
+- The `AutoIncrement` and `NotNull` fields of a `TableField` will be non-indicative of the real value.
 
 
 

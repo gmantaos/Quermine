@@ -12,7 +12,7 @@ namespace Quermine
 	/// </summary>
 	public class TableSchema : IEnumerable<TableField>
 	{
-		internal List<TableField> fields;
+		List<TableField> fields;
 
 		/// <summary>
 		/// Get a field of the table's schema by its name, returning null if the field

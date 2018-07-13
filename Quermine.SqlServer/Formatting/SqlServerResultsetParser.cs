@@ -12,7 +12,7 @@ namespace Quermine.SqlServer
 
 			TableField tableField = new TableField()
 			{
-				Name = field.GetString("TABLE_NAME"),
+				Name = field.GetString("COLUMN_NAME"),
 				Type = ParseType(field.GetString("DATA_TYPE")),
 				NotNull = !field.GetString("IS_NULLABLE").Equals("YES"),
 				//Key = ParseKey(field.GetString("Key")),  ???

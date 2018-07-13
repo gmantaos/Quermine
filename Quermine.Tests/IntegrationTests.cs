@@ -339,29 +339,32 @@ namespace Quermine.Tests
 			TableSchema schema = await client.GetTableSchema("people");
 
 			Assert.IsFalse(schema == null);
-			Assert.IsFalse(schema.fields == null);
 
 			Assert.AreEqual(3, schema.Count());
 
-			try
+			TableField id = schema["id"];
+			Assert.IsFalse(id == null);
+			Assert.AreEqual("id", id.Name);
+
+			if (!(client is SqlServer.SqlServerClient))
 			{
-				TableField id = schema["id"];
-				Assert.AreEqual("id", id.Name);
 				Assert.AreEqual(KeyType.Primary, id.Key);
-
-				if (!(client is Sqlite.SqliteClient))
-				{
-					Assert.AreEqual(true, id.AutoIncrement);
-					Assert.AreEqual(true, id.NotNull);
-				}
-
-				TableField name = schema["name"];
-				TableField bd = schema["birthday"];
 			}
-			catch (Exception ex)
+
+			if (!(client is Sqlite.SqliteClient)
+				&& !(client is SqlServer.SqlServerClient))
 			{
-				Console.WriteLine(ex);
+				Assert.AreEqual(true, id.AutoIncrement);
+				Assert.AreEqual(true, id.NotNull);
 			}
+
+			TableField name = schema["name"];
+			Assert.IsFalse(name == null);
+			Assert.AreEqual(typeof(string), name.Type);
+
+			TableField bd = schema["birthday"];
+			Assert.IsFalse(bd == null);
+			Assert.AreEqual(typeof(DateTime), bd.Type);
 
 			client.Dispose();
 		}
