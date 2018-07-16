@@ -416,6 +416,22 @@ class AsciiFormatter : IValueFormatter<byte[]>
         return Encoding.ASCII.GetBytes(val.ToString());
     }
 }
+
+// Having a birthday in the database but wanting an age in the class
+class AgeFormatter : IValueFormatter<int>
+{
+    public object GetValue(int val)
+    {
+        throw new NotImplementedException();
+    }
+
+    public int SetValue(object val)
+    {
+        DateTime birthday = (DateTime)val;
+	
+        return YearsBetween(birthday, DateTime.Now);
+    }
+}
 ```
 
 `GetValue` is used when *reading* the value of a member, in order to place the converted value in a query, and `SetValue` is used to convert values fetched from the database before *writing* them on the member.
@@ -429,6 +445,9 @@ class Book
     
     [DbField("savings", Formatter = typeof(RoundFormatter))]
     double Savings;             // an integer in the database
+    
+    [DbField("release_date", Formatter = typeof(AgeFormatter))]
+    int Age;			// a DateTime in the database
 }
 ```
 
