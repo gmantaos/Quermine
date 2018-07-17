@@ -74,6 +74,7 @@
     <Compile Include="IntegrationTests.cs" />
     <Compile Include="Models\AsciiFormatter.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\PersonName.cs" />
     <Compile Include="MySqlTests.cs" />
     <Compile Include="NamespaceWrapping\MySqlQueryProvider.cs" />
     <Compile Include="NamespaceWrapping\QueryProvider.cs" />

@@ -380,5 +380,28 @@ namespace Quermine.Tests
 
 			client.Dispose();
 		}
+
+		[Test, Order(19), TestCaseSource("DbClientTestCases")]
+		public async Task GetValueFormatting(DbClient client)
+		{
+			PersonName p = new PersonName()
+			{
+				NameAscii = Encoding.ASCII.GetBytes("Cool Dude")
+			};
+
+			NonQueryResult res = await client.Insert(p);
+
+			Assert.AreEqual(1, res.RowsAffected);
+			if (!(client is SqlServer.SqlServerClient))
+			{
+				Assert.AreEqual(7, res.LastInsertedId);
+			}
+
+			string name = await client.ExecuteScalar<string>("SELECT name FROM people WHERE id=7");
+
+			Assert.AreEqual("Cool Dude", name);
+
+			client.Dispose();
+		}
 	}
 }
