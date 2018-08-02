@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Quermine
 {
 	/// <summary>
-	/// Represents a column in a database table.
+	/// Attribute used to map a field or property to a column in a database table.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	public class DbFieldAttribute : Attribute
@@ -21,10 +21,10 @@ namespace Quermine
 		/// <summary>
 		/// The custom formatter to use when setting and getting values from this field.
 		/// </summary>
-		public Type Formatter;
+		public Type FormatWith;
 
 		/// <summary>
-		/// 
+		/// Map this field or property to a column in the database table.
 		/// </summary>
 		/// <param name="name">The name of the field.</param>
 		public DbFieldAttribute(string name = null)
@@ -34,10 +34,10 @@ namespace Quermine
 
 		internal bool ValidFormatter(Type targetMemberType)
 		{
-			if (Formatter == null)
+			if (FormatWith == null)
 				return false;
 
-			IEnumerable<Type> intf = from interfaceType in Formatter.GetInterfaces()
+			IEnumerable<Type> intf = from interfaceType in FormatWith.GetInterfaces()
 									 where interfaceType.IsGenericType
 									 let baseInterface = interfaceType.GetGenericTypeDefinition()
 									 where baseInterface == typeof(IValueFormatter<>)
@@ -45,17 +45,17 @@ namespace Quermine
 
 			if (intf.Count() == 0)
 			{
-				throw new ArgumentException("Type assigned to DbField.Formatter does not implement IValueFormatter: " + Formatter);
+				throw new ArgumentException("Type assigned to DbField.Formatter does not implement IValueFormatter: " + FormatWith);
 			}
-			else if (Formatter.IsGenericType)
+			else if (FormatWith.IsGenericType)
 			{
-				throw new ArgumentException("Type assigned to DbField.Formatter must not be generic: " + Formatter);
+				throw new ArgumentException("Type assigned to DbField.Formatter must not be generic: " + FormatWith);
 			}
-			else if (Formatter.GetConstructors().Length > 0				// Has a constructor
-				&& Formatter.GetConstructor(Type.EmptyTypes) == null    // ... with parameters
-				&& !Formatter.IsValueType)								// and it's not a struct
+			else if (FormatWith.GetConstructors().Length > 0				// Has a constructor
+				&& FormatWith.GetConstructor(Type.EmptyTypes) == null    // ... with parameters
+				&& !FormatWith.IsValueType)								// and it's not a struct
 			{
-				throw new ArgumentException("Type assigned to DbField.Formatter must provide a public parameterless constructor: " + Formatter);
+				throw new ArgumentException("Type assigned to DbField.Formatter must provide a public parameterless constructor: " + FormatWith);
 			}
 			else
 			{
@@ -65,18 +65,18 @@ namespace Quermine
 
 		internal object FormatSetValue(Type targetMemberType, object value)
 		{
-			object formatter = Activator.CreateInstance(Formatter);
+			object formatter = Activator.CreateInstance(FormatWith);
 
-			MethodInfo setMethod = Formatter.GetMethod("SetValue");
+			MethodInfo setMethod = FormatWith.GetMethod("SetValue");
 
 			return setMethod.Invoke(formatter, new object[] { value });
 		}
 
 		internal object FormatGetValue(Type targetMemberType, object value)
 		{
-			object formatter = Activator.CreateInstance(Formatter);
+			object formatter = Activator.CreateInstance(FormatWith);
 
-			MethodInfo getMethod = Formatter.GetMethod("GetValue");
+			MethodInfo getMethod = FormatWith.GetMethod("GetValue");
 
 			return getMethod.Invoke(formatter, new object[] { value });
 		}

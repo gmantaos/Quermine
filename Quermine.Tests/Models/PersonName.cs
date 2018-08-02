@@ -11,7 +11,7 @@ namespace Quermine.Tests
 	[DbTable("people")]
 	public class PersonName
 	{
-		[DbField("name", Formatter = typeof(AsciiFormatter))]
+		[DbField("name", FormatWith = typeof(AsciiFormatter))]
 		public byte[] NameAscii;
 	}
 }

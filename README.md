@@ -440,13 +440,13 @@ class AgeFormatter : IValueFormatter<int>
 [DbTable("books")]
 class Book
 {
-    [DbField("description", Formatter = typeof(AsciiFormatter))]
+    [DbField("description", FormatWith = typeof(AsciiFormatter))]
     byte[] AsciiDescription;    // a string in the database
     
-    [DbField("savings", Formatter = typeof(RoundFormatter))]
+    [DbField("savings", FormatWith = typeof(RoundFormatter))]
     double Savings;             // an integer in the database
     
-    [DbField("release_date", Formatter = typeof(AgeFormatter))]
+    [DbField("release_date", FormatWith = typeof(AgeFormatter))]
     int Age;			// a DateTime in the database
 }
 ```
