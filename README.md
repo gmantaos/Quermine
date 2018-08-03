@@ -363,7 +363,7 @@ Now john.Age is 10 and john's age in the databse is also 10
 
 ### Ignoring fields
 
-##### `This is a v2.0 feature which has not been yet released released`
+##### `This is a v2.0 feature which has not yet been released`
 
 There are cases when certain fields should participate in `SELECT` queries, for retrieving objects, 
 but not in other kinds of queries. Such cases for example are the following:
@@ -388,7 +388,7 @@ class Person
 
 ### Custom value formatting
 
-##### `This is a v2.0 feature which has not been yet released released`
+##### `This is a v2.0 feature which has not yet been released`
 
 Another common use case is having to convert or transform values, between serializable members and the database. Such instances may require a simple type cast, or even custom parsing of the given values to generate entirely new objects. To achieve this, you can create custom formatters that implement the `IValueFormatter<T>` interface, like in the following examples.
 
