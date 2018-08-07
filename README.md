@@ -46,6 +46,8 @@ Get the appropriate package from NuGet
 
 ## Usage
 
+Each of the connection objects shown below extends `DbClient` and have an almost identical API.
+
 ### MySql
 
 ```csharp
