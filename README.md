@@ -46,7 +46,7 @@ Get the appropriate package from NuGet
 
 ## Usage
 
-Each of the connection objects shown below extends `DbClient` and have an almost identical API.
+All of the connection objects shown below extend `DbClient` and have an almost identical API.
 
 ### MySql
 
