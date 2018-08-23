@@ -8,6 +8,12 @@ using System.Collections;
 
 namespace Quermine
 {
+	/// <summary>
+	/// Holds a SELECT query that got constructed as the result
+	/// of the serialization of the given type's field and property
+	/// types that carry the DbField attribute.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class SelectQuery<T> : SelectQuery where T : new()
 	{
 		internal SelectQuery(QueryBuilder builder) : base(builder)
@@ -26,7 +32,18 @@ namespace Quermine
 				From(typeof(T).Name);
 			}
 			
-			// TODO: Find a proper way to add columns to the query
+			foreach (MemberInfo member in typeof(T).GetValueMembers())
+			{
+				Type memberType = member.GetUnderlyingType();
+
+				DbFieldAttribute columnAttribute = member.GetCustomAttribute<DbFieldAttribute>(true);
+				SelectIgnoreAttribute selectIgnore = member.GetCustomAttribute<SelectIgnoreAttribute>(true);
+
+				if (columnAttribute != null && selectIgnore == null)
+				{
+					Select(columnAttribute.Name);
+				}
+			}
 		}
 	}
 }

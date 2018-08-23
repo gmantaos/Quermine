@@ -46,7 +46,7 @@ namespace Quermine.Tests
 			await client.DropTableIfExists("people");
 
 			CreateTableQuery query = client.GetQueryProvider().CreateTable("people");
-			query.Field<int>("id", fieldTypes: FieldTypes.PrimaryKey | FieldTypes.AutoIncrement)
+			query.Field<int>("id", fieldProperties: FieldProperties.PrimaryKey | FieldProperties.AutoIncrement)
 				 .Field<string>("name")
 				 .Field<DateTime>("birthday");
 

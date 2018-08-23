@@ -34,7 +34,10 @@ namespace Quermine
 				return s2;
 			if (s2 == null)
 				return s1;
-			return new SelectClause(s1.columns + s2.columns);
+
+			Sequence columns = Sequence.ConcatUnique(s1.columns, s2.columns);
+
+			return new SelectClause(columns);
 		}
 	}
 }

@@ -8,56 +8,56 @@ using Quermine.SqlServer;
 
 namespace Quermine.Tests
 {
-	public class SqlServerQueryProvider : QueryProvider
+	public class SqlServerQueryProvider : TestQueryProvider
 	{
 		public override Query Query(string queryString)
 		{
-			return Sql.Query(queryString);
+			return QueryProvider.Query(queryString);
 		}
 
 		public override CreateTableQuery CreateTable(string tableName)
 		{
-			return Sql.CreateTable(tableName);
+			return QueryProvider.CreateTable(tableName);
 		}
 
 		public override DeleteQuery Delete(string table)
 		{
-			return Sql.Delete(table);
+			return QueryProvider.Delete(table);
 		}
 
 		public override DeleteQuery<T> Delete<T>(T obj)
 		{
-			return Sql.Delete<T>(obj);
+			return QueryProvider.Delete<T>(obj);
 		}
 
 		public override InsertQuery Insert(string table)
 		{
-			return Sql.Insert(table);
+			return QueryProvider.Insert(table);
 		}
 
 		public override InsertQuery<T> Insert<T>(T obj)
 		{
-			return Sql.Insert<T>(obj);
+			return QueryProvider.Insert<T>(obj);
 		}
 
 		public override SelectQuery Select()
 		{
-			return Sql.Select();
+			return QueryProvider.Select();
 		}
 
 		public override SelectQuery Select(params string[] columns)
 		{
-			return Sql.Select(columns);
+			return QueryProvider.Select(columns);
 		}
 
 		public override SelectQuery<T> Select<T>()
 		{
-			return Sql.Select<T>();
+			return QueryProvider.Select<T>();
 		}
 
 		public override UpdateQuery Update(params string[] tables)
 		{
-			return Sql.Update(tables);
+			return QueryProvider.Update(tables);
 		}
 	}
 }

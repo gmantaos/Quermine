@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Quermine.SqlServer
+namespace Quermine.MySql
 {
-    public static class Sql
+    public static class QueryProvider
     {
-		static SqlServerQueryBuilder builder = new SqlServerQueryBuilder();
+		static MysqlQueryBuilder builder = new MysqlQueryBuilder();
 
 		public static Query Query(string queryString)
 		{

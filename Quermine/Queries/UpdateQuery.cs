@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Quermine
 {
+	/// <summary>
+	/// Holds an UPDATE query.
+	/// </summary>
 	public class UpdateQuery : ConditionalQuery
 	{
 		internal Sequence tables;
@@ -20,6 +23,13 @@ namespace Quermine
 			this.tables = new Sequence(tables);
 		}
 
+		/// <summary>
+		/// Add a SET directive to this directive, setting
+		/// the given value to the given column.
+		/// </summary>
+		/// <param name="column"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public UpdateQuery Set(string column, object value)
 		{
 			string pName = Utils.GetParameterName("set_" + column);
@@ -30,6 +40,7 @@ namespace Quermine
 			return this;
 		}
 
+		/// <inheritdoc />
 		public override string QueryString
 		{
 			get

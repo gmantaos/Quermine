@@ -7,6 +7,12 @@ using System.Reflection;
 
 namespace Quermine
 {
+	/// <summary>
+	/// Holds an INSERT query that got constructed as the result
+	/// of the serialization of the given type's field and property
+	/// types that carry the DbField attribute.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class InsertQuery<T> : InsertQuery
 	{
 

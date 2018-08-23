@@ -11,19 +11,7 @@ namespace Quermine
 	{
 		internal UpdateQuery(QueryBuilder builder) : base(builder)
 		{
-			// Get table name
-			DbTableAttribute tableAttribute = typeof(T)
-				.GetCustomAttributes<DbTableAttribute>(true)
-				.FirstOrDefault();
-
-			if (tableAttribute != null)
-			{
-				tables += new Sequence(tableAttribute.Name);
-			}
-			else
-			{
-				tables += new Sequence(typeof(T).Name);
-			}
+			tables += new Sequence(Utils.GetTableName<T>());
 		}
 
 		public UpdateQuery<T> Where(T obj)

@@ -103,7 +103,7 @@ namespace Quermine
 	/// Additional properties to assign to a field. Not all of them are available on every supported DBMS.
 	/// </summary>
 	[Flags]
-	public enum FieldTypes
+	public enum FieldProperties
 	{
 		/// <summary>
 		/// No additional properties.

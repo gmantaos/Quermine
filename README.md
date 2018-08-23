@@ -111,7 +111,7 @@ The following examples will be using MySql, but the usage will be identical to t
 
 ```csharp
 
-Query q = Sql.Query("SELECT * FROM cats WHERE color=@color");
+Query q = QueryProvider.Query("SELECT * FROM cats WHERE color=@color");
 
 q.AddParameter("@color", "orange");
 
@@ -136,7 +136,7 @@ foreach (ResultRow row in result)
 ### NonQueries
 
 ```csharp
-Query q = Sql.Query("DELETE FROM cats WHERE color='orange'");
+Query q = QueryProvider.Query("DELETE FROM cats WHERE color='orange'");
 
 NonQueryResult result = await connection.ExecuteNonQuery(q);
 
@@ -198,7 +198,7 @@ foreach (string table in tables)
 ### Select
 
 ```csharp
-SelectQuery q = Sql.Select();
+SelectQuery q = QueryProvider.Select();
 
 q.Select("name", "age")
  .From("tableName")
@@ -214,7 +214,7 @@ await connection.Execute(q);
 ### Insert
 
 ```csharp
-InsertQuery q = Sql.Insert("table_name");
+InsertQuery q = QueryProvider.Insert("table_name");
 
 q.Value("user_id", 4)
  .Value("age", 10)
@@ -226,7 +226,7 @@ await connection.ExecuteNonQuery(q);
 ### Delete
 
 ```csharp
-DeleteQuery q = Sql.Delete("table_name");
+DeleteQuery q = QueryProvider.Delete("table_name");
 
 q.Where("id", 2); // Shortcut to Where("id", WhereRelation.Equal, 2)
 
@@ -290,7 +290,7 @@ class Person
 You can deserialize any query into your object.
 
 ```csharp
-Query q = Sql.Query("SELECT name, age FROM other_table");
+Query q = QueryProvider.Query("SELECT name, age FROM other_table");
 
 List<Person> people = await connection.Execute<Person>(q);
 ```
@@ -309,12 +309,12 @@ Or if you want to add parameters...
 ```csharp
 Person p = ...;
 
-InsertQuery<Person> q = Mysql.Insert<Person>(p);
+InsertQuery<Person> q = MyQueryProvider.Insert<Person>(p);
 
-// Turn it into a REPLACE query perhaps?
+// Turn it into a REPLACE query
 p.Replace();
 
-// Or an INSERT IGNORE INTO query?
+// Or an INSERT IGNORE INTO
 p.Ignore();
 
 await connection.ExecuteNonQuery(q);
@@ -328,7 +328,7 @@ List<Person> = await connection.Select<Person>();
 
 Or if you want to add parameters...
 ```csharp
-SelectQuery<Person> q = Sql.Select<Person>();
+SelectQuery<Person> q = QueryProvider.Select<Person>();
 
 q.Where("name", Comparison.Equals, "John");
 

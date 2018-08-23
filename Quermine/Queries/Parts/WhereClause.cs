@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Quermine
 {
+	/// <summary>
+	/// Represents a conditional part of the WHERE clause of a query.
+	/// </summary>
 	public class WhereClause
 	{
 		string whereClauseString;
@@ -67,18 +70,35 @@ namespace Quermine
 
 		}
 
+		/// <summary>
+		/// Represents a coditional clause the column is set to fit a specific condition.
+		/// </summary>
+		/// <param name="column"></param>
+		/// <param name="condition"></param>
 		public WhereClause(string column, ValueCondition condition) : this()
 		{
 			whereClauseString = string.Format("{0} {1}",
 				column, GetSymbol(condition)
-				);
+			);
 		}
 
+		/// <summary>
+		/// Generate a new WhereClause that represents the logical AND
+		/// operation between this query and the one given
+		/// </summary>
+		/// <param name="clause"></param>
+		/// <returns></returns>
 		public WhereClause And(WhereClause clause)
 		{
 			return this & clause;
 		}
 
+		/// <summary>
+		/// Generate a new WhereClause that represents the logical OR
+		/// operation between this query and the one given
+		/// </summary>
+		/// <param name="clause"></param>
+		/// <returns></returns>
 		public WhereClause Or(WhereClause clause)
 		{
 			return this | clause;
@@ -109,6 +129,7 @@ namespace Quermine
 			return new WhereClause(clause, parameters);
 		}
 
+		/// <inheritdoc />
 		public override string ToString()
 		{
 			return string.Format("({0})", whereClauseString);

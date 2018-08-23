@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Quermine.Tests
 {
-	public abstract class QueryProvider
+	public abstract class TestQueryProvider
 	{
 		public abstract Query Query(string queryString);
 

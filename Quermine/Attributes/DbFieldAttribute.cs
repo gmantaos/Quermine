@@ -24,6 +24,25 @@ namespace Quermine
 		public Type FormatWith;
 
 		/// <summary>
+		/// The length of the field on the database column. 
+		/// Used when generating a CREATE TABLE query.
+		/// </summary>
+		public int Length;
+
+		/// <summary>
+		/// Additional field properties that define this column 
+		/// in the database.
+		/// Used when generating a CREATE TABLE query.
+		/// </summary>
+		public FieldProperties FieldProprties = 0;
+
+		/// <summary>
+		/// The default value of this column in the database.
+		/// Used when generating a CREATE TABLE query.
+		/// </summary>
+		public object DefaultValue = null;
+
+		/// <summary>
 		/// Map this field or property to a column in the database table.
 		/// </summary>
 		/// <param name="name">The name of the field.</param>

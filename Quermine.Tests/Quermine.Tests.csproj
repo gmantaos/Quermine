@@ -77,7 +77,7 @@
     <Compile Include="Models\PersonName.cs" />
     <Compile Include="MySqlTests.cs" />
     <Compile Include="NamespaceWrapping\MySqlQueryProvider.cs" />
-    <Compile Include="NamespaceWrapping\QueryProvider.cs" />
+    <Compile Include="NamespaceWrapping\TestQueryProvider.cs" />
     <Compile Include="NamespaceWrapping\SqliteQueryProvider.cs" />
     <Compile Include="NamespaceWrapping\SqlServerQueryProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

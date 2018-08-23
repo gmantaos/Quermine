@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Quermine.Sqlite
+namespace Quermine.SqlServer
 {
-	public static class Sql
-	{
-		static SqliteQueryBuilder builder = new SqliteQueryBuilder();
+    public static class QueryProvider
+    {
+		static SqlServerQueryBuilder builder = new SqlServerQueryBuilder();
 
 		public static Query Query(string queryString)
 		{
@@ -48,7 +48,7 @@ namespace Quermine.Sqlite
 			return new SelectQuery(builder, columns);
 		}
 
-		public static SelectQuery<T> Select<T>() where T : new()
+		public static SelectQuery<T> Select<T>() where T: new()
 		{
 			return new SelectQuery<T>(builder);
 		}

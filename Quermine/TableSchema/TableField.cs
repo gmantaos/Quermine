@@ -21,32 +21,32 @@ namespace Quermine
 
 		public TableField() { }
 
-		internal TableField(string fieldName, Type type, int? length = null, FieldTypes fieldTypes = 0, object defaultValue = null)
+		internal TableField(string fieldName, Type type, int? length = null, FieldProperties fieldProperties = 0, object defaultValue = null)
 		{
 			Name = fieldName;
 			Length = length;
 			Type = type;
 			DefaultValue = defaultValue;
-			NotNull = fieldTypes.HasFlag(FieldTypes.NotNull);
-			if (fieldTypes.HasFlag(FieldTypes.PrimaryKey))
+			NotNull = fieldProperties.HasFlag(FieldProperties.NotNull);
+			if (fieldProperties.HasFlag(FieldProperties.PrimaryKey))
 			{
 				Key = KeyType.Primary;
 			}
-			Unsigned = fieldTypes.HasFlag(FieldTypes.Unsigned);
-			Zerofill = fieldTypes.HasFlag(FieldTypes.Zerofill);
-			AutoIncrement = fieldTypes.HasFlag(FieldTypes.AutoIncrement);
+			Unsigned = fieldProperties.HasFlag(FieldProperties.Unsigned);
+			Zerofill = fieldProperties.HasFlag(FieldProperties.Zerofill);
+			AutoIncrement = fieldProperties.HasFlag(FieldProperties.AutoIncrement);
 
 			if (length == null && type == typeof(string))
 			{
 				Length = 255;
 			}
 
-			if (fieldTypes.HasFlag(FieldTypes.AutoIncrement))
+			if (fieldProperties.HasFlag(FieldProperties.AutoIncrement))
 			{
 				Key = KeyType.Primary;
 			}
 
-			if (fieldTypes.HasFlag(FieldTypes.PrimaryKey))
+			if (fieldProperties.HasFlag(FieldProperties.PrimaryKey))
 			{
 				NotNull = true;
 			}

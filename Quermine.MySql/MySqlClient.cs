@@ -105,7 +105,7 @@ namespace Quermine.MySql
 		/// <inheritdoc />
 		public override async Task<TableSchema> GetTableSchema(string table)
 		{
-			Query query = Sql.Query(string.Format("describe {0};", table));
+			Query query = QueryProvider.Query(string.Format("describe {0};", table));
 			return new TableSchema(new MysqlResultsetParser(), await Execute(query));
 		}
 
@@ -122,7 +122,7 @@ namespace Quermine.MySql
 		/// <inheritdoc />
 		public override async Task<List<string>> GetTableNames()
 		{
-			Query query = Sql.Select("table_name")
+			Query query = QueryProvider.Select("table_name")
 								.From("information_schema.tables")
 								.Where("table_schema", connectionInfo.Database);
 

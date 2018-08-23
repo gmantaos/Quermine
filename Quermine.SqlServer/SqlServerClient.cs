@@ -104,7 +104,7 @@ namespace Quermine.SqlServer
 		/// <inheritdoc />
 		public override async Task<TableSchema> GetTableSchema(string table)
 		{
-			Query query = Sql.Select("*")
+			Query query = QueryProvider.Select("*")
 							 .From("INFORMATION_SCHEMA.COLUMNS")
 							 .Where("TABLE_NAME", table)
 							 .OrderBy("ORDINAL_POSITION");
@@ -129,7 +129,7 @@ namespace Quermine.SqlServer
 		/// <inheritdoc />
 		public override async Task<List<string>> GetTableNames()
 		{
-			Query query = Sql.Select("TABLE_NAME")
+			Query query = QueryProvider.Select("TABLE_NAME")
 			                 .From("INFORMATION_SCHEMA.TABLES")
 							 .Where("TABLE_TYPE", "BASE TABLE");
 

@@ -24,7 +24,7 @@ namespace Quermine.Tests
 			return Regex.Replace(str, @"\s+", " ").Trim();
 		}
 
-		public static QueryProvider GetQueryProvider(this DbClient client)
+		public static TestQueryProvider GetQueryProvider(this DbClient client)
 		{
 			if (client is MySql.MySqlClient)
 			{

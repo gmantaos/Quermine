@@ -15,6 +15,11 @@ namespace Quermine
 			this.parts = parts;
 		}
 
+		public bool Contains(object obj)
+		{
+			return parts.Contains(obj);
+		}
+
 		public override string ToString()
 		{
 			StringBuilder str = new StringBuilder();
@@ -26,6 +31,20 @@ namespace Quermine
 			return str.ToString();
 		}
 
+		public static Sequence ConcatUnique(Sequence s1, Sequence s2)
+		{
+			HashSet<object> parts = new HashSet<object>(); ;
+			foreach (object obj in s1.parts)
+			{
+				parts.Add(obj);
+			}
+			foreach (object obj in s2.parts)
+			{
+				parts.Add(obj);
+			}
+			return new Sequence(parts.ToArray());
+		}
+
 		public static Sequence operator +(Sequence s1, Sequence s2)
 		{
 			if (s1.parts == null)
@@ -33,6 +52,15 @@ namespace Quermine
 			if (s2.parts == null)
 				return s1;
 			return new Sequence(s1.parts.Concat(s2.parts).ToArray());
+		}
+
+		public static Sequence operator +(Sequence seq, object obj)
+		{
+			if (seq.parts == null)
+				return new Sequence(obj);
+			if (obj == null)
+				return seq;
+			return new Sequence(seq.parts.Concat(new object[] { obj }).ToArray());
 		}
 	}
 }

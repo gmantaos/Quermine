@@ -111,7 +111,7 @@ namespace Quermine.Sqlite
 		/// <inheritdoc />
 		public override async Task<List<string>> GetTableNames()
 		{
-			Query query = Sql.Select("name")
+			Query query = QueryProvider.Select("name")
 							 .From("sqlite_master")
 							 .Where("type", "table");
 
@@ -123,7 +123,7 @@ namespace Quermine.Sqlite
 		/// <inheritdoc />
 		public override async Task<TableSchema> GetTableSchema(string table)
 		{
-			Query query = Sql.Query(string.Format("PRAGMA table_info({0});", table));
+			Query query = QueryProvider.Query(string.Format("PRAGMA table_info({0});", table));
 			return new TableSchema(new SqliteResultsetParser(), await Execute(query));
 		}
 

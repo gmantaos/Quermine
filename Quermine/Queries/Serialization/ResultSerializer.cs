@@ -23,6 +23,11 @@ namespace Quermine
 			List<MemberInfo> members = obj.GetType().GetValueMembers();
 			foreach (MemberInfo member in members)
 			{
+				SelectIgnoreAttribute selectIgnore = member.GetCustomAttribute<SelectIgnoreAttribute>(true);
+
+				if (selectIgnore != null)
+					continue;
+
 				object value = await GetMemberValue(member, conn, row);
 
 				if (value != null)

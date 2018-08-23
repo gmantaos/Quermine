@@ -19,43 +19,43 @@ namespace Quermine.Tests
 			yield return 
 				new object[] 
 				{
-					Sql.Query("SELECT * FROM tname"),
+					QueryProvider.Query("SELECT * FROM tname"),
 					"SELECT * FROM tname"
 				};
 			yield return 
 				new object[] 
 				{
-					Sql.Query("SELECT col1, col2 FROM tname"),
+					QueryProvider.Query("SELECT col1, col2 FROM tname"),
 					"SELECT col1, col2 FROM tname"
 				};
 			yield return
 				new object[] 
 				{
-					Sql.Query("SELECT col1, col2 FROM tname WHERE col1=@p").AddParameter("@p", 123),
+					QueryProvider.Query("SELECT col1, col2 FROM tname WHERE col1=@p").AddParameter("@p", 123),
 					"SELECT col1, col2 FROM tname WHERE col1='123'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Select("col1", "col2").From("tname"),
+					QueryProvider.Select("col1", "col2").From("tname"),
 					"SELECT col1, col2 FROM tname"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Select("col1", "col2").From("tname").Limit(12),
+					QueryProvider.Select("col1", "col2").From("tname").Limit(12),
 					"SELECT col1, col2 FROM tname ORDER BY (SELECT 0) OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Select("col1", "col2").From("tname").Offset(12),
+					QueryProvider.Select("col1", "col2").From("tname").Offset(12),
 					"SELECT col1, col2 FROM tname ORDER BY (SELECT 0) OFFSET 12 ROWS"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Select("col1", "col2").From("tname").Offset(12).Limit(13),
+					QueryProvider.Select("col1", "col2").From("tname").Offset(12).Limit(13),
 					"SELECT col1, col2 FROM tname ORDER BY (SELECT 0) OFFSET 12 ROWS  FETCH NEXT 13 ROWS ONLY"
 				};
 		}
@@ -68,25 +68,25 @@ namespace Quermine.Tests
 			yield return
 				new object[]
 				{
-					Sql.Insert("tname").Value("col1", 123).Value("col2", "enlo"),
+					QueryProvider.Insert("tname").Value("col1", 123).Value("col2", "enlo"),
 					"INSERT INTO tname (col1, col2) VALUES ('123', 'enlo')"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Insert("tname").Value("col1", 123).Value("col2", "enlo").Replace(false),
+					QueryProvider.Insert("tname").Value("col1", 123).Value("col2", "enlo").Replace(false),
 					"INSERT INTO tname (col1, col2) VALUES ('123', 'enlo')"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Insert("tname").Value("col1", 123).Value("col2", "enlo").Replace(),
+					QueryProvider.Insert("tname").Value("col1", 123).Value("col2", "enlo").Replace(),
 					"REPLACE INTO tname (col1, col2) VALUES ('123', 'enlo')"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Insert("tname").Value("col1", 123).Value("col2", "enlo").Ignore(true),
+					QueryProvider.Insert("tname").Value("col1", 123).Value("col2", "enlo").Ignore(true),
 					"INSERT IGNORE INTO tname (col1, col2) VALUES ('123', 'enlo')"
 				};
 		}
@@ -99,37 +99,37 @@ namespace Quermine.Tests
 			yield return
 				new object[]
 				{
-					Sql.Update("tname").Set("col1", 123),
+					QueryProvider.Update("tname").Set("col1", 123),
 					"UPDATE tname SET col1 = '123'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Update("tname T", "tname T2").Set("T.col1", 123),
+					QueryProvider.Update("tname T", "tname T2").Set("T.col1", 123),
 					"UPDATE tname T, tname T2 SET T.col1 = '123'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Update("tname").Set("col1", 123).Set("col2", "enlo"),
+					QueryProvider.Update("tname").Set("col1", 123).Set("col2", "enlo"),
 					"UPDATE tname SET col1 = '123', col2 = 'enlo'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Update("tname").Set("col1", 123).Set("col2", "enlo").Limit(12),
+					QueryProvider.Update("tname").Set("col1", 123).Set("col2", "enlo").Limit(12),
 					"UPDATE TOP 12 tname SET col1 = '123', col2 = 'enlo'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Update("tname").Set("col1", 123).Set("col2", "enlo").Ignore(),
+					QueryProvider.Update("tname").Set("col1", 123).Set("col2", "enlo").Ignore(),
 					"UPDATE IGNORE tname SET col1 = '123', col2 = 'enlo'"
 				};
 			yield return
 				new object[]
 				{
-					Sql.Update("tname").Set("col1", 123).Set("col2", "enlo").Limit(12).Ignore(),
+					QueryProvider.Update("tname").Set("col1", 123).Set("col2", "enlo").Limit(12).Ignore(),
 					"UPDATE TOP 12 IGNORE tname SET col1 = '123', col2 = 'enlo'"
 				};
 		}

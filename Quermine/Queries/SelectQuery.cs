@@ -58,6 +58,7 @@ namespace Quermine
 			return this;
 		}
 
+		/// <inheritdoc />
 		public override string QueryString
 		{
 			get
