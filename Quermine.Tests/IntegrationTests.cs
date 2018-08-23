@@ -407,7 +407,7 @@ namespace Quermine.Tests
 		[Test, Order(20), TestCaseSource("DbClientTestCases")]
 		public async Task CreateTableT(DbClient client)
 		{
-			await client.ExecuteNonQuery("DROP TABLE books");
+			await client.DropTableIfExists("books");
 
 			Query query = client.GetQueryProvider().CreateTable<Book>();
 
