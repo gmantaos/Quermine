@@ -20,6 +20,11 @@ namespace Quermine.Tests
 			return QueryProvider.CreateTable(tableName);
 		}
 
+		public override CreateTableQuery<T> CreateTable<T>()
+		{
+			return QueryProvider.CreateTable<T>();
+		}
+
 		public override DeleteQuery Delete(string table)
 		{
 			return QueryProvider.Delete(table);

@@ -18,6 +18,11 @@ namespace Quermine.Sqlite
 			return new CreateTableQuery(builder, tableName);
 		}
 
+		public static CreateTableQuery<T> CreateTable<T>() where T : new()
+		{
+			return new CreateTableQuery<T>(builder);
+		}
+
 		public static DeleteQuery Delete(string table)
 		{
 			return new DeleteQuery(builder, table);

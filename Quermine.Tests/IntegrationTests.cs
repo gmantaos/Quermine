@@ -403,5 +403,39 @@ namespace Quermine.Tests
 
 			client.Dispose();
 		}
+
+		[Test, Order(20), TestCaseSource("DbClientTestCases")]
+		public async Task CreateTableT(DbClient client)
+		{
+			await client.ExecuteNonQuery("DROP TABLE books");
+
+			Query query = client.GetQueryProvider().CreateTable<Book>();
+
+			await client.ExecuteNonQuery(query);
+
+			List<string> tableNames = await client.GetTableNames();
+
+			Assert.IsTrue(tableNames.Contains("books"));
+
+			TableSchema schema = await client.GetTableSchema("books");
+
+			TableField id = schema["id"];
+			Assert.IsFalse(id == null);
+			Assert.AreEqual("id", id.Name);
+			Assert.AreEqual(typeof(int), id.Type);
+			if (!(client is SqlServer.SqlServerClient))
+			{
+				Assert.AreEqual(KeyType.Primary, id.Key);
+			}
+
+			TableField title = schema["title"];
+			Assert.AreEqual("title", title.Name);
+			Assert.AreEqual(12, title.Length);
+			Assert.AreEqual(typeof(string), title.Type);
+
+			TableField year = schema["year"];
+			Assert.AreEqual("year", year.Name);
+			Assert.AreEqual(typeof(int), year.Type);
+		}
 	}
 }

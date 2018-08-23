@@ -12,6 +12,8 @@ namespace Quermine.Tests
 
 		public abstract CreateTableQuery CreateTable(string tableName);
 
+		public abstract CreateTableQuery<T> CreateTable<T>() where T : new();
+
 		public abstract DeleteQuery Delete(string table);
 
 		public abstract DeleteQuery<T> Delete<T>(T obj);

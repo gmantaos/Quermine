@@ -73,6 +73,7 @@
     <Compile Include="Credentials.cs" />
     <Compile Include="IntegrationTests.cs" />
     <Compile Include="Models\AsciiFormatter.cs" />
+    <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonName.cs" />
     <Compile Include="MySqlTests.cs" />
