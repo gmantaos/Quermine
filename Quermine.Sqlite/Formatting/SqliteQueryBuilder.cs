@@ -35,8 +35,8 @@ namespace Quermine.Sqlite
 			str.AppendFormat("\"{0}\"", field.Name);
 			str.Append(' ');
 			str.Append(FieldType(field.Type));
-			if (field.Length != null)
-				str.AppendFormat("({0})", field.Length);
+
+			str.Append(FieldLength(field));
 
 			if (includeKey && field.Key.HasFlag(KeyType.Primary))
 				str.Append(" PRIMARY KEY");

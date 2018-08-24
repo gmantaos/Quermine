@@ -159,19 +159,7 @@ namespace Quermine
 			str.Append(' ');
 			str.Append(FieldType(field.Type));
 
-			if (field.Length != null && field.Length > 0)
-			{
-				str.Append("(")
-				   .Append(field.Length);
-
-				if (field.Precision != null && field.Precision > 0)
-				{
-					str.Append(",")
-					   .Append(field.Precision);
-				}
-
-				str.Append(")");
-			}
+			str.Append(FieldLength(field));
 
 			if (field.Unsigned)
 				str.Append(" UNSIGNED");
@@ -187,6 +175,25 @@ namespace Quermine
 				str.AppendFormat(" DEFAULT {0}", field.DefaultValue);
 			if (includeKey && field.Key.HasFlag(KeyType.Primary))
 				str.Append(" PRIMARY KEY");
+			return str.ToString();
+		}
+
+		protected string FieldLength(TableField field)
+		{
+			StringBuilder str = new StringBuilder();
+			if (field.Length != null && field.Length > 0)
+			{
+				str.Append("(")
+				   .Append(field.Length);
+
+				if (field.Precision != null && field.Precision > 0)
+				{
+					str.Append(",")
+					   .Append(field.Precision);
+				}
+
+				str.Append(")");
+			}
 			return str.ToString();
 		}
 
