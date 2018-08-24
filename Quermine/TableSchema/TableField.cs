@@ -11,6 +11,7 @@ namespace Quermine
 		public string Name;
 		public Type Type;
 		public int? Length;
+		public int? Precision;
 		public bool NotNull { get; set; }
 		public KeyType Key;
 		public object DefaultValue;
@@ -21,10 +22,11 @@ namespace Quermine
 
 		public TableField() { }
 
-		internal TableField(string fieldName, Type type, int? length = null, FieldProperties fieldProperties = 0, object defaultValue = null)
+		internal TableField(string fieldName, Type type, int? length = null, int? precision = null, FieldProperties fieldProperties = 0, object defaultValue = null)
 		{
 			Name = fieldName;
 			Length = length;
+			Precision = precision;
 			Type = type;
 			DefaultValue = defaultValue;
 			NotNull = fieldProperties.HasFlag(FieldProperties.NotNull);

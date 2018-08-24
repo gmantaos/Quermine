@@ -26,12 +26,13 @@ namespace Quermine
 		/// <typeparam name="T">The type of the field.</typeparam>
 		/// <param name="fieldName">The name of the field.</param>
 		/// <param name="length">The length of the field.</param>
+		/// <param name="precision">The field's precision.</param>
 		/// <param name="fieldProperties">Additional properties that define the field.</param>
 		/// <param name="defaultVal">The field's default value.</param>
 		/// <returns></returns>
-		public CreateTableQuery Field<T>(string fieldName, int? length = null, FieldProperties fieldProperties = 0, object defaultVal = null)
+		public CreateTableQuery Field<T>(string fieldName, int? length = null, int? precision = null, FieldProperties fieldProperties = 0, object defaultVal = null)
 		{
-			fields.Add(new TableField(fieldName, typeof(T), length, fieldProperties, defaultVal));
+			fields.Add(new TableField(fieldName, typeof(T), length, precision, fieldProperties, defaultVal));
 			return this;
 		}
 
@@ -41,11 +42,12 @@ namespace Quermine
 		/// <param name="fieldName">The name of the field.</param>
 		/// <param name="type">The type of the field.</param>
 		/// <param name="length">The length of the field.</param>
+		/// <param name="precision">The field's precision.</param>
 		/// <param name="fieldProperties">Additional properties that define the field.</param>
 		/// <param name="defaultVal">The field's default value.</param>
-		public CreateTableQuery Field(string fieldName, Type type, int? length = null, FieldProperties fieldProperties = 0, object defaultVal = null)
+		public CreateTableQuery Field(string fieldName, Type type, int? length = null, int? precision = null, FieldProperties fieldProperties = 0, object defaultVal = null)
 		{
-			fields.Add(new TableField(fieldName, type, length, fieldProperties, defaultVal));
+			fields.Add(new TableField(fieldName, type, length, precision, fieldProperties, defaultVal));
 			return this;
 		}
 

@@ -24,7 +24,7 @@ namespace Quermine
 
 				if (columnAttribute != null && createIgnore == null)
 				{
-					Field(columnAttribute.Name, memberType, columnAttribute.Length, columnAttribute.FieldProprties, columnAttribute.DefaultValue);
+					Field(columnAttribute.Name, memberType, columnAttribute.Length, columnAttribute.Precision, columnAttribute.FieldProprties, columnAttribute.DefaultValue);
 				}
 			}
 		}

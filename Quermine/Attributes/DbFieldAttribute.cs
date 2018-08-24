@@ -26,8 +26,16 @@ namespace Quermine
 		/// <summary>
 		/// The length of the field on the database column. 
 		/// Used when generating a CREATE TABLE query.
+		/// <para>A negative value indicates default.</para>
 		/// </summary>
-		public int Length;
+		public int Length = -1;
+
+		/// <summary>
+		/// The precision of the field on the database column. 
+		/// Used when generating a CREATE TABLE query.
+		/// <para>A negative value indicates default.</para>
+		/// </summary>
+		public int Precision = -1;
 
 		/// <summary>
 		/// Additional field properties that define this column 

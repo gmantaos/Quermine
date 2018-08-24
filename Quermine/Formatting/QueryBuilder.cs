@@ -158,8 +158,21 @@ namespace Quermine
 			str.AppendFormat("`{0}`", field.Name);
 			str.Append(' ');
 			str.Append(FieldType(field.Type));
-			if (field.Length != null)
-				str.AppendFormat("({0})", field.Length);
+
+			if (field.Length != null && field.Length > 0)
+			{
+				str.Append("(")
+				   .Append(field.Length);
+
+				if (field.Precision != null && field.Precision > 0)
+				{
+					str.Append(",")
+					   .Append(field.Precision);
+				}
+
+				str.Append(")");
+			}
+
 			if (field.Unsigned)
 				str.Append(" UNSIGNED");
 			if (field.Zerofill)
