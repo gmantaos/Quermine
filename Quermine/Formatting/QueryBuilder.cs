@@ -207,6 +207,8 @@ namespace Quermine
 				return "INT";
 			else if (type == typeof(uint))
 				return "INT";
+			else if (type == typeof(long))
+				return "INT";
 			else if (type == typeof(double))
 				return "DOUBLE";
 			else if (type == typeof(float))

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-using Quermine;
+using ChanceNET;
 
 namespace Quermine.Tests
 {
@@ -404,7 +404,7 @@ namespace Quermine.Tests
 			client.Dispose();
 		}
 
-		[Test, Order(20), TestCaseSource("DbClientTestCases")]
+		[Test, TestCaseSource("DbClientTestCases")]
 		public async Task CreateTableT(DbClient client)
 		{
 			await client.DropTableIfExists("books");
@@ -436,6 +436,40 @@ namespace Quermine.Tests
 			TableField year = schema["year"];
 			Assert.AreEqual("year", year.Name);
 			Assert.AreEqual(typeof(int), year.Type);
+
+			TableField release = schema["release"];
+			Assert.AreEqual("release", release.Name);
+			Assert.AreEqual(typeof(DateTime), release.Type);
+		}
+		
+		public async Task DataTest(DbClient client)
+		{
+			await client.DropTableIfExists("books");
+
+			Query query = client.GetQueryProvider().CreateTable<Book>();
+
+			await client.ExecuteNonQuery(query);
+
+			Chance chance = new Chance();
+
+			List<Book> books = chance.N(20, () => chance.Object<Book>());
+
+			List<NonQueryResult> res = await client.InsertAll(books);
+
+			Assert.AreEqual(20, res.Count);
+
+			List<Book> dbBooks = await client.Select<Book>();
+
+			Assert.AreEqual(20, dbBooks.Count);
+
+			foreach (Book book in books)
+			{
+				Book dbBook = dbBooks.First(b => book.ID == b.ID);
+
+				Assert.AreEqual(book.Title, dbBook.Title);
+				Assert.AreEqual(book.Year, dbBook.Year);
+				Assert.AreEqual(book.Release, dbBook.Release);
+			}
 		}
 	}
 }

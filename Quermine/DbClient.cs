@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -168,7 +169,7 @@ namespace Quermine
 		}
 
 		/// <summary>
-		/// Insert the given serializable object into the DB
+		/// Insert the given serializable object into the DB.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="obj"></param>
@@ -177,6 +178,22 @@ namespace Quermine
 		{
 			InsertQuery<T> query = new InsertQuery<T>(Builder, obj);
 			return ExecuteNonQuery(query);
+		}
+
+		/// <summary>
+		/// Insert all of the given serializable objects into the DB.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="objects"></param>
+		/// <returns></returns>
+		public async Task<List<NonQueryResult>> InsertAll<T>(IEnumerable<T> objects)
+		{
+			List<NonQueryResult> results = new List<NonQueryResult>();
+			foreach (T obj in objects)
+			{
+				results.Add(await Insert(obj));
+			}
+			return results;
 		}
 
 		/// <summary>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Quermine;
+using ChanceNET.Attributes;
 
 namespace Quermine.Tests
 {
@@ -19,5 +19,8 @@ namespace Quermine.Tests
 
 		[DbField("title", Length = 12)]
 		public string Title;
+
+		[DbField("release")]
+		public DateTime Release;
 	}
 }
