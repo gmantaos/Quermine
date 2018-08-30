@@ -11,7 +11,7 @@ namespace Quermine
 	/// types that carry the DbField attribute.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class CreateTableQuery<T> : CreateTableQuery where T : new()
+	public class CreateTableQuery<T> : CreateTableQuery
 	{
 		internal CreateTableQuery(QueryBuilder builder) : base(builder, Utils.GetTableName<T>())
 		{

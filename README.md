@@ -363,6 +363,16 @@ Now john.Age is 10 and john's age in the databse is also 10
 */
 ```
 
+### Creating tables
+
+##### `This is a v2.0 feature which has not yet been released`
+
+```csharp
+await client.DropTableIfExists("people");
+
+await client.CreateTable<Person>();
+```
+
 ### Ignoring fields
 
 ##### `This is a v2.0 feature which has not yet been released`

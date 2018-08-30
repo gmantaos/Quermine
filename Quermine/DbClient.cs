@@ -79,6 +79,42 @@ namespace Quermine
 
 		#endregion
 
+		#region Virtual
+
+		/// <summary>
+		/// Execute a query asynchronously and deserialize each row of the result set
+		/// into an object of type T.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="query"></param>
+		/// <returns></returns>
+		public virtual async Task<List<T>> Execute<T>(Query query) where T : new()
+		{
+			ResultSet result = await Execute(query);
+
+			ResultSerializer<T> serializer = new ResultSerializer<T>(Builder);
+			List<T> resultObjects = new List<T>();
+
+			foreach (ResultRow row in result)
+			{
+				resultObjects.Add(await serializer.Deserialize(this, row));
+			}
+
+			return resultObjects;
+		}
+
+		/// <summary>
+		/// Execute a DROP TABLE IF EXISTS query.
+		/// </summary>
+		/// <param name="tableName"></param>
+		/// <returns></returns>
+		public virtual async Task DropTableIfExists(string tableName)
+		{
+			await ExecuteNonQuery("DROP TABLE IF EXISTS " + tableName);
+		}
+
+		#endregion
+
 		#region Wrappers
 
 		/// <summary>
@@ -133,28 +169,6 @@ namespace Quermine
 		{
 			Query query = new Query(Builder, commandString);
 			return (T)(await ExecuteScalar(query));
-		}
-
-		/// <summary>
-		/// Execute a query asynchronously and deserialize each row of the result set
-		/// into an object of type T.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="query"></param>
-		/// <returns></returns>
-		public virtual async Task<List<T>> Execute<T>(Query query) where T : new()
-		{
-			ResultSet result = await Execute(query);
-
-			ResultSerializer<T> serializer = new ResultSerializer<T>(Builder);
-			List<T> resultObjects = new List<T>();
-
-			foreach (ResultRow row in result)
-			{
-				resultObjects.Add(await serializer.Deserialize(this, row));
-			}
-
-			return resultObjects;
 		}
 
 		/// <summary>
@@ -257,13 +271,16 @@ namespace Quermine
 		}
 
 		/// <summary>
-		/// Execute a DROP TABLE IF EXISTS query.
+		/// Create an executa a CREATE TABLE query, using the 
+		/// DbField attributes on the given type T.
 		/// </summary>
-		/// <param name="tableName"></param>
+		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public virtual async Task DropTableIfExists(string tableName)
+		public Task CreateTable<T>()
 		{
-			await ExecuteNonQuery("DROP TABLE IF EXISTS " + tableName);
+			CreateTableQuery<T> query = new CreateTableQuery<T>(Builder);
+
+			return ExecuteNonQuery(query);
 		}
 
 		#endregion
