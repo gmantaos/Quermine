@@ -329,6 +329,7 @@ namespace Quermine.Tests
 
 			client.Dispose();
 		}
+		
 
 		[Test, Order(17), TestCaseSource("DbClientTestCases")]
 		public async Task TableSchema(DbClient client)
